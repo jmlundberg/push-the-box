@@ -6,9 +6,9 @@
 namespace PushTheBox {
 
 #ifndef MAGNUM_TARGET_NACL
-Application::Application(int argc, char** argv): Sdl2Application(argc, argv, "Push The Box") {
+Application::Application(int argc, char** argv): ApplicationBase(argc, argv, "Push The Box") {
 #else
-Application::Application(PP_Instance instance): NaClApplication(instance) {
+Application::Application(PP_Instance instance): ApplicationBase(instance) {
 #endif
 
     Framebuffer::setFeature(Framebuffer::Feature::FaceCulling, true);

@@ -15,11 +15,7 @@
 
 namespace PushTheBox {
 
-#ifndef MAGNUM_TARGET_NACL
-class Application: public Platform::Sdl2Application {
-#else
-class Application: public Platform::NaClApplication {
-#endif
+class Application: public ApplicationBase {
     public:
         #ifndef MAGNUM_TARGET_NACL
         Application(int argc, char** argv);
