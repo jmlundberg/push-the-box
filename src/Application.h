@@ -26,6 +26,7 @@ class Application: public ApplicationBase {
     protected:
         void viewportEvent(const Math::Vector2<GLsizei>& size) override;
         void drawEvent() override;
+        void keyPressEvent(KeyEvent& event) override;
 
     private:
         Scene3D scene;
