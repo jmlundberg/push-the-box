@@ -25,6 +25,8 @@ typedef Platform::Sdl2Application ApplicationBase;
 typedef Platform::NaClApplication ApplicationBase;
 #endif
 
+typedef ResourceManager<AbstractShaderProgram, Buffer, Mesh> SceneResourceManager;
+
 }
 
 #endif

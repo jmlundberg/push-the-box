@@ -9,6 +9,7 @@
 #include <Platform/NaClApplication.h>
 #endif
 
+#include <ResourceManager.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/MatrixTransformation3D.h>
 #include <SceneGraph/Scene.h>
@@ -23,12 +24,16 @@ class Application: public ApplicationBase {
         Application(PP_Instance instance);
         #endif
 
+        ~Application();
+
     protected:
         void viewportEvent(const Math::Vector2<GLsizei>& size) override;
         void drawEvent() override;
         void keyPressEvent(KeyEvent& event) override;
 
     private:
+        SceneResourceManager sceneResourceManager;
+
         Scene3D scene;
         SceneGraph::DrawableGroup<3> drawables;
 

@@ -1,8 +1,10 @@
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wold-style-cast -Winit-self -pedantic -std=c++0x -fvisibility=hidden")
 
 find_package(Magnum REQUIRED
+    MeshTools
+    Primitives
     SceneGraph
-    Primitives)
+    Shaders)
 
 if(MAGNUM_TARGET_NACL)
     find_package(Magnum REQUIRED NaClApplication)
@@ -16,11 +18,14 @@ include_directories(${MAGNUM_INCLUDE_DIRS})
 
 set(PushTheBox_SRCS
     Application.cpp
+    Floor.cpp
 )
 
 add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box
     ${MAGNUM_LIBRARIES}
-    ${MAGNUM_SCENEGRAPH_LIBRARIES}
+    ${MAGNUM_MESHTOOLS_LIBRARIES}
     ${MAGNUM_PRIMITIVES_LIBRARIES}
+    ${MAGNUM_SCENEGRAPH_LIBRARIES}
+    ${MAGNUM_SHADERS_LIBRARIES}
     ${APPLICATION_LIBRARY})
