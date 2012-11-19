@@ -7,7 +7,7 @@
 #include "Floor.h"
 #include "Player.h"
 
-namespace PushTheBox {
+namespace PushTheBox { namespace Game {
 
 Game::Game() {
     /* Add shader to resource manager */
@@ -63,4 +63,4 @@ void Game::keyPressEvent(KeyEvent& event) {
     redraw();
 }
 
-}
+}}

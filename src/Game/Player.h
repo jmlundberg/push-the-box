@@ -1,8 +1,8 @@
-#ifndef PushTheBox_Player_h
-#define PushTheBox_Player_h
+#ifndef PushTheBox_Game_Player_h
+#define PushTheBox_Game_Player_h
 
 /** @file
- * @brief Class PushTheBox::Player
+ * @brief Class PushTheBox::Game::Player
  */
 
 #include <Color.h>
@@ -13,7 +13,7 @@
 
 #include "PushTheBox.h"
 
-namespace PushTheBox {
+namespace PushTheBox { namespace Game {
 
 /** @brief %Player */
 class Player: public Object3D, SceneGraph::Drawable<3> {
@@ -34,6 +34,6 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
         Resource<Mesh, IndexedMesh> mesh;
 };
 
-}
+}}
 
 #endif

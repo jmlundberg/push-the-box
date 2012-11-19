@@ -14,14 +14,15 @@ else()
     set(APPLICATION_LIBRARY ${MAGNUM_SDL2APPLICATION_LIBRARIES})
 endif()
 
-include_directories(${MAGNUM_INCLUDE_DIRS})
+include_directories(${MAGNUM_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(PushTheBox_SRCS
     Application.cpp
-    Floor.cpp
-    Game.cpp
-    Player.cpp
-    AbstractScreenedApplication.cpp)
+    AbstractScreenedApplication.cpp
+
+    Game/Floor.cpp
+    Game/Game.cpp
+    Game/Player.cpp)
 
 add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box

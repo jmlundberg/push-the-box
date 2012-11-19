@@ -1,8 +1,8 @@
-#ifndef PushTheBox_Floor_h
-#define PushTheBox_Floor_h
+#ifndef PushTheBox_Game_Floor_h
+#define PushTheBox_Game_Floor_h
 
 /** @file
- * @brief Class PushTheBox::Floor
+ * @brief Class PushTheBox::Game::Floor
  */
 
 #include <Color.h>
@@ -13,7 +13,7 @@
 
 #include "PushTheBox.h"
 
-namespace PushTheBox {
+namespace PushTheBox { namespace Game {
 
 /** @brief %Floor tile */
 class Floor: public Object3D, SceneGraph::Drawable<3> {
@@ -36,6 +36,6 @@ class Floor: public Object3D, SceneGraph::Drawable<3> {
         Resource<Mesh> mesh;
 };
 
-}
+}}
 
 #endif

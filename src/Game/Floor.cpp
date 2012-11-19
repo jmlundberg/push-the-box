@@ -6,7 +6,7 @@
 #include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
 
-namespace PushTheBox {
+namespace PushTheBox { namespace Game {
 
 Floor::Floor(const Color3<GLfloat>& color, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), color(color) {
     /* Get shader and mesh buffer */
@@ -40,4 +40,4 @@ void Floor::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera
     mesh->draw();
 }
 
-}
+}}

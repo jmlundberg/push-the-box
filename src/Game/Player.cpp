@@ -7,7 +7,7 @@
 #include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
 
-namespace PushTheBox {
+namespace PushTheBox { namespace Game {
 
 Player::Player(Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group) {
     /* Get shader and mesh buffer */
@@ -46,4 +46,4 @@ void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamer
     mesh->draw();
 }
 
-}
+}}

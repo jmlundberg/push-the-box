@@ -1,8 +1,8 @@
-#ifndef PushTheBox_Game_h
-#define PushTheBox_Game_h
+#ifndef PushTheBox_Game_Game_h
+#define PushTheBox_Game_Game_h
 
 /** @file
- * @brief Class PushTheBox::Game
+ * @brief Class PushTheBox::Game::Game
  */
 
 #include <SceneGraph/Drawable.h>
@@ -11,7 +11,7 @@
 
 #include "AbstractScreen.h"
 
-namespace PushTheBox {
+namespace PushTheBox { namespace Game {
 
 /** @brief %Game screen */
 class Game: public AbstractScreen {
@@ -33,6 +33,6 @@ class Game: public AbstractScreen {
         SceneGraph::Camera3D<>* camera;
 };
 
-}
+}}
 
 #endif

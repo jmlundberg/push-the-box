@@ -4,3 +4,10 @@
 /** @namespace PushTheBox
 @brief Root namespace
 */
+
+/** @dir push-the-box/src/Game
+ * @brief Namespace PushTheBox::Game
+ */
+/** @namespace PushTheBox::Game
+@brief %Game content
+*/
