@@ -14,14 +14,13 @@
 #endif
 
 #include <ResourceManager.h>
-#include <SceneGraph/Drawable.h>
-#include <SceneGraph/MatrixTransformation3D.h>
-#include <SceneGraph/Scene.h>
+
+#include "AbstractScreenedApplication.h"
 
 namespace PushTheBox {
 
 /** @brief Main application class */
-class Application: public ApplicationBase {
+class Application: public AbstractScreenedApplication {
     public:
         /** @brief Constructor */
         #ifndef MAGNUM_TARGET_NACL
@@ -33,23 +32,11 @@ class Application: public ApplicationBase {
         ~Application();
 
     protected:
-        /** @seemagnum{Platform::Sdl2Application::viewportEvent()} */
-        void viewportEvent(const Math::Vector2<GLsizei>& size) override;
-
-        /** @seemagnum{Platform::Sdl2Application::drawEvent()} */
         void drawEvent() override;
-
-        /** @seemagnum{Platform::Sdl2Application::keyPressEvent()} */
-        void keyPressEvent(KeyEvent& event) override;
+        void viewportEvent(const Math::Vector2<GLsizei>& size) override;
 
     private:
         SceneResourceManager sceneResourceManager;
-
-        Scene3D scene;
-        SceneGraph::DrawableGroup<3> drawables;
-
-        Object3D* cameraObject;
-        SceneGraph::Camera3D<>* camera;
 };
 
 }

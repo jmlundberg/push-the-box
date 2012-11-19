@@ -18,9 +18,10 @@ include_directories(${MAGNUM_INCLUDE_DIRS})
 
 set(PushTheBox_SRCS
     Application.cpp
-    Player.cpp
     Floor.cpp
-)
+    Game.cpp
+    Player.cpp
+    AbstractScreenedApplication.cpp)
 
 add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box
