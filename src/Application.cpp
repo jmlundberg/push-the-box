@@ -8,6 +8,7 @@
 #include <Shaders/PhongShader.h>
 
 #include "Floor.h"
+#include "Player.h"
 
 namespace PushTheBox {
 
@@ -41,6 +42,9 @@ Application::Application(PP_Instance instance): ApplicationBase(instance) {
         ->translate({0, 0, -1});
     (new Floor(Color3<GLfloat>::fromHSV(150.0f, 0.55f, 0.6f), &scene, &drawables))
         ->translate({-1, 0, 1});
+
+    /* Add player */
+    (new Player(&scene, &drawables));
 }
 
 Application::~Application() {}

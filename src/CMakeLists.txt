@@ -18,6 +18,7 @@ include_directories(${MAGNUM_INCLUDE_DIRS})
 
 set(PushTheBox_SRCS
     Application.cpp
+    Player.cpp
     Floor.cpp
 )
 
