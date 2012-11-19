@@ -1,0 +1,7 @@
+namespace PushTheBox {
+/** @mainpage
+
+%PushTheBox game is built on top of Magnum engine.
+
+*/
+}

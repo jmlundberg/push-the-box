@@ -1,6 +1,10 @@
 #ifndef PushTheBox_Application_h
 #define PushTheBox_Application_h
 
+/** @file
+ * @brief Class PushTheBox::Application
+ */
+
 #include "PushTheBox.h"
 
 #ifndef MAGNUM_TARGET_NACL
@@ -16,8 +20,10 @@
 
 namespace PushTheBox {
 
+/** @brief Main application class */
 class Application: public ApplicationBase {
     public:
+        /** @brief Constructor */
         #ifndef MAGNUM_TARGET_NACL
         Application(int argc, char** argv);
         #else
@@ -27,8 +33,13 @@ class Application: public ApplicationBase {
         ~Application();
 
     protected:
+        /** @seemagnum{Platform::Sdl2Application::viewportEvent()} */
         void viewportEvent(const Math::Vector2<GLsizei>& size) override;
+
+        /** @seemagnum{Platform::Sdl2Application::drawEvent()} */
         void drawEvent() override;
+
+        /** @seemagnum{Platform::Sdl2Application::keyPressEvent()} */
         void keyPressEvent(KeyEvent& event) override;
 
     private:
