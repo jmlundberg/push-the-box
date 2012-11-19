@@ -5,6 +5,7 @@
 #include <Mesh.h>
 
 #include "Game/Game.h"
+#include "Menu/Menu.h"
 
 namespace PushTheBox {
 
@@ -20,6 +21,7 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
 
     /* Add the screens */
     addScreen(new Game::Game);
+    addScreen(new Menu::Menu);
 }
 
 Application::~Application() {

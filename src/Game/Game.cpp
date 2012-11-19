@@ -57,6 +57,11 @@ void Game::keyPressEvent(KeyEvent& event) {
         cameraObject->rotateX(deg(-5.0f));
     else if(event.key() == KeyEvent::Key::Down)
         cameraObject->rotateX(deg(5.0f));
+
+    /* Switch to menu */
+    else if(event.key() == KeyEvent::Key::Esc)
+        application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
+
     else return;
 
     event.setAccepted();

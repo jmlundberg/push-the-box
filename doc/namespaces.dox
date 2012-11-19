@@ -11,3 +11,10 @@
 /** @namespace PushTheBox::Game
 @brief %Game content
 */
+
+/** @dir push-the-box/src/Menu
+ * @brief Namespace PushTheBox::Menu
+ */
+/** @namespace PushTheBox::Menu
+@brief %Menu and related stuff
+*/

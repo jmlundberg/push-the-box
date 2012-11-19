@@ -40,6 +40,10 @@
             "x86-64": {"url": "x86-32/libMagnumMeshTools.so"},
             "x86-64": {"url": "x86-64/libMagnumMeshTools.so"}
         },
+        "libMagnumPhysics.so": {
+            "x86-64": {"url": "x86-32/libMagnumPhysics.so"},
+            "x86-64": {"url": "x86-64/libMagnumPhysics.so"}
+        },
         "libMagnumSceneGraph.so": {
             "x86-64": {"url": "x86-32/libMagnumSceneGraph.so"},
             "x86-64": {"url": "x86-64/libMagnumSceneGraph.so"}
