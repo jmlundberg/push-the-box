@@ -21,7 +21,7 @@ set(PushTheBox_SRCS
     Application.cpp
     AbstractScreenedApplication.cpp
 
-    Game/Floor.cpp
+    Game/FloorTile.cpp
     Game/Game.cpp
     Game/Player.cpp
 

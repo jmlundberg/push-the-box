@@ -4,7 +4,7 @@
 #include <SceneGraph/Camera3D.h>
 #include <Shaders/PhongShader.h>
 
-#include "Floor.h"
+#include "FloorTile.h"
 #include "Player.h"
 
 namespace PushTheBox { namespace Game {
@@ -26,12 +26,12 @@ Game::Game() {
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 
     /* Add some default crap to the scene */
-    new Floor(Color3<GLfloat>::fromHSV(15.0f, 0.55f, 0.6f), &scene, &drawables);
-    (new Floor(Color3<GLfloat>::fromHSV(75.0f, 0.55f, 0.6f), &scene, &drawables))
+    new FloorTile(Color3<GLfloat>::fromHSV(15.0f, 0.55f, 0.6f), &scene, &drawables);
+    (new FloorTile(Color3<GLfloat>::fromHSV(75.0f, 0.55f, 0.6f), &scene, &drawables))
         ->translate({1, 0, 0});
-    (new Floor(Color3<GLfloat>::fromHSV(210.0f, 0.55f, 0.6f), &scene, &drawables))
+    (new FloorTile(Color3<GLfloat>::fromHSV(210.0f, 0.55f, 0.6f), &scene, &drawables))
         ->translate({0, 0, -1});
-    (new Floor(Color3<GLfloat>::fromHSV(150.0f, 0.55f, 0.6f), &scene, &drawables))
+    (new FloorTile(Color3<GLfloat>::fromHSV(150.0f, 0.55f, 0.6f), &scene, &drawables))
         ->translate({-1, 0, 1});
 }
 

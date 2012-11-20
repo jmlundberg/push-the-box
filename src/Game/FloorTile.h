@@ -1,8 +1,8 @@
-#ifndef PushTheBox_Game_Floor_h
-#define PushTheBox_Game_Floor_h
+#ifndef PushTheBox_Game_FloorTile_h
+#define PushTheBox_Game_FloorTile_h
 
 /** @file
- * @brief Class PushTheBox::Game::Floor
+ * @brief Class PushTheBox::Game::FloorTile
  */
 
 #include <Color.h>
@@ -15,8 +15,8 @@
 
 namespace PushTheBox { namespace Game {
 
-/** @brief %Floor tile */
-class Floor: public Object3D, SceneGraph::Drawable<3> {
+/** @brief Floor tile */
+class FloorTile: public Object3D, SceneGraph::Drawable<3> {
     public:
         /**
          * @brief Constructor
@@ -24,7 +24,7 @@ class Floor: public Object3D, SceneGraph::Drawable<3> {
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        Floor(const Color3<GLfloat>& color, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        FloorTile(const Color3<GLfloat>& color, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
