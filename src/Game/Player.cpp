@@ -3,6 +3,7 @@
 #include <IndexedMesh.h>
 #include <MeshTools/CompressIndices.h>
 #include <MeshTools/Interleave.h>
+#include <MeshTools/Transform.h>
 #include <Primitives/Capsule.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
@@ -26,14 +27,12 @@ Player::Player(Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(
             new IndexedMesh, ResourceDataState::Final, ResourcePolicy::Manual);
 
         Primitives::Capsule capsule(8, 1, 16, 2.0f);
+        MeshTools::transform(Matrix4::scaling(Vector3(0.3f))*Matrix4::translation(Vector3::yAxis(2.0f)), *capsule.positions(0));
         MeshTools::compressIndices(mesh, indexBuffer, Buffer::Usage::StaticDraw, *capsule.indices());
         MeshTools::interleave(mesh, buffer, Buffer::Usage::StaticDraw, *capsule.positions(0), *capsule.normals(0));
         mesh->setPrimitive(capsule.primitive())
             ->addInterleavedVertexBuffer(buffer, 0, Shaders::PhongShader::Position(), Shaders::PhongShader::Normal());
     }
-
-    translate(Vector3::yAxis(2.0f));
-    scale(Vector3(0.3f));
 }
 
 void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
