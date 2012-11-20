@@ -15,7 +15,11 @@
 
 namespace PushTheBox { namespace Game {
 
-/** @brief Floor tile */
+/**
+@brief Floor tile
+
+Tile at -Y side of unit cube.
+*/
 class FloorTile: public Object3D, SceneGraph::Drawable<3> {
     public:
         /**

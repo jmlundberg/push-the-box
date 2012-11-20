@@ -11,10 +11,10 @@ namespace PushTheBox { namespace Game {
 FloorTile::FloorTile(const Color3<GLfloat>& color, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), color(color) {
     /* Get shader and mesh buffer */
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
-    buffer = SceneResourceManager::instance()->get<Buffer>("floor");
+    buffer = SceneResourceManager::instance()->get<Buffer>("tile");
 
     /* Create floor mesh, if not already exists */
-    if(!(mesh = SceneResourceManager::instance()->get<Mesh>("floor"))) {
+    if(!(mesh = SceneResourceManager::instance()->get<Mesh>("tile"))) {
         SceneResourceManager::instance()->set<Buffer>(buffer.key(),
             new Buffer, ResourceDataState::Final, ResourcePolicy::ReferenceCounted);
         SceneResourceManager::instance()->set<Mesh>(mesh.key(),
