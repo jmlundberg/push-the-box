@@ -13,6 +13,8 @@
 
 namespace PushTheBox { namespace Game {
 
+class Player;
+
 /** @brief %Game screen */
 class Game: public AbstractScreen {
     public:
@@ -24,6 +26,7 @@ class Game: public AbstractScreen {
         void viewportEvent(const Math::Vector2<GLsizei>& size) override;
         void drawEvent() override;
         void keyPressEvent(KeyEvent& event) override;
+        void mouseMoveEvent(MouseMoveEvent& event) override;
 
     private:
         Scene3D scene;
@@ -31,6 +34,8 @@ class Game: public AbstractScreen {
 
         Object3D* cameraObject;
         SceneGraph::Camera3D<>* camera;
+
+        Player* player;
 };
 
 }}

@@ -14,8 +14,11 @@ Game::Game() {
     SceneResourceManager::instance()->set<AbstractShaderProgram>("phong",
         new Shaders::PhongShader, ResourceDataState::Final, ResourcePolicy::Resident);
 
+    /* Add player */
+    player = new Player(&scene, &drawables);
+
     /* Configure camera */
-    (cameraObject = new Object3D(&scene))
+    (cameraObject = new Object3D(player))
         ->translate(Vector3::zAxis(5.5f))
         ->rotateX(deg(-35.0f));
     (camera = new SceneGraph::Camera3D<>(cameraObject))
@@ -30,18 +33,17 @@ Game::Game() {
         ->translate({0, 0, -1});
     (new Floor(Color3<GLfloat>::fromHSV(150.0f, 0.55f, 0.6f), &scene, &drawables))
         ->translate({-1, 0, 1});
-
-    /* Add player */
-    (new Player(&scene, &drawables));
 }
 
 void Game::focusEvent() {
+    application()->setMouseLocked(true);
     setPropagatedEvents(PropagatedEvent::Draw|PropagatedEvent::Input);
 }
 
 void Game::blurEvent() {
     /* Draw the game in the background */
     setPropagatedEvents(PropagatedEvent::Draw);
+    application()->setMouseLocked(false);
 }
 
 void Game::viewportEvent(const Math::Vector2<GLsizei>& size) {
@@ -63,6 +65,14 @@ void Game::keyPressEvent(KeyEvent& event) {
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
 
     else return;
+
+    event.setAccepted();
+    redraw();
+}
+
+void Game::Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
+    player->rotateY(-rad((Math::Constants<GLfloat>::pi()*event.relativePosition().x()*2.0f)/camera->viewport().x()),
+        SceneGraph::TransformationType::Local);
 
     event.setAccepted();
     redraw();
