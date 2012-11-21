@@ -6,7 +6,7 @@
 
 #include "FloorTile.h"
 #include "Player.h"
-#include "WallTile.h"
+#include "WallBrick.h"
 
 namespace PushTheBox { namespace Game {
 
@@ -35,18 +35,13 @@ Game::Game() {
     (new FloorTile(Color3<GLfloat>::fromHSV(150.0f, 0.55f, 0.6f), &scene, &drawables))
         ->translate({-1, 0, 1});
 
-    (new WallTile(Color3<GLfloat>::fromHSV(15.0f, 0.2f, 0.8f), &scene, &drawables))
+    (new WallBrick(Color3<GLfloat>::fromHSV(15.0f, 0.2f, 0.8f), &scene, &drawables))
         ->translate({0, 0, -2});
-    (new WallTile(Color3<GLfloat>::fromHSV(98.0f, 0.2f, 0.8f), &scene, &drawables))
-        ->rotateY(deg(90.0f))
+    (new WallBrick(Color3<GLfloat>::fromHSV(98.0f, 0.2f, 0.8f), &scene, &drawables))
         ->translate({-1, 0, -1});
-    (new WallTile(Color3<GLfloat>::fromHSV(330.0f, 0.2f, 0.8f), &scene, &drawables))
-        ->rotateY(deg(90.0f))
+    (new WallBrick(Color3<GLfloat>::fromHSV(330.0f, 0.2f, 0.8f), &scene, &drawables))
         ->translate({-1, 0, 0});
-    (new WallTile(Color3<GLfloat>::fromHSV(255.0f, 0.2f, 0.8f), &scene, &drawables))
-        ->rotateY(deg(-90.0f))
-        ->translate({1, 0, -1});
-    (new WallTile(Color3<GLfloat>::fromHSV(45.0f, 0.2f, 0.8f), &scene, &drawables))
+    (new WallBrick(Color3<GLfloat>::fromHSV(255.0f, 0.2f, 0.8f), &scene, &drawables))
         ->translate({1, 0, -1});
 }
 

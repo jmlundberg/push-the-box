@@ -1,8 +1,8 @@
-#ifndef PushTheBox_Game_WallTile_h
-#define PushTheBox_Game_WallTile_h
+#ifndef PushTheBox_Game_WallBrick_h
+#define PushTheBox_Game_WallBrick_h
 
 /** @file
- * @brief Class PushTheBox::Game::WallTile
+ * @brief Class PushTheBox::Game::WallBrick
  */
 
 #include <Color.h>
@@ -15,12 +15,8 @@
 
 namespace PushTheBox { namespace Game {
 
-/**
-@brief Wall tile
-
-Tile on +Z side of unit cube.
-*/
-class WallTile: public Object3D, SceneGraph::Drawable<3> {
+/** @brief Wall brick */
+class WallBrick: public Object3D, SceneGraph::Drawable<3> {
     public:
         /**
          * @brief Constructor
@@ -28,7 +24,7 @@ class WallTile: public Object3D, SceneGraph::Drawable<3> {
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        WallTile(const Color3<GLfloat>& color, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        WallBrick(const Color3<GLfloat>& color, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;

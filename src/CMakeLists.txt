@@ -24,6 +24,7 @@ set(PushTheBox_SRCS
     Game/FloorTile.cpp
     Game/Game.cpp
     Game/Player.cpp
+    Game/WallBrick.cpp
 
     Menu/Menu.cpp
     Menu/MenuItem.cpp)
