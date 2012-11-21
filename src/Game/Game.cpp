@@ -4,6 +4,7 @@
 #include <SceneGraph/Camera3D.h>
 #include <Shaders/PhongShader.h>
 
+#include "Box.h"
 #include "FloorTile.h"
 #include "Player.h"
 #include "WallBrick.h"
@@ -43,6 +44,9 @@ Game::Game() {
         ->translate({-1, 0, 0});
     (new WallBrick(Color3<GLfloat>::fromHSV(255.0f, 0.2f, 0.8f), &scene, &drawables))
         ->translate({1, 0, -1});
+
+    (new Box(&scene, &drawables))
+        ->translate({1, 0, 0});
 }
 
 void Game::focusEvent() {
