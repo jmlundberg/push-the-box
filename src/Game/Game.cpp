@@ -21,7 +21,7 @@ Game::Game() {
 
     /* Configure camera */
     (cameraObject = new Object3D(player))
-        ->translate(Vector3::zAxis(5.5f))
+        ->translate({0.0f, 1.0f, 5.5f})
         ->rotateX(deg(-35.0f));
     (camera = new SceneGraph::Camera3D<>(cameraObject))
         ->setPerspective(deg(35.0f), 0.001f, 100.0f)
@@ -95,10 +95,8 @@ void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
         cameraObject->transformation();
 
     /* Don't rotate under the floor */
-    if(abs(Vector3::dot((xRotation.rotation()*Vector3::yAxis()).normalized(), Vector3(0.0f, 1.0f, -0.5f).normalized()) < 0.6f))
-        return;
-
-    cameraObject->setTransformation(xRotation);
+    if(std::abs(Vector3::dot((xRotation.rotation()*Vector3::yAxis()).normalized(), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
+        cameraObject->setTransformation(xRotation);
 
     event.setAccepted();
     redraw();
