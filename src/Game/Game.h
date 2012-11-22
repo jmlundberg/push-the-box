@@ -26,6 +26,7 @@ class Game: public AbstractScreen {
         void viewportEvent(const Math::Vector2<GLsizei>& size) override;
         void drawEvent() override;
         void keyPressEvent(KeyEvent& event) override;
+        void mousePressEvent(MouseEvent& event) override;
         void mouseMoveEvent(MouseMoveEvent& event) override;
 
     private:

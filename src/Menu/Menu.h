@@ -25,7 +25,7 @@ class Menu: public AbstractScreen {
         void blurEvent() override;
         void viewportEvent(const Math::Vector2<GLsizei>& size) override;
         void drawEvent() override;
-        void keyPressEvent(KeyEvent& event) override;
+        void mousePressEvent(MouseEvent& event) override;
 
     private:
         /** @todo remove when done properly */

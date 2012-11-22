@@ -71,7 +71,15 @@ void Game::drawEvent() {
 void Game::keyPressEvent(KeyEvent& event) {
     else if(event.key() == KeyEvent::Key::Esc)
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
+    else return;
 
+    event.setAccepted();
+    redraw();
+}
+
+void Game::mousePressEvent(MouseEvent& event) {
+    if(event.button() == MouseEvent::Button::Left)
+        application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
     else return;
 
     event.setAccepted();

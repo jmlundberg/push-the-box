@@ -46,9 +46,8 @@ void Menu::drawEvent() {
     camera->draw(drawables);
 }
 
-void Menu::Menu::keyPressEvent(KeyEvent& event) {
-    /* Switch to game */
-    if(event.key() == KeyEvent::Key::Esc)
+void Menu::mousePressEvent(MouseEvent& event) {
+    if(event.button() == MouseEvent::Button::Left)
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
     else return;
 
