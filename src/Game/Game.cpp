@@ -84,7 +84,7 @@ void Game::keyPressEvent(KeyEvent& event) {
     redraw();
 }
 
-void Game::Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
+void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
     player->rotateY(-rad((Math::Constants<GLfloat>::pi()*event.relativePosition().x()*2.0f)/camera->viewport().x()),
         SceneGraph::TransformationType::Local);
 

@@ -46,7 +46,7 @@ void Menu::drawEvent() {
     camera->draw(drawables);
 }
 
-void Menu::Menu::keyPressEvent(AbstractScreen::KeyEvent& event) {
+void Menu::Menu::keyPressEvent(KeyEvent& event) {
     /* Switch to game */
     if(event.key() == KeyEvent::Key::Esc)
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
