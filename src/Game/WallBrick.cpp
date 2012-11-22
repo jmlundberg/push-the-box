@@ -10,7 +10,7 @@
 
 namespace PushTheBox { namespace Game {
 
-WallBrick::WallBrick(const Color3<GLfloat>& color, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), color(color) {
+WallBrick::WallBrick(const Color3<>& color, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), color(color) {
     /* Get shader and buffer */
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     buffer = SceneResourceManager::instance()->get<Buffer>("cube");

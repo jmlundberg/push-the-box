@@ -38,7 +38,7 @@ Player::Player(Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(
 void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
     shader->setTransformation(transformationMatrix)
           ->setProjection(camera->projectionMatrix())
-          ->setDiffuseColor(Color3<GLfloat>::fromHSV(210.0f, 0.85f, 0.8f))
+          ->setDiffuseColor(Color3<>::fromHSV(210.0f, 0.85f, 0.8f))
           ->setLightPosition((camera->cameraMatrix()*Point3D(0.5f, 2.0f, 0.5f)).xyz())
           ->use();
 

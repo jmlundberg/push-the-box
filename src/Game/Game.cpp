@@ -28,21 +28,21 @@ Game::Game() {
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 
     /* Add some default crap to the scene */
-    new FloorTile(Color3<GLfloat>::fromHSV(15.0f, 0.55f, 0.6f), &scene, &drawables);
-    (new FloorTile(Color3<GLfloat>::fromHSV(75.0f, 0.55f, 0.6f), &scene, &drawables))
+    new FloorTile(Color3<>::fromHSV(15.0f, 0.55f, 0.6f), &scene, &drawables);
+    (new FloorTile(Color3<>::fromHSV(75.0f, 0.55f, 0.6f), &scene, &drawables))
         ->translate({1, 0, 0});
-    (new FloorTile(Color3<GLfloat>::fromHSV(210.0f, 0.55f, 0.6f), &scene, &drawables))
+    (new FloorTile(Color3<>::fromHSV(210.0f, 0.55f, 0.6f), &scene, &drawables))
         ->translate({0, 0, -1});
-    (new FloorTile(Color3<GLfloat>::fromHSV(150.0f, 0.55f, 0.6f), &scene, &drawables))
+    (new FloorTile(Color3<>::fromHSV(150.0f, 0.55f, 0.6f), &scene, &drawables))
         ->translate({-1, 0, 1});
 
-    (new WallBrick(Color3<GLfloat>::fromHSV(15.0f, 0.2f, 0.8f), &scene, &drawables))
+    (new WallBrick(Color3<>::fromHSV(15.0f, 0.2f, 0.8f), &scene, &drawables))
         ->translate({0, 0, -2});
-    (new WallBrick(Color3<GLfloat>::fromHSV(98.0f, 0.2f, 0.8f), &scene, &drawables))
+    (new WallBrick(Color3<>::fromHSV(98.0f, 0.2f, 0.8f), &scene, &drawables))
         ->translate({-1, 0, -1});
-    (new WallBrick(Color3<GLfloat>::fromHSV(330.0f, 0.2f, 0.8f), &scene, &drawables))
+    (new WallBrick(Color3<>::fromHSV(330.0f, 0.2f, 0.8f), &scene, &drawables))
         ->translate({-1, 0, 0});
-    (new WallBrick(Color3<GLfloat>::fromHSV(255.0f, 0.2f, 0.8f), &scene, &drawables))
+    (new WallBrick(Color3<>::fromHSV(255.0f, 0.2f, 0.8f), &scene, &drawables))
         ->translate({1, 0, -1});
 
     (new Box(&scene, &drawables))

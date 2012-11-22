@@ -8,7 +8,7 @@
 
 namespace PushTheBox { namespace Game {
 
-FloorTile::FloorTile(const Color3<GLfloat>& color, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), color(color) {
+FloorTile::FloorTile(const Color3<>& color, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), color(color) {
     /* Get shader and mesh buffer */
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     buffer = SceneResourceManager::instance()->get<Buffer>("tile");
