@@ -69,7 +69,7 @@ void Game::drawEvent() {
 }
 
 void Game::keyPressEvent(KeyEvent& event) {
-    else if(event.key() == KeyEvent::Key::Esc)
+    if(event.key() == KeyEvent::Key::Esc)
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
     else return;
 
