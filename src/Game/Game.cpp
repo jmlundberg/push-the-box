@@ -69,12 +69,6 @@ void Game::drawEvent() {
 }
 
 void Game::keyPressEvent(KeyEvent& event) {
-    if(event.key() == KeyEvent::Key::Up)
-        cameraObject->rotateX(deg(-5.0f));
-    else if(event.key() == KeyEvent::Key::Down)
-        cameraObject->rotateX(deg(5.0f));
-
-    /* Switch to menu */
     else if(event.key() == KeyEvent::Key::Esc)
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
 
@@ -88,6 +82,15 @@ void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
     /** @todo mouse sensitivity */
     player->rotateY(-rad((Constants::pi()*event.relativePosition().x()/500.0f)),
         SceneGraph::TransformationType::Local);
+
+    Matrix4 xRotation = Matrix4::rotationX(rad(-Constants::pi()*event.relativePosition().y()/500.0f))*
+        cameraObject->transformation();
+
+    /* Don't rotate under the floor */
+    if(abs(Vector3::dot((xRotation.rotation()*Vector3::yAxis()).normalized(), Vector3(0.0f, 1.0f, -0.5f).normalized()) < 0.6f))
+        return;
+
+    cameraObject->setTransformation(xRotation);
 
     event.setAccepted();
     redraw();
