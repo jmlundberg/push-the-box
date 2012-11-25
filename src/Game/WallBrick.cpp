@@ -15,7 +15,6 @@ void WallBrick::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCa
     shader->setTransformationMatrix(transformationMatrix)
           ->setProjectionMatrix(camera->projectionMatrix())
           ->setDiffuseColor(color)
-          ->setLightPosition((camera->cameraMatrix()*Point3D(0.5f, 2.0f, 0.5f)).xyz())
           ->use();
 
     mesh->draw();

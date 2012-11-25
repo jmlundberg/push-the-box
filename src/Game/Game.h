@@ -5,9 +5,11 @@
  * @brief Class PushTheBox::Game::Game
  */
 
+#include <ResourceManager.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/MatrixTransformation3D.h>
 #include <SceneGraph/Scene.h>
+#include <Shaders/Shaders.h>
 
 #include "AbstractScreen.h"
 
@@ -33,6 +35,7 @@ class Game: public AbstractScreen {
         Scene3D scene;
         SceneGraph::DrawableGroup<3> drawables;
 
+        Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
         Object3D* cameraObject;
         SceneGraph::Camera3D<>* camera;
 

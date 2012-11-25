@@ -18,6 +18,7 @@ Game::Game() {
     /* Add shader to resource manager */
     SceneResourceManager::instance()->set<AbstractShaderProgram>("phong",
         new Shaders::PhongShader, ResourceDataState::Final, ResourcePolicy::Resident);
+    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
 
     /* Add player */
     player = new Player(&scene, &drawables);
@@ -75,6 +76,8 @@ void Game::viewportEvent(const Math::Vector2<GLsizei>& size) {
 }
 
 void Game::drawEvent() {
+    /* Shader settings commn for all objects */
+    shader->setLightPosition((camera->cameraMatrix()*Point3D(0.5f, 2.0f, 0.5f)).xyz());
     camera->draw(drawables);
 }
 
