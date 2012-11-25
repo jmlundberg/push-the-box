@@ -17,7 +17,7 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
 
     Framebuffer::setFeature(Framebuffer::Feature::FaceCulling, true);
     Framebuffer::setFeature(Framebuffer::Feature::DepthTest, true);
-    Framebuffer::setClearColor(Color3<GLfloat>::fromHSV(15.0f, 0.95f, 0.2f));
+    Framebuffer::setClearColor(Color3<>(0.0f));
 
     /* Add resource loader and fallback meshes */
     sceneResourceManager.setLoader(&meshResourceLoader);
