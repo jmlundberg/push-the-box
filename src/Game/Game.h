@@ -12,6 +12,7 @@
 #include <Shaders/Shaders.h>
 
 #include "AbstractScreen.h"
+#include "Level.h"
 
 namespace PushTheBox { namespace Game {
 
@@ -30,6 +31,7 @@ class Game: public AbstractScreen {
         void keyPressEvent(KeyEvent& event) override;
         void mousePressEvent(MouseEvent& event) override;
         void mouseMoveEvent(MouseMoveEvent& event) override;
+        void initializeLevel();
 
     private:
         Scene3D scene;
@@ -40,6 +42,7 @@ class Game: public AbstractScreen {
         SceneGraph::Camera3D<>* camera;
 
         Player* player;
+        Level* actualLevel;
 };
 
 }}
