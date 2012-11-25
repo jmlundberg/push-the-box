@@ -30,7 +30,6 @@ class Box: public Object3D, SceneGraph::Drawable<3> {
 
     private:
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
-        Resource<Buffer> buffer;
         Resource<Mesh> mesh;
 };
 

@@ -3,7 +3,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wold-style-cast -Winit-se
 find_package(Magnum REQUIRED
     MeshTools
     Physics
-    Primitives
     SceneGraph
     Shaders)
 
@@ -41,9 +40,7 @@ set(PushTheBox_SRCS
 add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box
     ${MAGNUM_LIBRARIES}
-    ${MAGNUM_MESHTOOLS_LIBRARIES}
     ${MAGNUM_PHYSICS_LIBRARIES}
-    ${MAGNUM_PRIMITIVES_LIBRARIES}
     ${MAGNUM_SCENEGRAPH_LIBRARIES}
     ${MAGNUM_SHADERS_LIBRARIES}
     ${APPLICATION_LIBRARY})

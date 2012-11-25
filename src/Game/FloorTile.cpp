@@ -1,33 +1,15 @@
 #include "FloorTile.h"
 
 #include <Math/Constants.h>
-#include <MeshTools/Interleave.h>
-#include <Primitives/Plane.h>
+#include <Mesh.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
 
 namespace PushTheBox { namespace Game {
 
 FloorTile::FloorTile(const Color3<>& color, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), color(color) {
-    /* Get shader and mesh buffer */
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
-    buffer = SceneResourceManager::instance()->get<Buffer>("tile");
-
-    /* Create floor mesh, if not already exists */
-    if(!(mesh = SceneResourceManager::instance()->get<Mesh>("tile"))) {
-        SceneResourceManager::instance()->set<Buffer>(buffer.key(),
-            new Buffer, ResourceDataState::Final, ResourcePolicy::ReferenceCounted);
-        SceneResourceManager::instance()->set<Mesh>(mesh.key(),
-            new Mesh, ResourceDataState::Final, ResourcePolicy::Manual);
-
-        Primitives::Plane plane;
-        MeshTools::interleave(mesh, buffer, Buffer::Usage::StaticDraw, *plane.positions(0), *plane.normals(0));
-        mesh->setPrimitive(plane.primitive())
-            ->addInterleavedVertexBuffer(buffer, 0, Shaders::PhongShader::Position(), Shaders::PhongShader::Normal());
-    }
-
-    rotateX(deg(-90.0f));
-    scale(Vector3(0.5f));
+    mesh = SceneResourceManager::instance()->get<Mesh>("floor-mesh");
 }
 
 void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {

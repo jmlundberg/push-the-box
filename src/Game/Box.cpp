@@ -8,12 +8,8 @@
 namespace PushTheBox { namespace Game {
 
 Box::Box(Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group) {
-    /* Get shader, buffer and mesh (created in WallBrick) */
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
-    buffer = SceneResourceManager::instance()->get<Buffer>("cube");
-    mesh = SceneResourceManager::instance()->get<Mesh>("cube");
-
-    scale(Vector3(0.66f));
+    mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
 }
 
 void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {

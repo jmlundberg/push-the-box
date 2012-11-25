@@ -36,7 +36,6 @@ class FloorTile: public Object3D, SceneGraph::Drawable<3> {
     private:
         Color3<> color;
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
-        Resource<Buffer> buffer;
         Resource<Mesh> mesh;
 };
 

@@ -30,8 +30,7 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
 
     private:
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
-        Resource<Buffer> buffer, indexBuffer;
-        Resource<Mesh, IndexedMesh> mesh;
+        Resource<Mesh> mesh;
 };
 
 }}
