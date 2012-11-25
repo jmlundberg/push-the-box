@@ -39,3 +39,5 @@ target_link_libraries(push-the-box
     ${MAGNUM_SCENEGRAPH_LIBRARIES}
     ${MAGNUM_SHADERS_LIBRARIES}
     ${APPLICATION_LIBRARY})
+
+add_subdirectory(ResourceManagement)
