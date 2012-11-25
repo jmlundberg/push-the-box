@@ -4,6 +4,7 @@
 #include <Math/Matrix4.h>
 #include <MeshTools/CompressIndices.h>
 #include <MeshTools/Interleave.h>
+#include <MeshTools/Tipsify.h>
 #include <MeshTools/Transform.h>
 #include <Trade/MeshData3D.h>
 
@@ -24,12 +25,19 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
     for(std::size_t i = 0; i != importer->mesh3DCount(); ++i) {
         ConfigurationGroup* group = configuration->addGroup("mesh");
 
+        /* Import mesh */
         Trade::MeshData3D* mesh = importer->mesh3D(i);
+        CORRADE_ASSERT(mesh->positions(0), "Mesh" << mesh->name() << "has no position array", );
+        CORRADE_ASSERT(mesh->normals(0), "Mesh" << mesh->name() << "has no normal array", );
+
         group->addValue("name", mesh->name());
         group->addValue("primitive", mesh->primitive());
 
         /* Compile index array, if present */
         if(mesh->indices()) {
+            /* Optimize indices */
+            MeshTools::tipsify(*mesh->indices(), mesh->positions(0)->size(), 24);
+
             std::size_t indexCount;
             Type indexType;
             char* data;
@@ -43,16 +51,13 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
             delete[] data;
         }
 
-        /* Compile vertex array */
-        CORRADE_ASSERT(mesh->positions(0), "Mesh" << mesh->name() << "has no position array", );
-        CORRADE_ASSERT(mesh->normals(0), "Mesh" << mesh->name() << "has no normal array", );
-
         /* Rotate to have Y up */
         /** @todo Fix this in Collada importer itself */
         Matrix4 rotation = Matrix4::rotationX(deg(-90.0f));
         MeshTools::transform(rotation, *mesh->positions(0));
         MeshTools::transform(rotation.rotation(), *mesh->normals(0));
 
+        /* Compile vertex array */
         char* data;
         std::size_t vertexCount;
         std::size_t stride;
