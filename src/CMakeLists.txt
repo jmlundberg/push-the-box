@@ -28,7 +28,9 @@ set(PushTheBox_SRCS
     Game/WallBrick.cpp
 
     Menu/Menu.cpp
-    Menu/MenuItem.cpp)
+    Menu/MenuItem.cpp
+
+    ResourceManagement/MeshResourceLoader.cpp)
 
 add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box
