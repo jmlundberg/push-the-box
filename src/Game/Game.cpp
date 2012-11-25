@@ -53,6 +53,9 @@ Game::Game() {
 }
 
 void Game::focusEvent() {
+    #ifdef MAGNUM_TARGET_NACL
+    application()->setFullscreen(true);
+    #endif
     application()->setMouseLocked(true);
     setPropagatedEvents(PropagatedEvent::Draw|PropagatedEvent::Input);
 }
@@ -60,7 +63,11 @@ void Game::focusEvent() {
 void Game::blurEvent() {
     /* Draw the game in the background */
     setPropagatedEvents(PropagatedEvent::Draw);
+
     application()->setMouseLocked(false);
+    #ifdef MAGNUM_TARGET_NACL
+    application()->setFullscreen(false);
+    #endif
 }
 
 void Game::viewportEvent(const Math::Vector2<GLsizei>& size) {
