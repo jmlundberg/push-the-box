@@ -17,6 +17,10 @@ endif()
 
 include_directories(${MAGNUM_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
 
+corrade_add_resource(PushTheBox_RCS PushTheBoxData
+    ../resources/push-the-box.mesh ALIAS push-the-box.mesh
+    ../resources/push-the-box.conf ALIAS push-the-box.conf)
+
 set(PushTheBox_SRCS
     Application.cpp
     AbstractScreenedApplication.cpp
@@ -30,7 +34,9 @@ set(PushTheBox_SRCS
     Menu/Menu.cpp
     Menu/MenuItem.cpp
 
-    ResourceManagement/MeshResourceLoader.cpp)
+    ResourceManagement/MeshResourceLoader.cpp
+
+    ${PushTheBox_RCS})
 
 add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box
