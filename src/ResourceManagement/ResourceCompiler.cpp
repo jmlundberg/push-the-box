@@ -1,7 +1,10 @@
 #include "ResourceCompiler.h"
 
+#include <Math/Constants.h>
+#include <Math/Matrix4.h>
 #include <MeshTools/CompressIndices.h>
 #include <MeshTools/Interleave.h>
+#include <MeshTools/Transform.h>
 #include <Trade/MeshData3D.h>
 
 #include "configure.h"
@@ -43,6 +46,12 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
         /* Compile vertex array */
         CORRADE_ASSERT(mesh->positions(0), "Mesh" << mesh->name() << "has no position array", );
         CORRADE_ASSERT(mesh->normals(0), "Mesh" << mesh->name() << "has no normal array", );
+
+        /* Rotate to have Y up */
+        /** @todo Fix this in Collada importer itself */
+        Matrix4 rotation = Matrix4::rotationX(deg(-90.0f));
+        MeshTools::transform(rotation, *mesh->positions(0));
+        MeshTools::transform(rotation.rotation(), *mesh->normals(0));
 
         char* data;
         std::size_t vertexCount;
