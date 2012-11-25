@@ -78,8 +78,10 @@ class AbstractScreenedApplication: public ApplicationBase, private Corrade::Cont
          * @brief Add screen to application
          * @return Pointer to self (for method chaining)
          *
-         * Previously focused screen is blurred and the new screen is focused.
-         * @see AbstractScreen::blur(), AbstractScreen::focus()
+         * The new screen is added as backmost. If this is the first screen
+         * added, AbstractScreen::focus() is called. If not, neither
+         * AbstractScreen::blur() nor AbstractScreen::focus() is called (i.e.
+         * the screen default state is used).
          */
         AbstractScreenedApplication* addScreen(AbstractScreen* screen);
 

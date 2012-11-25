@@ -7,9 +7,8 @@
 namespace PushTheBox {
 
 AbstractScreenedApplication* AbstractScreenedApplication::addScreen(AbstractScreen* screen) {
-    if(frontScreen()) frontScreen()->blurEvent();
-    insert(screen, frontScreen());
-    screen->focusEvent();
+    insert(screen);
+    if(frontScreen() == screen) screen->focusEvent();
     return this;
 }
 

@@ -20,8 +20,8 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     Framebuffer::setClearColor(Color3<GLfloat>::fromHSV(15.0f, 0.95f, 0.2f));
 
     /* Add the screens */
-    addScreen(new Game::Game);
     addScreen(new Menu::Menu);
+    addScreen(new Game::Game);
 }
 
 Application::~Application() {

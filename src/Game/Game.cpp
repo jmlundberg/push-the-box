@@ -12,6 +12,9 @@
 namespace PushTheBox { namespace Game {
 
 Game::Game() {
+    /* Initial propagated events */
+    setPropagatedEvents(PropagatedEvent::Draw);
+
     /* Add shader to resource manager */
     SceneResourceManager::instance()->set<AbstractShaderProgram>("phong",
         new Shaders::PhongShader, ResourceDataState::Final, ResourcePolicy::Resident);
