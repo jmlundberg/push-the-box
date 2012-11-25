@@ -16,6 +16,7 @@
 #include <ResourceManager.h>
 
 #include "AbstractScreenedApplication.h"
+#include "ResourceManagement/MeshResourceLoader.h"
 
 namespace PushTheBox {
 
@@ -37,6 +38,7 @@ class Application: public AbstractScreenedApplication {
 
     private:
         SceneResourceManager sceneResourceManager;
+        ResourceManagement::MeshResourceLoader meshResourceLoader;
 };
 
 }

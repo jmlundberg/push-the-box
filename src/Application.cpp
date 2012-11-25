@@ -19,6 +19,10 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     Framebuffer::setFeature(Framebuffer::Feature::DepthTest, true);
     Framebuffer::setClearColor(Color3<GLfloat>::fromHSV(15.0f, 0.95f, 0.2f));
 
+    /* Add resource loader and fallback meshes */
+    sceneResourceManager.setLoader(&meshResourceLoader);
+    sceneResourceManager.setFallback<Mesh>(new Mesh);
+
     /* Add the screens */
     addScreen(new Menu::Menu);
     addScreen(new Game::Game);
