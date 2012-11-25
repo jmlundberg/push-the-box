@@ -15,7 +15,7 @@ Box::Box(Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent
 void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
     shader->setTransformationMatrix(transformationMatrix)
           ->setProjectionMatrix(camera->projectionMatrix())
-          ->setDiffuseColor(Color3<>::fromHSV(45.0f, 0.2f, 0.8f))
+          ->setDiffuseColor(Color3<>::fromHSV(0.0f, 1.0f, 0.6f))
           ->use();
 
     mesh->draw();
