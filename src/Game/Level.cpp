@@ -4,13 +4,13 @@ using namespace std;
 
 namespace PushTheBox { namespace Game {
 
-Level::Level(std::string levelName){
+Level::Level(std::string levelName) {
     //load levelu ze souboru podle jmena...zatim ukazkovy level na vyzkouseni...
-    for(size_t i=0; i<5; ++i){
+    for(size_t i = 0; i != 5; ++i) {
         vector<FieldType> line;
         vector<bool> lineTarget;
-        for(size_t j=0; j<5; ++j){
-            line.push_back(EMPTY);
+        for(std::size_t j = 0; j < 5; ++j) {
+            line.push_back(FieldType::Empty);
             lineTarget.push_back(false);
         }
         level.push_back(line);
@@ -28,15 +28,15 @@ Level::Level(std::string levelName){
     addBox(3,2);
 }
 
-void Level::setTarget(size_t x, size_t y){
-    if(x< level.size() && y<level[x].size()){
+void Level::setTarget(std::size_t x, std::size_t y) {
+    if(x < level.size() && y < level[x].size()) {
         isTarget[x][y] = true;
     }
 }
 
-void Level::addBox(size_t x, size_t y){
-    if(x< level.size() && y<level[x].size()){
-        level[x][y] = BOX;
+void Level::addBox(std::size_t x, std::size_t y) {
+    if(x < level.size() && y < level[x].size()) {
+        level[x][y] = FieldType::Box;
     }
 }
 

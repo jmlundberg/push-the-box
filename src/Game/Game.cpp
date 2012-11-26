@@ -34,8 +34,6 @@ Game::Game() {
         ->setPerspective(deg(35.0f), 0.001f, 100.0f)
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 
-    /* Add some default crap to the scene */
-
     initializeLevel();
 }
 
@@ -69,30 +67,28 @@ void Game::drawEvent() {
 }
 
 void Game::keyPressEvent(KeyEvent& event) {
-    if(event.key() == KeyEvent::Key::Up){
+    if(event.key() == KeyEvent::Key::Up) {
         GLfloat pi = Math::Constants<GLfloat>::pi();
         Vector3 direction = player->transformation().backward().normalized();
         GLfloat angle = Vector3::angle(Vector3::zAxis(), direction);
 
-        if(angle< pi/6){
+        if(angle < pi/6) {
             player->move(0,-1);
-        }
-        if(angle> pi/3 && angle< pi*2/3){
+        } else if(angle > pi/3 && angle < pi*2/3) {
             //move left or right
-            if(direction.x() > 0){
+            if(direction.x() > 0) {
                 //move left(- in coordinates)
                 player->move(-1,0);
             } else {
                 //move right(+ in coordinates)
                 player->move(1,0);
             }
-        }
-        if(angle > pi*5/6){
+        } else if(angle > pi*5/6) {
             player->move(0,1);
         }
-    }
+
     /* Switch to menu */
-    else if(event.key() == KeyEvent::Key::Esc)
+    } else if(event.key() == KeyEvent::Key::Esc)
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
     else return;
 
@@ -104,9 +100,6 @@ void Game::mousePressEvent(MouseEvent& event) {
     if(event.button() == MouseEvent::Button::Left)
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
     else return;
-
-    //GLfloat angle = Vector3::angle(Vector3::zAxis(), player->transformation().backward().normalized());//vektor miri za hr·Ëe
-
 
     event.setAccepted();
     redraw();
@@ -139,30 +132,31 @@ void Game::initializeLevel(){
     (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
         ->translate({float(actualLevel->isTarget.size()), 0.0f, float(actualLevel->isTarget[0].size())});
 
-    for(size_t i=0; i<actualLevel->isTarget.size(); ++i){
+    for(std::size_t i = 0; i < actualLevel->isTarget.size(); ++i) {
         (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
             ->translate({float(i), 0.0f, -1.0f});
         (new WallBrick(Color3<GLfloat>::fromHSV(0.0f,0.2f,1.0f), &scene, &drawables))
             ->translate({float(i), 0.0f, float(actualLevel->isTarget[i].size())});
-        for(size_t j=0; j<actualLevel->isTarget[i].size();++j){
+        for(std::size_t j = 0; j < actualLevel->isTarget[i].size(); ++j) {
             (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
                 ->translate({-1.0f, 0.0f, float(j)});
             (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
                 ->translate({actualLevel->isTarget.size(), 0.0f, float(j)});
-            if(actualLevel->isTarget[i][j]==true){
+            if(actualLevel->isTarget[i][j]) {
                 (new FloorTile(Color3<GLfloat>::fromHSV(0.0f, 1.0f, 0.5f), &scene, &drawables))
-                    ->translate({float(i),0.0f,float(j)});
+                    ->translate({float(i), 0.0f, float(j)});
                 continue;
             }
             (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), &scene, &drawables))
-                ->translate({float(i),0.0f,float(j)});
+                ->translate({float(i), 0.0f, float(j)});
         }
     }
-    for(size_t i=0; i<actualLevel->level.size(); ++i){
-        for(size_t j=0; j<actualLevel->level[i].size(); ++j){
-            if(actualLevel->level[i][j]==BOX){
+
+    for(std::size_t i = 0; i < actualLevel->level.size(); ++i) {
+        for(std::size_t j = 0; j < actualLevel->level[i].size(); ++j) {
+            if(actualLevel->level[i][j] == FieldType::Box) {
                 (new Box(&scene, &drawables))
-                    ->translate({float(i),0.0f,float(j)});
+                    ->translate({float(i),  0.0f,float(j)});
             }
         }
     }

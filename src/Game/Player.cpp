@@ -14,7 +14,7 @@ Player::Player(Object3D* parent, SceneGraph::DrawableGroup<3>* group, Level *lev
     mesh = SceneResourceManager::instance()->get<Mesh>("player-mesh");
 
     actualLevel = level;
-    level_position = Math::Vector2<int>(0,0);
+    levelPosition = Math::Vector2<int>(0,0);
 }
 
 void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
@@ -26,15 +26,16 @@ void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamer
     mesh->draw();
 }
 
-void Player::move(int dir_x, int dir_y){
-    int new_x = level_position.x() + dir_x;
-    int new_y = level_position.y() + dir_y;
-    if((new_x >= 0) && (new_x < actualLevel->level.size()) && (new_y>=0) && (new_y < actualLevel->level[0].size())){
-        if(actualLevel->level[new_x][new_y]==EMPTY){
-            translate(Vector3(float(dir_x),0,float(dir_y)));
-            level_position=Math::Vector2<int>(new_x, new_y);
+void Player::move(int dirX, int dirY) {
+    int newX = levelPosition.x() + dirX;
+    int newY = levelPosition.y() + dirY;
+    if(newX >= 0 && newX < actualLevel->level.size() && newY >= 0 && newY < actualLevel->level[0].size()) {
+        if(actualLevel->level[newX][newY] == FieldType::Empty) {
+            translate(Vector3(float(dirX), 0, float(dirY)));
+            levelPosition = Math::Vector2<int>(newX, newY);
         }
     }
 }
 
 }}
+

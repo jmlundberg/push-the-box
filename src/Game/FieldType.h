@@ -1,12 +1,12 @@
-#ifndef FieldType_h
-#define FieldType_h
+#ifndef PushTheBox_Game_FieldType_h
+#define PushTheBox_Game_FieldType_h
 
 namespace PushTheBox { namespace Game {
 
-enum FieldType{
-    EMPTY, BOX
+enum class FieldType {
+    Empty, Box
 };
 
 }}
 
-#endif // FIELDTYPE_H
+#endif
