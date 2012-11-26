@@ -6,6 +6,7 @@
 #include <Shaders/PhongShader.h>
 
 #include "FieldType.h"
+#include "Box.h"
 
 namespace PushTheBox { namespace Game {
 
@@ -29,10 +30,27 @@ void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamer
 
 void Player::move(const Math::Vector2<int>& direction) {
     Math::Vector2<int> newPosition = levelPosition + direction;
-    if(newPosition >= Math::Vector2<int>() && newPosition < Math::Vector2<int>(actualLevel->level.size(), actualLevel->level[0].size())) {
-        if(actualLevel->level[newPosition.x()][newPosition.y()] == FieldType::Empty) {
+    if(newPosition >= Math::Vector2<int>() && newPosition < Math::Vector2<int>(actualLevel->width(), actualLevel->height())) {
+        if(actualLevel->value(newPosition) == FieldType::Empty || actualLevel->value(newPosition)== FieldType::Target) {
             translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
             levelPosition = newPosition;
+        }
+        else if(actualLevel->value(newPosition) == FieldType::Box) {
+            Math::Vector2<int> newBoxPosition = levelPosition + direction*2;
+            if(newBoxPosition >= Math::Vector2<int>() && newBoxPosition < Math::Vector2<int>(actualLevel->width(), actualLevel->height()))
+            {
+                if(actualLevel->value(newBoxPosition) == FieldType::Empty || actualLevel->value(newBoxPosition)== FieldType::Target) {
+
+                    Box* b = actualLevel->box(newPosition);
+                    b->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+                    b->setLevelPosition(newBoxPosition);
+
+                    translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+                    levelPosition = newPosition;
+
+                    actualLevel->moveBox(newPosition, newBoxPosition);
+                }
+            }
         }
     }
 }

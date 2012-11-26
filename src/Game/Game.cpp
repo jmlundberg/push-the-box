@@ -4,7 +4,6 @@
 #include <SceneGraph/Camera3D.h>
 #include <Shaders/PhongShader.h>
 
-#include "Box.h"
 #include "FloorTile.h"
 #include "Player.h"
 #include "WallBrick.h"
@@ -28,7 +27,7 @@ Game::Game() {
 
     /* Configure camera */
     (cameraObject = new Object3D(player))
-        ->translate({0.0f, 1.0f, 5.5f})
+        ->translate({0.0f, 1.0f, 7.5f})
         ->rotateX(deg(-35.0f));
     (camera = new SceneGraph::Camera3D<>(cameraObject))
         ->setPerspective(deg(35.0f), 0.001f, 100.0f)
@@ -62,7 +61,8 @@ void Game::viewportEvent(const Math::Vector2<GLsizei>& size) {
 void Game::drawEvent() {
     /* Shader settings commn for all objects */
     shader->setLightPosition((camera->cameraMatrix()*Point3D(1.0f, 4.0f, 1.2f)).xyz())
-          ->setAmbientColor(Color3<>::fromHSV(15.0f, 0.6f, 0.15f));
+          ->setAmbientColor(Color3<>::fromHSV(15.0f, 0.5f, 0.06f))
+          ->setSpecularColor(Color3<>::fromHSV(50.0f, 0.5f, 1.0f));
     camera->draw(drawables);
 }
 
@@ -122,41 +122,31 @@ void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
 }
 
 void Game::initializeLevel(){
-    //add corner bricks:
-    (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
-        ->translate({-1.0f, 0.0f, -1.0f});
-    (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
-        ->translate({-1.0f, 0.0f, float(actualLevel->isTarget[0].size())});
-    (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
-        ->translate({float(actualLevel->isTarget.size()), 0.0f, -1.0f});
-    (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
-        ->translate({float(actualLevel->isTarget.size()), 0.0f, float(actualLevel->isTarget[0].size())});
 
-    for(std::size_t i = 0; i < actualLevel->isTarget.size(); ++i) {
-        (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
-            ->translate({float(i), 0.0f, -1.0f});
-        (new WallBrick(Color3<GLfloat>::fromHSV(0.0f,0.2f,1.0f), &scene, &drawables))
-            ->translate({float(i), 0.0f, float(actualLevel->isTarget[i].size())});
-        for(std::size_t j = 0; j < actualLevel->isTarget[i].size(); ++j) {
-            (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
-                ->translate({-1.0f, 0.0f, float(j)});
-            (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), &scene, &drawables))
-                ->translate({actualLevel->isTarget.size(), 0.0f, float(j)});
-            if(actualLevel->isTarget[i][j]) {
-                (new FloorTile(Color3<GLfloat>::fromHSV(0.0f, 1.0f, 0.5f), &scene, &drawables))
-                    ->translate({float(i), 0.0f, float(j)});
-                continue;
-            }
-            (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), &scene, &drawables))
-                ->translate({float(i), 0.0f, float(j)});
-        }
-    }
-
-    for(std::size_t i = 0; i < actualLevel->level.size(); ++i) {
-        for(std::size_t j = 0; j < actualLevel->level[i].size(); ++j) {
-            if(actualLevel->level[i][j] == FieldType::Box) {
-                (new Box(&scene, &drawables))
-                    ->translate({float(i),  0.0f,float(j)});
+    for(std::size_t i = 0; i < actualLevel->width(); ++i) {
+        for(std::size_t j = 0; j < actualLevel->height(); ++j) {
+            switch(actualLevel->value({i,j})){
+                case(FieldType::Empty):
+                    (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), &scene, &drawables))
+                        ->translate({float(i), 0.0f, float(j)});
+                    break;
+                case(FieldType::Target):
+                    (new FloorTile(Color3<GLfloat>::fromHSV(0.0f, 1.0f, 0.5f), &scene, &drawables))
+                        ->translate({float(i), 0.0f, float(j)});
+                    break;
+                case(FieldType::Box): {
+                    (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), &scene, &drawables))
+                        ->translate({float(i), 0.0f, float(j)});
+                    Box* b = actualLevel->box({i,j});
+                    b->setParent(&scene);
+                    drawables.add(b);
+                    break;
+                } case(FieldType::Wall):
+                    (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.3f, 0.3f), &scene, &drawables))
+                        ->translate({float(i), 0.0f, float(j)});
+                    break;
+                default:
+                    break;
             }
         }
     }

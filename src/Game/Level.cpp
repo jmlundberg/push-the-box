@@ -1,5 +1,7 @@
 #include "Level.h"
 
+#include <Math/Vector2.h>
+
 using namespace std;
 
 namespace PushTheBox { namespace Game {
@@ -8,36 +10,59 @@ Level::Level(const std::string&) {
     //load levelu ze souboru podle jmena...zatim ukazkovy level na vyzkouseni...
     for(size_t i = 0; i != 5; ++i) {
         vector<FieldType> line;
-        vector<bool> lineTarget;
         for(std::size_t j = 0; j < 5; ++j) {
             line.push_back(FieldType::Empty);
-            lineTarget.push_back(false);
         }
         level.push_back(line);
-        isTarget.push_back(lineTarget);
     }
 
-    isTarget[0][0] = true;
-    isTarget[0][4] = true;
-    isTarget[4][0] = true;
-    isTarget[4][4] = true;
+    setTarget({0,0});
+    setTarget({0,4});
+    setTarget({4,0});
+    setTarget({4,4});
 
-    addBox(2,1);
-    addBox(1,2);
-    addBox(2,3);
-    addBox(3,2);
+    addBox({2,1});
+    addBox({1,2});
+    addBox({2,3});
+    addBox({3,2});
 }
 
-void Level::setTarget(std::size_t x, std::size_t y) {
-    if(x < level.size() && y < level[x].size()) {
-        isTarget[x][y] = true;
-    }
+void Level::setTarget(const Math::Vector2<int> &vector) {
+    level[vector.x()][vector.y()] = FieldType::Target;
 }
 
-void Level::addBox(std::size_t x, std::size_t y) {
-    if(x < level.size() && y < level[x].size()) {
-        level[x][y] = FieldType::Box;
+
+FieldType Level::value(const Math::Vector2<int>& vector) {
+    return level[vector.x()][vector.y()];
+}
+
+std::size_t Level::width() {
+    return level.size();
+}
+
+std::size_t Level::height() {
+    return level[0].size();
+}
+
+void Level::addBox(const Math::Vector2<int>& vector) {
+    level[vector.x()][vector.y()] = FieldType::Box;
+    Box* b = new Box(vector);
+    b->translate({float(vector.x()), 0.0f,float(vector.y())});
+    boxes.push_back(b);
+}
+
+void Level::moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to) {
+    level[from.x()][from.y()] = FieldType::Empty;
+    level[to.x()][to.y()] = FieldType::Box;
+}
+
+Box* Level::box(const Math::Vector2<int>& position) {
+    for(size_t i=0; i<boxes.size(); ++i){
+        if(boxes[i]->getPosition() == position){
+            return boxes[i];
+        }
     }
+    return nullptr;
 }
 
 }}

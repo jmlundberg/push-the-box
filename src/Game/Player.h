@@ -13,6 +13,7 @@
 
 #include "PushTheBox.h"
 #include "Level.h"
+#include "Game.h"
 
 namespace PushTheBox { namespace Game {
 

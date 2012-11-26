@@ -4,7 +4,7 @@
 namespace PushTheBox { namespace Game {
 
 enum class FieldType {
-    Empty, Box
+    Empty, Box, Wall, Nothing, Target, BoxOnTarget
 };
 
 }}

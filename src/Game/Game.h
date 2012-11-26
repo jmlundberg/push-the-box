@@ -11,8 +11,12 @@
 #include <SceneGraph/Scene.h>
 #include <Shaders/Shaders.h>
 
+#include <vector>
+
 #include "AbstractScreen.h"
 #include "Level.h"
+#include "Box.h"
+
 
 namespace PushTheBox { namespace Game {
 

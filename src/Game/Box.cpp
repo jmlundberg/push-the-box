@@ -7,9 +7,10 @@
 
 namespace PushTheBox { namespace Game {
 
-Box::Box(Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group) {
+Box::Box(const Math::Vector2<int>& position, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
+    levelPosition = position;
 }
 
 void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
@@ -19,6 +20,14 @@ void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3
           ->use();
 
     mesh->draw();
+}
+
+void Box::setLevelPosition(Math::Vector2<int>& position){
+    levelPosition = position;
+}
+
+Math::Vector2<int> Box::getPosition(){
+    return levelPosition;
 }
 
 }}
