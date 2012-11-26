@@ -10,7 +10,7 @@ namespace PushTheBox { namespace Game {
 
 class Level {
     public:
-        Level(std::string levelName);
+        Level(const std::string& name);
         void setTarget(std::size_t x, std::size_t y);
         void addBox(std::size_t x, std::size_t y);
 

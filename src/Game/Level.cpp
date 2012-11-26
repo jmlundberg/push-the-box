@@ -4,7 +4,7 @@ using namespace std;
 
 namespace PushTheBox { namespace Game {
 
-Level::Level(std::string levelName) {
+Level::Level(const std::string&) {
     //load levelu ze souboru podle jmena...zatim ukazkovy level na vyzkouseni...
     for(size_t i = 0; i != 5; ++i) {
         vector<FieldType> line;
