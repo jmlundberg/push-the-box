@@ -28,7 +28,8 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
-        void move(int dirX, int dirY);
+
+        void move(const Math::Vector2<int>& direction);
 
     private:
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;

@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include <IndexedMesh.h>
+#include <Swizzle.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
 
@@ -26,13 +27,12 @@ void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamer
     mesh->draw();
 }
 
-void Player::move(int dirX, int dirY) {
-    int newX = levelPosition.x() + dirX;
-    int newY = levelPosition.y() + dirY;
-    if(newX >= 0 && newX < actualLevel->level.size() && newY >= 0 && newY < actualLevel->level[0].size()) {
-        if(actualLevel->level[newX][newY] == FieldType::Empty) {
-            translate(Vector3(float(dirX), 0, float(dirY)));
-            levelPosition = Math::Vector2<int>(newX, newY);
+void Player::move(const Math::Vector2<int>& direction) {
+    Math::Vector2<int> newPosition = levelPosition + direction;
+    if(newPosition >= Math::Vector2<int>() && newPosition < Math::Vector2<int>(actualLevel->level.size(), actualLevel->level[0].size())) {
+        if(actualLevel->level[newPosition.x()][newPosition.y()] == FieldType::Empty) {
+            translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+            levelPosition = newPosition;
         }
     }
 }

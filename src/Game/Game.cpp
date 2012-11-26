@@ -73,18 +73,18 @@ void Game::keyPressEvent(KeyEvent& event) {
         GLfloat angle = Vector3::angle(Vector3::zAxis(), direction);
 
         if(angle < pi/6) {
-            player->move(0,-1);
+            player->move({0, -1});
         } else if(angle > pi/3 && angle < pi*2/3) {
             //move left or right
             if(direction.x() > 0) {
                 //move left(- in coordinates)
-                player->move(-1,0);
+                player->move({-1, 0});
             } else {
                 //move right(+ in coordinates)
-                player->move(1,0);
+                player->move({1, 0});
             }
         } else if(angle > pi*5/6) {
-            player->move(0,1);
+            player->move({0, 1});
         }
 
     /* Switch to menu */
