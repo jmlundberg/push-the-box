@@ -24,7 +24,7 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        Player(Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr, Level* level = new Level("shit"));
+        Player(Level* level, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
