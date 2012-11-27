@@ -14,8 +14,6 @@ class Level {
             Empty = 0, Floor, Box, Wall, Target, BoxOnTarget
         };
 
-        static Level* instance();
-
         Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables);
 
         inline Math::Vector2<int> size() const {
@@ -25,8 +23,6 @@ class Level {
         inline TileType value(const Math::Vector2<int>& position) const {
             return level[position.y()*_size.x()+position.x()];
         }
-
-        Box* box(const Math::Vector2<int>& position);
 
         void moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to);
 

@@ -31,10 +31,19 @@ Level::Level(const std::string&, Scene3D* scene, SceneGraph::DrawableGroup<3>* d
 }
 
 void Level::moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to) {
+    CORRADE_INTERNAL_ASSERT(at(from) == TileType::Box);
+
     at(from) = TileType::Floor;
     at(to) = TileType::Box;
 
-    box(from)->move(to-from);
+    for(size_t i = 0; i < boxes.size(); ++i) {
+        if(boxes[i]->position() != from) continue;
+
+        boxes[i]->move(to-from);
+        return;
+    }
+
+    CORRADE_INTERNAL_ASSERT(false);
 }
 
 void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables) {
@@ -61,15 +70,6 @@ void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scen
                 ->translate(scenePosition);
             break;
     }
-}
-
-Box* Level::box(const Math::Vector2<int>& position) {
-    for(size_t i = 0; i < boxes.size(); ++i) {
-        if(boxes[i]->position() == position) {
-            return boxes[i];
-        }
-    }
-    return nullptr;
 }
 
 }}
