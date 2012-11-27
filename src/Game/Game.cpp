@@ -4,6 +4,7 @@
 #include <SceneGraph/Camera3D.h>
 #include <Shaders/PhongShader.h>
 
+#include "Camera.h"
 #include "Player.h"
 
 namespace PushTheBox { namespace Game {
@@ -23,13 +24,10 @@ Game::Game() {
     /* Add player */
     player = new Player(level->startingPosition(), &scene, &drawables);
 
-    /* Configure camera */
-    (cameraObject = new Object3D(player))
+    /* Add camera */
+    (camera = new Camera(player))
         ->translate({0.0f, 1.0f, 7.5f})
         ->rotateX(deg(-35.0f));
-    (camera = new SceneGraph::Camera3D<>(cameraObject))
-        ->setPerspective(deg(35.0f), 0.001f, 100.0f)
-        ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 }
 
 void Game::focusEvent() {
@@ -108,11 +106,11 @@ void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
         SceneGraph::TransformationType::Local);
 
     Matrix4 xRotation = Matrix4::rotationX(rad(-Constants::pi()*event.relativePosition().y()/500.0f))*
-        cameraObject->transformation();
+        camera->transformation();
 
     /* Don't rotate under the floor */
     if(std::abs(Vector3::dot((xRotation.rotation()*Vector3::yAxis()).normalized(), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
-        cameraObject->setTransformation(xRotation);
+        camera->setTransformation(xRotation);
 
     event.setAccepted();
     redraw();

@@ -11,15 +11,13 @@
 #include <SceneGraph/Scene.h>
 #include <Shaders/Shaders.h>
 
-#include <vector>
-
 #include "AbstractScreen.h"
 #include "Level.h"
 #include "Box.h"
 
-
 namespace PushTheBox { namespace Game {
 
+class Camera;
 class Player;
 
 /** @brief %Game screen */
@@ -41,8 +39,7 @@ class Game: public AbstractScreen {
         SceneGraph::DrawableGroup<3> drawables;
 
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
-        Object3D* cameraObject;
-        SceneGraph::Camera3D<>* camera;
+        Camera* camera;
 
         Player* player;
         Level* level;
