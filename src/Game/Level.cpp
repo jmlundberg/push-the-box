@@ -139,7 +139,7 @@ void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scen
             boxes.push_back(new Box(position, scene, drawables));
             /* No break, as we need floor tile under it */
         case TileType::Floor:
-            (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), scene, drawables))
+            (new FloorTile(Color3<GLfloat>::fromHSV(60.0f, 0.1f, 0.8f), scene, drawables))
                 ->translate(scenePosition);
             break;
         case TileType::BoxOnTarget:
@@ -150,7 +150,7 @@ void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scen
                 ->translate(scenePosition);
             break;
         case TileType::Wall:
-            (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.2f, 1.0f), scene, drawables))
+            (new WallBrick(Color3<GLfloat>::fromHSV(30.0f, 0.2f, 1.0f), scene, drawables))
                 ->translate(scenePosition);
             break;
     }
