@@ -11,7 +11,17 @@ using namespace std;
 
 namespace PushTheBox { namespace Game {
 
+Level* Level::_current = nullptr;
+
+Level* Level::current() {
+    CORRADE_ASSERT(_current, "No Level instance created", nullptr);
+    return _current;
+}
+
 Level::Level(const std::string&, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables) {
+    CORRADE_ASSERT(!_current, "Only one Level instance can be created at a time", );
+    _current = this;
+
     _size = {5, 5};
 
     level.resize(_size.product(), TileType::Empty);
@@ -28,6 +38,11 @@ Level::Level(const std::string&, Scene3D* scene, SceneGraph::DrawableGroup<3>* d
     set({1, 2}, TileType::Box, scene, drawables);
     set({2, 3}, TileType::Box, scene, drawables);
     set({3, 2}, TileType::Box, scene, drawables);
+}
+
+Level::~Level() {
+    CORRADE_INTERNAL_ASSERT(_current == this);
+    _current = nullptr;
 }
 
 void Level::moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to) {

@@ -14,7 +14,10 @@ class Level {
             Empty = 0, Floor, Box, Wall, Target, BoxOnTarget
         };
 
+        static Level* current();
+
         Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables);
+        ~Level();
 
         inline Math::Vector2<int> size() const {
             return _size;
@@ -33,6 +36,8 @@ class Level {
         inline TileType& at(const Math::Vector2<int>& position) {
             return level[position.y()*_size.x()+position.x()];
         }
+
+        static Level* _current;
 
         Math::Vector2<int> _size;
         std::vector<TileType> level;
