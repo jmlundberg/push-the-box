@@ -19,7 +19,8 @@ include_directories(${MAGNUM_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
 corrade_add_resource(PushTheBox_RCS PushTheBoxData
     ../resources/push-the-box.mesh ALIAS push-the-box.mesh
     ../resources/push-the-box.conf ALIAS push-the-box.conf
-    ../levels/0.txt ALIAS levels/0.txt)
+    ../levels/0.txt ALIAS levels/0.txt
+    ../levels/1.txt ALIAS levels/1.txt)
 
 set(PushTheBox_SRCS
     Application.cpp
