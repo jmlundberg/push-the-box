@@ -126,22 +126,22 @@ void Game::initializeLevel(){
     for(int i = 0; i < actualLevel->size().x(); ++i) {
         for(int j = 0; j < actualLevel->size().y(); ++j) {
             switch(actualLevel->value({i,j})){
-                case(FieldType::Empty):
+                case(Level::TileType::Floor):
                     (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), &scene, &drawables))
                         ->translate({float(i), 0.0f, float(j)});
                     break;
-                case(FieldType::Target):
+                case(Level::TileType::Target):
                     (new FloorTile(Color3<GLfloat>::fromHSV(0.0f, 1.0f, 0.5f), &scene, &drawables))
                         ->translate({float(i), 0.0f, float(j)});
                     break;
-                case(FieldType::Box): {
+                case(Level::TileType::Box): {
                     (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), &scene, &drawables))
                         ->translate({float(i), 0.0f, float(j)});
                     Box* b = actualLevel->box({i,j});
                     b->setParent(&scene);
                     drawables.add(b);
                     break;
-                } case(FieldType::Wall):
+                } case(Level::TileType::Wall):
                     (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.3f, 0.3f), &scene, &drawables))
                         ->translate({float(i), 0.0f, float(j)});
                     break;
