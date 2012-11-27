@@ -16,29 +16,15 @@ Level::Level(const std::string&) {
         level.push_back(line);
     }
 
-    setTarget({0,0});
-    setTarget({0,4});
-    setTarget({4,0});
-    setTarget({4,4});
+    set({0, 0}, FieldType::Target);
+    set({0, 4}, FieldType::Target);
+    set({4, 0}, FieldType::Target);
+    set({4, 4}, FieldType::Target);
 
-    addBox({2,1});
-    addBox({1,2});
-    addBox({2,3});
-    addBox({3,2});
-}
-
-void Level::setTarget(const Math::Vector2<int> &vector) {
-    level[vector.x()][vector.y()] = FieldType::Target;
-}
-
-FieldType Level::value(const Math::Vector2<int>& vector) {
-    return level[vector.x()][vector.y()];
-}
-
-void Level::addBox(const Math::Vector2<int>& vector) {
-    level[vector.x()][vector.y()] = FieldType::Box;
-
-    boxes.push_back(new Box(vector));
+    set({2, 1}, FieldType::Box);
+    set({1, 2}, FieldType::Box);
+    set({2, 3}, FieldType::Box);
+    set({3, 2}, FieldType::Box);
 }
 
 void Level::moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to) {
@@ -46,6 +32,12 @@ void Level::moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to
     level[to.x()][to.y()] = FieldType::Box;
 
     box(from)->move(to-from);
+}
+
+void Level::set(const Math::Vector2<int>& position, FieldType type) {
+    level[position.x()][position.y()] = type;
+
+    if(type == FieldType::Box) boxes.push_back(new Box(position));
 }
 
 Box* Level::box(const Math::Vector2<int>& position) {

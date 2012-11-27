@@ -15,17 +15,21 @@ class Level {
         static Level* instance();
 
         Level(const std::string& name);
-        void setTarget(const Math::Vector2<int>& vector);
-        void addBox(const Math::Vector2<int>& vector);
-        void moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to);
 
         inline Math::Vector2<int> size() const {
             return {int(level.size()), int(level[0].size())};
         }
 
-        FieldType value(const Math::Vector2<int>& vector);
+        inline FieldType value(const Math::Vector2<int>& position) const {
+            return level[position.x()][position.y()];
+        }
 
         Box* box(const Math::Vector2<int>& position);
+
+        void moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to);
+
+    protected:
+        void set(const Math::Vector2<int>& position, FieldType type);
 
     private:
         std::vector<std::vector<FieldType> > level;
