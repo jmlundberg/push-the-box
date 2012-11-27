@@ -18,7 +18,7 @@ Game::Game() {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
 
     /* Create level */
-    level = new Level("0", &scene, &drawables);
+    level = new Level("1", &scene, &drawables);
 
     /* Add player */
     player = new Player(level->startingPosition(), &scene, &drawables);
