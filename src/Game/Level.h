@@ -23,6 +23,10 @@ class Level {
             return _size;
         }
 
+        inline Math::Vector2<int> startingPosition() const {
+            return _startingPosition;
+        }
+
         inline TileType value(const Math::Vector2<int>& position) const {
             return level[position.y()*_size.x()+position.x()];
         }
@@ -40,6 +44,7 @@ class Level {
         static Level* _current;
 
         Math::Vector2<int> _size;
+        Math::Vector2<int> _startingPosition;
         std::vector<TileType> level;
         std::vector<Box*> boxes;
 };
