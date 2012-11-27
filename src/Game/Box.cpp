@@ -8,11 +8,11 @@
 
 namespace PushTheBox { namespace Game {
 
-Box::Box(const Math::Vector2<int>& position, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group) {
+Box::Box(const Math::Vector2<int>& position, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), position(position) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
 
-    move(position);
+    translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
 }
 
 void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
@@ -22,11 +22,6 @@ void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3
           ->use();
 
     mesh->draw();
-}
-
-void Box::move(const Math::Vector2<int>& direction) {
-    translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
-    _position += direction;
 }
 
 }}

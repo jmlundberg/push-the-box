@@ -20,6 +20,7 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
     public:
         /**
          * @brief Constructor
+         * @param position  Initial position in level
          * @param parent    Parent object
          * @param group     Drawable group
          */

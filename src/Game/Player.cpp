@@ -37,7 +37,8 @@ void Player::move(const Math::Vector2<int>& direction) {
         return;
 
     /* Pushing box */
-    if(Level::current()->value(newPosition) == Level::TileType::Box) {
+    if(Level::current()->at(newPosition) == Level::TileType::Box ||
+       Level::current()->at(newPosition) == Level::TileType::BoxOnTarget) {
         Math::Vector2<int> newBoxPosition = position + direction*2;
 
         /* Cannot push box out of map */
@@ -45,16 +46,22 @@ void Player::move(const Math::Vector2<int>& direction) {
             return;
 
         /* The box can be pushed only on the floor */
-        if(Level::current()->value(newBoxPosition) != Level::TileType::Floor &&
-           Level::current()->value(newBoxPosition) != Level::TileType::Target)
+        if(Level::current()->at(newBoxPosition) != Level::TileType::Floor &&
+           Level::current()->at(newBoxPosition) != Level::TileType::Target)
             return;
 
         /* Move the box */
-        Level::current()->moveBox(newPosition, newBoxPosition);
+        Level::current()->at(newPosition) = Level::TileType::Floor;
+        Level::current()->at(newBoxPosition) = Level::TileType::Box;
+
+        Box* box = Level::current()->boxAt(newPosition);
+        CORRADE_INTERNAL_ASSERT(box);
+        box->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+        box->position += direction;
 
     /* Other than that we can move on the floor, but nowhere else */
-    } else if(Level::current()->value(newPosition) != Level::TileType::Floor &&
-              Level::current()->value(newPosition) != Level::TileType::Target)
+    } else if(Level::current()->at(newPosition) != Level::TileType::Floor &&
+              Level::current()->at(newPosition) != Level::TileType::Target)
         return;
 
     /* Move the player */
