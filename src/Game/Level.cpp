@@ -46,10 +46,8 @@ void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scen
         case TileType::Empty:
             break;
         case TileType::Box:
-            (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), scene, drawables))
-                ->translate(scenePosition);
             boxes.push_back(new Box(position, scene, drawables));
-            break;
+            /* No break, as we need floor tile under it */
         case TileType::Floor:
             (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), scene, drawables))
                 ->translate(scenePosition);
