@@ -31,17 +31,8 @@ void Level::setTarget(const Math::Vector2<int> &vector) {
     level[vector.x()][vector.y()] = FieldType::Target;
 }
 
-
 FieldType Level::value(const Math::Vector2<int>& vector) {
     return level[vector.x()][vector.y()];
-}
-
-std::size_t Level::width() {
-    return level.size();
-}
-
-std::size_t Level::height() {
-    return level[0].size();
 }
 
 void Level::addBox(const Math::Vector2<int>& vector) {

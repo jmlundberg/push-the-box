@@ -33,14 +33,14 @@ void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamer
 
 void Player::move(const Math::Vector2<int>& direction) {
     Math::Vector2<int> newPosition = levelPosition + direction;
-    if(newPosition >= Math::Vector2<int>() && newPosition < Math::Vector2<int>(actualLevel->width(), actualLevel->height())) {
+    if(newPosition >= Math::Vector2<int>() && newPosition < actualLevel->size()) {
         if(actualLevel->value(newPosition) == FieldType::Empty || actualLevel->value(newPosition)== FieldType::Target) {
             translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
             levelPosition = newPosition;
         }
         else if(actualLevel->value(newPosition) == FieldType::Box) {
             Math::Vector2<int> newBoxPosition = levelPosition + direction*2;
-            if(newBoxPosition >= Math::Vector2<int>() && newBoxPosition < Math::Vector2<int>(actualLevel->width(), actualLevel->height()))
+            if(newBoxPosition >= Math::Vector2<int>() && newBoxPosition < actualLevel->size())
             {
                 if(actualLevel->value(newBoxPosition) == FieldType::Empty || actualLevel->value(newBoxPosition)== FieldType::Target) {
                     translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));

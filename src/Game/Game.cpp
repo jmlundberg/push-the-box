@@ -123,8 +123,8 @@ void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
 
 void Game::initializeLevel(){
 
-    for(std::size_t i = 0; i < actualLevel->width(); ++i) {
-        for(std::size_t j = 0; j < actualLevel->height(); ++j) {
+    for(int i = 0; i < actualLevel->size().x(); ++i) {
+        for(int j = 0; j < actualLevel->size().y(); ++j) {
             switch(actualLevel->value({i,j})){
                 case(FieldType::Empty):
                     (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), &scene, &drawables))
