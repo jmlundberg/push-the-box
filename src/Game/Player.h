@@ -29,6 +29,9 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
 
+        /** @brief Reset player to original position */
+        void reset(const Math::Vector2<int>& position);
+
         void move(const Math::Vector2<int>& direction);
 
     private:

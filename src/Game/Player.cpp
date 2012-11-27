@@ -78,5 +78,10 @@ void Player::move(const Math::Vector2<int>& direction) {
     position = newPosition;
 }
 
+void Player::reset(const Math::Vector2<int>& position) {
+    this->position = position;
+    setTransformation(Matrix4::translation(Vector3::from(swizzle<'x', '0', 'y'>(position))));
+}
+
 }}
 
