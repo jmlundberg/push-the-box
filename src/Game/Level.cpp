@@ -7,14 +7,9 @@ using namespace std;
 namespace PushTheBox { namespace Game {
 
 Level::Level(const std::string&) {
-    //load levelu ze souboru podle jmena...zatim ukazkovy level na vyzkouseni...
-    for(size_t i = 0; i != 5; ++i) {
-        vector<FieldType> line;
-        for(std::size_t j = 0; j < 5; ++j) {
-            line.push_back(FieldType::Empty);
-        }
-        level.push_back(line);
-    }
+    _size = {5, 5};
+
+    level.resize(_size.product(), FieldType::Empty);
 
     set({0, 0}, FieldType::Target);
     set({0, 4}, FieldType::Target);
@@ -28,14 +23,14 @@ Level::Level(const std::string&) {
 }
 
 void Level::moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to) {
-    level[from.x()][from.y()] = FieldType::Empty;
-    level[to.x()][to.y()] = FieldType::Box;
+    at(from) = FieldType::Empty;
+    at(to) = FieldType::Box;
 
     box(from)->move(to-from);
 }
 
 void Level::set(const Math::Vector2<int>& position, FieldType type) {
-    level[position.x()][position.y()] = type;
+    at(position) = type;
 
     if(type == FieldType::Box) boxes.push_back(new Box(position));
 }

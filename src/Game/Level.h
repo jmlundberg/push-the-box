@@ -17,11 +17,11 @@ class Level {
         Level(const std::string& name);
 
         inline Math::Vector2<int> size() const {
-            return {int(level.size()), int(level[0].size())};
+            return _size;
         }
 
         inline FieldType value(const Math::Vector2<int>& position) const {
-            return level[position.x()][position.y()];
+            return level[position.y()*_size.x()+position.x()];
         }
 
         Box* box(const Math::Vector2<int>& position);
@@ -32,8 +32,13 @@ class Level {
         void set(const Math::Vector2<int>& position, FieldType type);
 
     private:
-        std::vector<std::vector<FieldType> > level;
-        std::vector<Box* > boxes;
+        inline FieldType& at(const Math::Vector2<int>& position) {
+            return level[position.y()*_size.x()+position.x()];
+        }
+
+        Math::Vector2<int> _size;
+        std::vector<FieldType> level;
+        std::vector<Box*> boxes;
 };
 
 }}
