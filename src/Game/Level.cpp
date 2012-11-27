@@ -134,7 +134,7 @@ void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scen
                 ->translate(scenePosition);
             break;
         case TileType::Wall:
-            (new WallBrick(Color3<GLfloat>::fromHSV(30.0f, 0.2f, 1.0f), scene, drawables))
+            (new WallBrick(scene, drawables))
                 ->translate(scenePosition);
             break;
     }

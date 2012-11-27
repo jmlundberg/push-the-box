@@ -20,17 +20,15 @@ class WallBrick: public Object3D, SceneGraph::Drawable<3> {
     public:
         /**
          * @brief Constructor
-         * @param color     Color of this tile
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        WallBrick(const Color3<>& color, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        WallBrick(Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
 
     private:
-        Color3<> color;
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
         Resource<Mesh> mesh;
 };
