@@ -16,15 +16,11 @@ Menu::Menu() {
     /* Configure color of menu debug shapes */
     /** @todo remove when done properly */
     auto o = new Physics::DebugDrawResourceManager::Options;
-    o->color = Color3<GLfloat>::fromHSV(150.0f, 0.2f, 0.9f);
+    o->color = Color3<GLfloat>::fromHSV(240.0f, 0.2f, 0.5f);
     debugDrawResourceManager.set<Physics::DebugDrawResourceManager::Options>("menu", o, ResourceDataState::Final, ResourcePolicy::Resident);
 
     /* Add some dummy menu items */
-    (new MenuItem(&scene, &drawables, &shapes))
-        ->translate(Vector2::yAxis(0.4f));
     (new MenuItem(&scene, &drawables, &shapes));
-    (new MenuItem(&scene, &drawables, &shapes))
-        ->translate(Vector2::yAxis(-0.4f));
 
     /** @todo fix this in magnum, so it doesn't have to be called? */
     shapes.setClean();
