@@ -63,25 +63,17 @@ void Game::drawEvent() {
 }
 
 void Game::keyPressEvent(KeyEvent& event) {
-    if(event.key() == KeyEvent::Key::Up) {
-        GLfloat pi = Math::Constants<GLfloat>::pi();
+    /* Move forward */
+    if(event.key() == KeyEvent::Key::Up || event.key() == KeyEvent::Key::W) {
         Vector3 direction = player->transformation().backward().normalized();
         GLfloat angle = Vector3::angle(Vector3::zAxis(), direction);
 
-        if(angle < pi/6) {
+        if(angle < Constants::pi()/6)
             player->move({0, -1});
-        } else if(angle > pi/3 && angle < pi*2/3) {
-            //move left or right
-            if(direction.x() > 0) {
-                //move left(- in coordinates)
-                player->move({-1, 0});
-            } else {
-                //move right(+ in coordinates)
-                player->move({1, 0});
-            }
-        } else if(angle > pi*5/6) {
+        else if(angle > Constants::pi()/3 && angle < Constants::pi()*2/3)
+            player->move({direction.x() > 0 ? -1 : 1, 0});
+        else if(angle > Constants::pi()*5/6)
             player->move({0, 1});
-        }
 
     /* Switch to menu */
     } else if(event.key() == KeyEvent::Key::Esc)
