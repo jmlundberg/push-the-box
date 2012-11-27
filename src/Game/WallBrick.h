@@ -20,10 +20,11 @@ class WallBrick: public Object3D, SceneGraph::Drawable<3> {
     public:
         /**
          * @brief Constructor
+         * @param position  Position in level
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        WallBrick(Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        WallBrick(const Math::Vector2<int>& position, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;

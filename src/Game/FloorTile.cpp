@@ -2,14 +2,17 @@
 
 #include <Math/Constants.h>
 #include <Mesh.h>
+#include <Swizzle.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
 
 namespace PushTheBox { namespace Game {
 
-FloorTile::FloorTile(Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), type(type) {
+FloorTile::FloorTile(const Math::Vector2<int>& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), type(type) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>(ResourceKey(type == Type::Floor ? "floor-mesh" : "floor-target-mesh"));
+
+    translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
 }
 
 void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {

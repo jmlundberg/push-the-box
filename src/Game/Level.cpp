@@ -3,7 +3,6 @@
 #include <sstream>
 #include <Utility/Resource.h>
 #include <Math/Vector2.h>
-#include <Swizzle.h>
 #include <SceneGraph/Scene.h>
 
 #include "FloorTile.h"
@@ -114,8 +113,6 @@ Level::~Level() {
 void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables) {
     at(position) = type;
 
-    Vector3 scenePosition = Vector3::from(swizzle<'x', '0', 'y'>(position));
-
     switch(type) {
         case TileType::Empty:
             break;
@@ -123,19 +120,16 @@ void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scen
             boxes.push_back(new Box(position, Box::Type::OnFloor, scene, drawables));
             /* No break, as we need floor tile under it */
         case TileType::Floor:
-            (new FloorTile(FloorTile::Type::Floor, scene, drawables))
-                ->translate(scenePosition);
+            new FloorTile(position, FloorTile::Type::Floor, scene, drawables);
             break;
         case TileType::BoxOnTarget:
             boxes.push_back(new Box(position, Box::Type::OnTarget, scene, drawables));
             /* No break, as we need target tile under it */
         case TileType::Target:
-            (new FloorTile(FloorTile::Type::Target, scene, drawables))
-                ->translate(scenePosition);
+            new FloorTile(position, FloorTile::Type::Target, scene, drawables);
             break;
         case TileType::Wall:
-            (new WallBrick(scene, drawables))
-                ->translate(scenePosition);
+            new WallBrick(position, scene, drawables);
             break;
     }
 }
