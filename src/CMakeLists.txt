@@ -48,4 +48,6 @@ target_link_libraries(push-the-box
     ${MAGNUM_SHADERS_LIBRARIES}
     ${APPLICATION_LIBRARY})
 
-add_subdirectory(ResourceManagement)
+if(NOT MAGNUM_TARGET_NACL)
+    add_subdirectory(ResourceManagement)
+endif()
