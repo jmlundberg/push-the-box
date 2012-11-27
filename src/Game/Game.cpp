@@ -21,7 +21,7 @@ Game::Game() {
     actualLevel = new Level("some shity level name", &scene, &drawables);
 
     /* Add player */
-    player = new Player(actualLevel, &scene, &drawables);
+    player = new Player({}, &scene, &drawables);
 
     /* Configure camera */
     (cameraObject = new Object3D(player))

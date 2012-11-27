@@ -5,18 +5,17 @@
 #include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
 
-#include "Box.h"
+#include "Level.h"
 
 namespace PushTheBox { namespace Game {
 
-Player::Player(Level *level, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group) {
+Player::Player(const Math::Vector2<int>& position, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), position(position) {
     /* Get shader and mesh buffer */
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("player-mesh");
     bodyMesh = SceneResourceManager::instance()->get<Mesh>("player-body-mesh");
 
-    actualLevel = level;
-    levelPosition = Math::Vector2<int>(0,0);
+    translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
 }
 
 void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
@@ -31,25 +30,36 @@ void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamer
 }
 
 void Player::move(const Math::Vector2<int>& direction) {
-    Math::Vector2<int> newPosition = levelPosition + direction;
-    if(newPosition >= Math::Vector2<int>() && newPosition < actualLevel->size()) {
-        if(actualLevel->value(newPosition) == Level::TileType::Floor || actualLevel->value(newPosition)== Level::TileType::Target) {
-            translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
-            levelPosition = newPosition;
-        }
-        else if(actualLevel->value(newPosition) == Level::TileType::Box) {
-            Math::Vector2<int> newBoxPosition = levelPosition + direction*2;
-            if(newBoxPosition >= Math::Vector2<int>() && newBoxPosition < actualLevel->size())
-            {
-                if(actualLevel->value(newBoxPosition) == Level::TileType::Floor || actualLevel->value(newBoxPosition)== Level::TileType::Target) {
-                    translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
-                    levelPosition = newPosition;
+    Math::Vector2<int> newPosition = position + direction;
 
-                    actualLevel->moveBox(newPosition, newBoxPosition);
-                }
-            }
-        }
-    }
+    /* Cannot move out of map */
+    if(!(newPosition >= Math::Vector2<int>() && newPosition < Level::current()->size()))
+        return;
+
+    /* Pushing box */
+    if(Level::current()->value(newPosition) == Level::TileType::Box) {
+        Math::Vector2<int> newBoxPosition = position + direction*2;
+
+        /* Cannot push box out of map */
+        if(!(newBoxPosition >= Math::Vector2<int>() && newBoxPosition < Level::current()->size()))
+            return;
+
+        /* The box can be pushed only on the floor */
+        if(Level::current()->value(newBoxPosition) != Level::TileType::Floor &&
+           Level::current()->value(newBoxPosition) != Level::TileType::Target)
+            return;
+
+        /* Move the box */
+        Level::current()->moveBox(newPosition, newBoxPosition);
+
+    /* Other than that we can move on the floor, but nowhere else */
+    } else if(Level::current()->value(newPosition) != Level::TileType::Floor &&
+              Level::current()->value(newPosition) != Level::TileType::Target)
+        return;
+
+    /* Move the player */
+    translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+    position = newPosition;
 }
 
 }}

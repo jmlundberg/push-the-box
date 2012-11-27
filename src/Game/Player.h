@@ -12,8 +12,6 @@
 #include <Shaders/Shaders.h>
 
 #include "PushTheBox.h"
-#include "Level.h"
-#include "Game.h"
 
 namespace PushTheBox { namespace Game {
 
@@ -25,7 +23,7 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        Player(Level* level, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        Player(const Math::Vector2<int>& position, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
@@ -35,8 +33,7 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
     private:
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
         Resource<Mesh> mesh, bodyMesh;
-        Level* actualLevel;
-        Math::Vector2<int> levelPosition;
+        Math::Vector2<int> position;
 };
 
 }}
