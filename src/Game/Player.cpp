@@ -43,11 +43,6 @@ void Player::move(const Math::Vector2<int>& direction) {
             if(newBoxPosition >= Math::Vector2<int>() && newBoxPosition < Math::Vector2<int>(actualLevel->width(), actualLevel->height()))
             {
                 if(actualLevel->value(newBoxPosition) == FieldType::Empty || actualLevel->value(newBoxPosition)== FieldType::Target) {
-
-                    Box* b = actualLevel->box(newPosition);
-                    b->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
-                    b->setLevelPosition(newBoxPosition);
-
                     translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
                     levelPosition = newPosition;
 

@@ -2,6 +2,7 @@
 
 #include <Buffer.h>
 #include <Mesh.h>
+#include <Swizzle.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
 
@@ -10,7 +11,8 @@ namespace PushTheBox { namespace Game {
 Box::Box(const Math::Vector2<int>& position, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
-    levelPosition = position;
+
+    move(position);
 }
 
 void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
@@ -22,12 +24,9 @@ void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3
     mesh->draw();
 }
 
-void Box::setLevelPosition(Math::Vector2<int>& position){
-    levelPosition = position;
-}
-
-Math::Vector2<int> Box::getPosition(){
-    return levelPosition;
+void Box::move(const Math::Vector2<int>& direction) {
+    translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+    _position += direction;
 }
 
 }}

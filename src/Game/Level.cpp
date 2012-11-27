@@ -46,19 +46,20 @@ std::size_t Level::height() {
 
 void Level::addBox(const Math::Vector2<int>& vector) {
     level[vector.x()][vector.y()] = FieldType::Box;
-    Box* b = new Box(vector);
-    b->translate({float(vector.x()), 0.0f,float(vector.y())});
-    boxes.push_back(b);
+
+    boxes.push_back(new Box(vector));
 }
 
 void Level::moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to) {
     level[from.x()][from.y()] = FieldType::Empty;
     level[to.x()][to.y()] = FieldType::Box;
+
+    box(from)->move(to-from);
 }
 
 Box* Level::box(const Math::Vector2<int>& position) {
-    for(size_t i=0; i<boxes.size(); ++i){
-        if(boxes[i]->getPosition() == position){
+    for(size_t i = 0; i < boxes.size(); ++i) {
+        if(boxes[i]->position() == position) {
             return boxes[i];
         }
     }
