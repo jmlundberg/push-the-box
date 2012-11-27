@@ -19,7 +19,7 @@ Level* Level::current() {
     return _current;
 }
 
-Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables) {
+Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables), _name(name) {
     CORRADE_ASSERT(!_current, "Only one Level instance can be created at a time", );
     _current = this;
 

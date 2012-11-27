@@ -22,6 +22,10 @@ class Level {
         Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables);
         ~Level();
 
+        inline std::string name() const {
+            return _name;
+        }
+
         inline Math::Vector2<int> size() const {
             return _size;
         }
@@ -41,6 +45,7 @@ class Level {
 
         static Level* _current;
 
+        std::string _name;
         Math::Vector2<int> _size;
         Math::Vector2<int> _startingPosition;
         std::vector<TileType> level;
