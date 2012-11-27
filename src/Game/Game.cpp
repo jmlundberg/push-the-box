@@ -17,11 +17,11 @@ Game::Game() {
         new Shaders::PhongShader, ResourceDataState::Final, ResourcePolicy::Resident);
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
 
-    /* Add level */
-    actualLevel = new Level("some shity level name", &scene, &drawables);
+    /* Create level */
+    level = new Level("0", &scene, &drawables);
 
     /* Add player */
-    player = new Player(actualLevel->startingPosition(), &scene, &drawables);
+    player = new Player(level->startingPosition(), &scene, &drawables);
 
     /* Configure camera */
     (cameraObject = new Object3D(player))

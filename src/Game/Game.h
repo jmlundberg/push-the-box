@@ -45,7 +45,7 @@ class Game: public AbstractScreen {
         SceneGraph::Camera3D<>* camera;
 
         Player* player;
-        Level* actualLevel;
+        Level* level;
 };
 
 }}
