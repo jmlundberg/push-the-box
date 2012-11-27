@@ -7,15 +7,16 @@
 
 namespace PushTheBox { namespace Game {
 
-FloorTile::FloorTile(const Color3<>& color, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), color(color) {
+FloorTile::FloorTile(Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), type(type) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
-    mesh = SceneResourceManager::instance()->get<Mesh>("floor-mesh");
+    mesh = SceneResourceManager::instance()->get<Mesh>(ResourceKey(type == Type::Floor ? "floor-mesh" : "floor-target-mesh"));
 }
 
 void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
     shader->setTransformationMatrix(transformationMatrix)
           ->setProjectionMatrix(camera->projectionMatrix())
-          ->setDiffuseColor(color)
+          ->setDiffuseColor(type == Type::Floor ? Color3<>::fromHSV(60.0f, 0.1f, 0.8f) :
+                                                  Color3<>::fromHSV(120.0f, 1.0f, 0.6f))
           ->use();
 
     mesh->draw();
