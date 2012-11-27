@@ -1,5 +1,7 @@
 #include "Level.h"
 
+#include <sstream>
+#include <Utility/Resource.h>
 #include <Math/Vector2.h>
 #include <Swizzle.h>
 #include <SceneGraph/Scene.h>
@@ -18,26 +20,90 @@ Level* Level::current() {
     return _current;
 }
 
-Level::Level(const std::string&, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables) {
+Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables) {
     CORRADE_ASSERT(!_current, "Only one Level instance can be created at a time", );
     _current = this;
 
-    _size = {5, 5};
+    /* Get level data */
+    Corrade::Utility::Resource rs("PushTheBoxData");
+    std::istringstream in(rs.get("levels/" + name + ".txt"));
 
+    /* Level size on first line */
+    in >> _size.x() >> _size.y();
     level.resize(_size.product(), TileType::Empty);
+    CORRADE_ASSERT(_size > Math::Vector2<int>(3, 3), "Level" << name << "is too small:" << _size, );
+    CORRADE_INTERNAL_ASSERT(in.peek() == '\n');
+    in.ignore();
 
-    set({0, 1}, TileType::Floor, scene, drawables);
-    set({0, 2}, TileType::Wall, scene, drawables);
+    /* Sanity checks */
+    size_t boxCount = 0;
+    size_t targetCount = 0;
 
-    set({0, 0}, TileType::Target, scene, drawables);
-    set({0, 4}, TileType::Target, scene, drawables);
-    set({4, 0}, TileType::Target, scene, drawables);
-    set({4, 4}, TileType::Target, scene, drawables);
+    /* Parse the file */
+    _startingPosition = {-1, -1};
+    Math::Vector2<int> position;
+    while(in.peek() > 0) {
+        TileType type = {};
+        switch(in.peek()) {
+            /* Empty, already marked */
+            case ' ': break;
 
-    set({2, 1}, TileType::Box, scene, drawables);
-    set({1, 2}, TileType::Box, scene, drawables);
-    set({2, 3}, TileType::Box, scene, drawables);
-    set({3, 2}, TileType::Box, scene, drawables);
+            /* Wall */
+            case '#': type = TileType::Wall; break;
+
+            /* Starting position */
+            case '@':
+                CORRADE_ASSERT(_startingPosition == Math::Vector2<int>(-1, -1), "Multiple starting positions in level" << name, );
+                _startingPosition = position;
+                /* No break, as we need to mark it as floor */
+
+            /* Floor */
+            case '_': type = TileType::Floor; break;
+
+            /* Box */
+            case '$':
+                type = TileType::Box;
+                ++boxCount;
+                break;
+
+            /* Starting position on target */
+            case '+':
+                CORRADE_ASSERT(_startingPosition == Math::Vector2<int>(-1, -1), "Multiple starting positions in level" << name, );
+                _startingPosition = position;
+                /* No break, as we need to mark it as target */
+
+            /* Target */
+            case '.':
+                type = TileType::Target;
+                ++targetCount;
+                break;
+
+            /* Box on target */
+            case '*':
+                type = TileType::BoxOnTarget;
+                ++boxCount;
+                ++targetCount;
+                break;
+
+            /* New line */
+            case '\n':
+                in.ignore();
+                position.x() = 0;
+                ++position.y();
+                continue;
+
+            default:
+                CORRADE_ASSERT(false, "Unknown character" << in.peek() << "in file of level" << name << "at position" << position, );
+        }
+
+        in.ignore();
+        set(position, type, scene, drawables);
+        ++position.x();
+    }
+
+    /* Sanity checks */
+    CORRADE_ASSERT(_startingPosition != Math::Vector2<int>(-1, -1), "Level" << name << "has no starting position", );
+    CORRADE_ASSERT(boxCount == targetCount, "Level" << name << "has" << boxCount << "boxes, but" << targetCount << "targets", );
 }
 
 Level::~Level() {
