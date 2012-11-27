@@ -5,7 +5,7 @@ is to **push** all the boxes to their destination places.
 
 ![Screenshot](https://github.com/nuclearwhales/push-the-box/raw/master/screenshot.png)
 
-**Playable version is available on http://mosra.cz/push-the-box/ **. Please be
+**Playable version is available** on http://mosra.cz/push-the-box/ . Please be
 patient, it will took a while before it loads -- the dependency libraries have
 ~25 MB in total and the server isn't particularly fast. If you encounter any
 problems, please let us know :-)
@@ -50,7 +50,7 @@ compile and run it on your own. You need these things:
 
  - [Native Client SDK](https://developers.google.com/native-client/beta/sdk/download).
    Version used here is `pepper_22`, i.e. unzip it and run `./naclsdk update pepper_22`.
- - CMake 2.8.8 or newer
+ - [CMake](http://www.cmake.org) 2.8.8 or newer
  - [Corrade](https://github.com/mosra/corrade) and
    [Magnum](https://github.com/mosra/magnum) libraries compiled for NaCl. You
    can get the binaries [here](https://github.com/downloads/mosra/corrade/corrade-nacl-20121127-0564739.zip)
@@ -59,8 +59,8 @@ compile and run it on your own. You need these things:
    your NaCl SDK, e.g. `/home/johndoe/nacl_sdk/pepper_22`.
  - Corrade compiled for your system (needed for resource compiler). You can
    either compile it manually from https://github.com/mosra/corrade or use
-   (outdated, but should be sufficient) packages from
-   [here](http://mosra.cz/blog/corrade.php).
+   packages from [here](http://mosra.cz/blog/corrade.php) (outdated, but
+   should be sufficient).
 
 Get the toolchains submodule, if you don't have it already:
 
