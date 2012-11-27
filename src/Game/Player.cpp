@@ -51,13 +51,22 @@ void Player::move(const Math::Vector2<int>& direction) {
             return;
 
         /* Move the box */
-        Level::current()->at(newPosition) = Level::TileType::Floor;
-        Level::current()->at(newBoxPosition) = Level::TileType::Box;
-
         Box* box = Level::current()->boxAt(newPosition);
         CORRADE_INTERNAL_ASSERT(box);
         box->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
         box->position += direction;
+
+        if(Level::current()->at(newPosition) == Level::TileType::BoxOnTarget)
+            Level::current()->at(newPosition) = Level::TileType::Target;
+        else Level::current()->at(newPosition) = Level::TileType::Floor;
+
+        if(Level::current()->at(newBoxPosition) == Level::TileType::Target)  {
+            Level::current()->at(newBoxPosition) = Level::TileType::BoxOnTarget;
+            box->type = Box::Type::OnTarget;
+        } else {
+            Level::current()->at(newBoxPosition) = Level::TileType::Box;
+            box->type = Box::Type::OnFloor;
+        }
 
     /* Other than that we can move on the floor, but nowhere else */
     } else if(Level::current()->at(newPosition) != Level::TileType::Floor &&

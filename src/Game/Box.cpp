@@ -8,7 +8,7 @@
 
 namespace PushTheBox { namespace Game {
 
-Box::Box(const Math::Vector2<int>& position, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), position(position) {
+Box::Box(const Math::Vector2<int>& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), position(position), type(type) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
 
@@ -18,7 +18,8 @@ Box::Box(const Math::Vector2<int>& position, Object3D* parent, SceneGraph::Drawa
 void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
     shader->setTransformationMatrix(transformationMatrix)
           ->setProjectionMatrix(camera->projectionMatrix())
-          ->setDiffuseColor(Color3<>::fromHSV(0.0f, 1.0f, 0.6f))
+          ->setDiffuseColor(type == Type::OnFloor ? Color3<>::fromHSV(0.0f, 1.0f, 0.6f) :
+                                                    Color3<>::fromHSV(120.0f, 1.0f, 0.6f))
           ->use();
 
     mesh->draw();

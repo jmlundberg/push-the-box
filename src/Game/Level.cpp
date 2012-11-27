@@ -120,14 +120,14 @@ void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scen
         case TileType::Empty:
             break;
         case TileType::Box:
-            boxes.push_back(new Box(position, scene, drawables));
+            boxes.push_back(new Box(position, Box::Type::OnFloor, scene, drawables));
             /* No break, as we need floor tile under it */
         case TileType::Floor:
             (new FloorTile(FloorTile::Type::Floor, scene, drawables))
                 ->translate(scenePosition);
             break;
         case TileType::BoxOnTarget:
-            boxes.push_back(new Box(position, scene, drawables));
+            boxes.push_back(new Box(position, Box::Type::OnTarget, scene, drawables));
             /* No break, as we need target tile under it */
         case TileType::Target:
             (new FloorTile(FloorTile::Type::Target, scene, drawables))
