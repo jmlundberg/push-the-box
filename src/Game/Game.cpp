@@ -75,6 +75,15 @@ void Game::keyPressEvent(KeyEvent& event) {
         else if(angle > Constants::pi()*5/6)
             player->move({0, 1});
 
+    /* Restart level */
+    } else if(event.key() == KeyEvent::Key::R) {
+        std::string name = level->name();
+
+        /* Recreate level and reset player */
+        delete level;
+        level = new Level(name, &scene, &drawables);
+        player->reset(level->startingPosition());
+
     /* Switch to menu */
     } else if(event.key() == KeyEvent::Key::Esc)
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
