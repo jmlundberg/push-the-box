@@ -5,7 +5,7 @@ is to **push** all the boxes to their destination places.
 
 ![Screenshot](https://github.com/nuclearwhales/push-the-box/raw/master/screenshot.png)
 
-Playable version is available on http://mosra.cz/push-the-box/ . Please be
+**Playable version is available on http://mosra.cz/push-the-box/ **. Please be
 patient, it will took a while before it loads -- the dependency libraries have
 ~25 MB in total and the server isn't particularly fast. If you encounter any
 problems, please let us know :-)
