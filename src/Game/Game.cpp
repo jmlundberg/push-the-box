@@ -4,9 +4,7 @@
 #include <SceneGraph/Camera3D.h>
 #include <Shaders/PhongShader.h>
 
-#include "FloorTile.h"
 #include "Player.h"
-#include "WallBrick.h"
 
 namespace PushTheBox { namespace Game {
 
@@ -20,7 +18,7 @@ Game::Game() {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
 
     /* Add level */
-    actualLevel = new Level("some shity level name");
+    actualLevel = new Level("some shity level name", &scene, &drawables);
 
     /* Add player */
     player = new Player(actualLevel, &scene, &drawables);
@@ -32,8 +30,6 @@ Game::Game() {
     (camera = new SceneGraph::Camera3D<>(cameraObject))
         ->setPerspective(deg(35.0f), 0.001f, 100.0f)
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
-
-    initializeLevel();
 }
 
 void Game::focusEvent() {
@@ -119,37 +115,6 @@ void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
 
     event.setAccepted();
     redraw();
-}
-
-void Game::initializeLevel(){
-
-    for(int i = 0; i < actualLevel->size().x(); ++i) {
-        for(int j = 0; j < actualLevel->size().y(); ++j) {
-            switch(actualLevel->value({i,j})){
-                case(Level::TileType::Floor):
-                    (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), &scene, &drawables))
-                        ->translate({float(i), 0.0f, float(j)});
-                    break;
-                case(Level::TileType::Target):
-                    (new FloorTile(Color3<GLfloat>::fromHSV(0.0f, 1.0f, 0.5f), &scene, &drawables))
-                        ->translate({float(i), 0.0f, float(j)});
-                    break;
-                case(Level::TileType::Box): {
-                    (new FloorTile(Color3<GLfloat>::fromHSV(0.0f,0.1f,0.3f), &scene, &drawables))
-                        ->translate({float(i), 0.0f, float(j)});
-                    Box* b = actualLevel->box({i,j});
-                    b->setParent(&scene);
-                    drawables.add(b);
-                    break;
-                } case(Level::TileType::Wall):
-                    (new WallBrick(Color3<GLfloat>::fromHSV(0.0f, 0.3f, 0.3f), &scene, &drawables))
-                        ->translate({float(i), 0.0f, float(j)});
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
 }
 
 }}

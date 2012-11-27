@@ -16,7 +16,7 @@ class Level {
 
         static Level* instance();
 
-        Level(const std::string& name);
+        Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables);
 
         inline Math::Vector2<int> size() const {
             return _size;
@@ -31,7 +31,7 @@ class Level {
         void moveBox(const Math::Vector2<int>& from, const Math::Vector2<int>& to);
 
     protected:
-        void set(const Math::Vector2<int>& position, TileType type);
+        void set(const Math::Vector2<int>& position, TileType type, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables);
 
     private:
         inline TileType& at(const Math::Vector2<int>& position) {

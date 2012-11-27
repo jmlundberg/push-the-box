@@ -35,7 +35,6 @@ class Game: public AbstractScreen {
         void keyPressEvent(KeyEvent& event) override;
         void mousePressEvent(MouseEvent& event) override;
         void mouseMoveEvent(MouseMoveEvent& event) override;
-        void initializeLevel();
 
     private:
         Scene3D scene;
