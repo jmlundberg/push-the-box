@@ -9,7 +9,7 @@
 
 namespace PushTheBox { namespace Game {
 
-class Level {
+class Level: public Object3D {
     friend class Player;
 
     public:
@@ -35,7 +35,7 @@ class Level {
         }
 
     private:
-        void set(const Math::Vector2<int>& position, TileType type, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables);
+        void set(const Math::Vector2<int>& position, TileType type, SceneGraph::DrawableGroup<3>* drawables);
 
         inline TileType& at(const Math::Vector2<int>& position) {
             return level[position.y()*_size.x()+position.x()];

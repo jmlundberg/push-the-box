@@ -19,7 +19,7 @@ Level* Level::current() {
     return _current;
 }
 
-Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables), _name(name) {
+Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables): Object3D(scene), _name(name) {
     CORRADE_ASSERT(!_current, "Only one Level instance can be created at a time", );
     _current = this;
 
@@ -96,7 +96,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
         }
 
         in.ignore();
-        set(position, type, scene, drawables);
+        set(position, type, drawables);
         ++position.x();
     }
 
@@ -110,26 +110,26 @@ Level::~Level() {
     _current = nullptr;
 }
 
-void Level::set(const Math::Vector2<int>& position, TileType type, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables) {
+void Level::set(const Math::Vector2<int>& position, TileType type, SceneGraph::DrawableGroup<3>* drawables) {
     at(position) = type;
 
     switch(type) {
         case TileType::Empty:
             break;
         case TileType::Box:
-            boxes.push_back(new Box(position, Box::Type::OnFloor, scene, drawables));
+            boxes.push_back(new Box(position, Box::Type::OnFloor, this, drawables));
             /* No break, as we need floor tile under it */
         case TileType::Floor:
-            new FloorTile(position, FloorTile::Type::Floor, scene, drawables);
+            new FloorTile(position, FloorTile::Type::Floor, this, drawables);
             break;
         case TileType::BoxOnTarget:
-            boxes.push_back(new Box(position, Box::Type::OnTarget, scene, drawables));
+            boxes.push_back(new Box(position, Box::Type::OnTarget, this, drawables));
             /* No break, as we need target tile under it */
         case TileType::Target:
-            new FloorTile(position, FloorTile::Type::Target, scene, drawables);
+            new FloorTile(position, FloorTile::Type::Target, this, drawables);
             break;
         case TileType::Wall:
-            new WallBrick(position, scene, drawables);
+            new WallBrick(position, this, drawables);
             break;
     }
 }
