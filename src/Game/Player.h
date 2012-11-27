@@ -34,7 +34,7 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
 
     private:
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
-        Resource<Mesh> mesh;
+        Resource<Mesh> mesh, bodyMesh;
         Level* actualLevel;
         Math::Vector2<int> levelPosition;
 };
