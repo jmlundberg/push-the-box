@@ -1,64 +1,92 @@
-Here at GitHub, we're no strangers to hosting or sponsoring hackathons. With the growing number of games and game development resources on GitHub, we thought it was about time to throw our very own game jam!
+Simple 3D reincarnation of Sokoban running in
+[Google Chrome Native Client](https://developers.google.com/native-client/)
+on top of [Magnum](https://github.com/mosra/magnum) OpenGL engine. Your target
+is to **push** all the boxes to their destination places.
 
-## The Challenge
+![Screenshot](https://github.com/nuclearwhales/push-the-box/raw/master/screenshot.png)
 
-You have the entire month of November to create a **web-based** game *loosely* built around one or more of the following themes:
+Playable version is available on http://mosra.cz/push-the-box/ . Please be
+patient, it will took a while before it loads -- the dependency libraries have
+~25 MB in total and the server isn't particularly fast. If you encounter any
+problems, please let us know :-)
 
-* forking (or forks)
-* branching (or branches)
-* cloning (or clones)
-* pushing
-* pulling
+Browser requirements
+--------------------
 
-What do we mean by **loosely** based on these concepts? We literally mean, *loosely* based. Some examples might be a FPS where you throw forks at water balloons, an educational game about DNA cloning, or perhaps a platformer where you push and pull objects.
+You need Google Chrome 22 or higher with working Native Client and OpenGL.
+Native Client is disabled by default and only apps from Chrome Web Store are
+allowed to run. This can be solved either by enabling Native Client in
+[chrome://flags](chrome://flags) or running chrome from terminal with
+`--enable-nacl` option.
 
-Your game. Your rules. You can participate as an individual or as a team. You're encouraged to use open source libraries, frameworks, graphics, and sounds.
+You can check that OpenGL is working on this [native client example](http://gonativeclient.appspot.com/dev/demos/sdk_examples/fullscreen_tumbler/fullscreen_tumbler.html).
+It should display a cube which can be rotated using mouse. Some GPUs are
+blacklisted, you can try to bypass it with `--disable-gpu-blacklist` option.
 
-## Prizes
+How to play
+-----------
 
-We have 5 shiny new iPads with Retina displays (64GB wifi models) to give to our winners (or Apple Store Credit equivalent). Runners up will receive GitHub swag of their choice ($100 credit for the [GitHub Shop](http://shop.github.com/)). If you have a team submission, we'll give you Apple Store credit equal to the value of the iPad. You can split it with your teammates as appropriate.
+Click on the image and the game will start in fullscreen. Clicking again will
+pause the game and leave the fullscreen. Use your **mouse to look around**
+and press **up arrow** or **W key** to move forward or push any box. If you
+screw something up, you can restart the level with **R key**. When you
+successfully complete the level, next level will be loaded (if there is any).
 
-All of the winners and runners up will be showcased on our blog.
+Why there is no...
+------------------
 
-<img src="http://i.imgur.com/lxZrD.png" style="border:0;">
+ - menu? highscore? HUD? help text?
+ - no intuitive controls? effects? sound?
 
-### Everyone's a winner!
+Well... we ran out of time :-) The most time-consuming task was porting of the
+engine to NaCl. However, the game is still work in progress, so be sure to
+check for updates!
 
-All participants will receive a limited edition [Coderwall](http://www.coderwall.com) badge as shown above. Winners and runners up will also get their own special version of it.
+Compiling and running the game
+------------------------------
 
-## Judging
+You can play the game online on the link provided above, but you can also
+compile and run it on your own. You need these things:
 
-We have a number of awesome judges who graciously volunteered to take a look at all the entries!
+ - [Native Client SDK](https://developers.google.com/native-client/beta/sdk/download).
+   Version used here is `pepper_22`, i.e. unzip it and run `./naclsdk update pepper_22`.
+ - CMake 2.8.8 or newer
+ - [Corrade](https://github.com/mosra/corrade) and
+   [Magnum](https://github.com/mosra/magnum) libraries compiled for NaCl. You
+   can get the binaries [here](https://github.com/downloads/mosra/corrade/corrade-nacl-20121127-0564739.zip)
+   and [here](https://github.com/downloads/mosra/magnum/magnum-nacl-20121127-b219552.zip).
+   Unzip them and put the files in root of
+   your NaCl SDK, e.g. `/home/johndoe/nacl_sdk/pepper_22`.
+ - Corrade compiled for your system (needed for resource compiler). You can
+   either compile it manually from https://github.com/mosra/corrade or use
+   (outdated, but should be sufficient) packages from
+   [here](http://mosra.cz/blog/corrade.php).
 
-* [David Czarnecki](http://twitter.com/CzarneckiD), Lead Engineer at Agora Games
-* [Eric Preisz](https://twitter.com/epreisz), CEO of GarageGames
-* [Matt Hackett](https://twitter.com/#!/richtaur), Co-founder of Lost Decade Games
-* [Lee Reilly](http://twitter.com/leereilly), Gamer Dad and Software Developer at GitHub
-* [Romana Ramzan](https://twitter.com/Manak/), Denki's Player Champion. PhD Researcher. Organiser of Scottish Game Jam.
+Get the toolchains submodule, if you don't have it already:
 
-## Rules
+    cd /path/to/push-the-box
+    git submodule init
+    git sumbodule update
 
-* To qualify for entry as an **individual** you must fork the [github/game-off-2012](https://github.com/github/game-off-2012) repository to your individual account
-* To qualify for entry as a **team** you must fork the [github/game-off-2012](https://github.com/github/game-off-2012) to a [free organization account](https://github.com/settings/organizations)
-* All entries must be web-based i.e. playable in a browser. HTML5, WebGL, Unity, Torque 3D, Node JS, Flash is all possible - just be sure the source is made available on your fork.
-* You must be over the age of 13
+Don't forget to adapt `NACL_PREFIX` variable in `generic/NaCl-glibc-x86-32.cmake`
+and `generic/NaCl-glibc-x86-64.cmake` to path where your SDK is installed,
+e.g. `/home/johndoe/nacl_sdk/pepper_22`. You may need to adapt also
+`NACL_TOOLCHAIN_PATH` so CMake is able to find the compiler.
 
-## Instructions
+Next create build directory for desired architecture (e.g. x86-64) and run
+CMake. The toolchains needs access to its platform file, so be sure to
+properly set absolute `CMAKE_MODULE_PATH` to `toolchains/modules/` directory
+containing `Platform/NaCl.cmake`.
 
-* If you don't already have a GitHub account, [sign up now](https://github.com/signup/free) - it's free!
-* Fork the [github/game-off-2012](https://github.com/github/game-off-2012) repository to your individual account (or to a free organization account)
-* Be sure to follow @github on Twitter for updates
-* Make sure your code is pushed to the master branch of before Dec 1st!
-* Make sure you have a README file with a brief description, what open source projects (if any) you used, and a screenshot.
-* Your repo should have a brief description and a URL where the game is playable entered into the fields shown below (this will make our judging process easier):
+    mkdir -p build-nacl-x86-64
+    cd build-nacl-x86-64
+    cmake .. \
+        -DCMAKE_MODULE_PATH="/path/to/push-the-box/toolchains/modules" \
+        -DCMAKE_TOOLCHAIN_FILE="../toolchains/generic/NaCl-glibc-x86-64.cmake" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/path/to/webserver/directory
+    make
 
-![](https://img.skitch.com/20121010-x2ecpu95fi91us6hbfehg2dgit.png)
-
-Winners will be announced before Christmas :santa:
-
-# Comments / Questions / Help
-
-* New to Git, GitHub, and/or version control? Check out our [help documentation](https://help.github.com/) to get started!
-* Questions about Git/GitHub? Please email support@github.com and be sure to include 'GitHub Game Off' in the subject.
-* Questions specific to the GitHub Game Off? Please [create an issue](https://github.com/github/game-off-2012/issues/new). That will be the offical FAQ.
-* The official Twitter hashtag is [#ggo12](https://twitter.com/search/realtime?q=%23ggo12).
+If you specified `CMAKE_INSTALL_PREFIX`, running `make install` will install
+the game with all additional files and libraries to given directory in your
+webserver and you can now run it from Chrome. Enjoy :-)
