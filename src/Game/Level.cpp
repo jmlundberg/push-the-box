@@ -39,8 +39,8 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     in.ignore();
 
     /* Next level name on second line */
-    getline(in, _nextName);
-    if(_nextName.back()=='\r')
+    std::getline(in, _nextName);
+    if(_nextName[_nextName.size()-1] == '\r')
         _nextName = _nextName.substr(0, _nextName.size()-1);
     in.ignore();
 
