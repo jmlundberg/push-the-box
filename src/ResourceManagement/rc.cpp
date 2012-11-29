@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     }
 
     ResourceManagement::ResourceCompiler c(argv[1]);
-    Configuration conf(argv[2], Configuration::Truncate);
+    Configuration conf(argv[2], Configuration::Flag::Truncate);
     std::ofstream out(argv[3]);
 
     c.compileMeshes(&conf, out);

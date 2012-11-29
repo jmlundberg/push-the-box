@@ -17,7 +17,7 @@ MeshResourceLoader::MeshResourceLoader() {
     /** @todo Configuration directly from string, data as raw pointer */
     Corrade::Utility::Resource rs("PushTheBoxData");
     std::istringstream in(rs.get("push-the-box.conf"));
-    conf = new Configuration(in, Configuration::ReadOnly);
+    conf = new Configuration(in, Configuration::Flag::ReadOnly);
     data = rs.get("push-the-box.mesh");
 
     /* Fill name map */
