@@ -31,6 +31,10 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     in >> _size.x() >> _size.y();
     level.resize(_size.product(), TileType::Empty);
     CORRADE_ASSERT(_size > Math::Vector2<int>(3, 3), "Level" << name << "is too small:" << _size, );
+
+    if(in.peek() == '\r')
+        in.ignore();
+
     CORRADE_INTERNAL_ASSERT(in.peek() == '\n');
     in.ignore();
 
@@ -83,6 +87,11 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
                 ++boxCount;
                 ++targetCount;
                 break;
+
+            case '\r':
+                in.ignore();
+                CORRADE_INTERNAL_ASSERT(in.peek() == '\n');
+                /*no break*/
 
             /* New line */
             case '\n':
