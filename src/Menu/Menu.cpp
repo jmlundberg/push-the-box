@@ -1,6 +1,7 @@
 #include "Menu.h"
 
 #include <SceneGraph/Camera2D.h>
+#include <Framebuffer.h>
 
 #include "MenuItem.h"
 
@@ -39,7 +40,9 @@ void Menu::viewportEvent(const Math::Vector2<GLsizei>& size) {
 }
 
 void Menu::drawEvent() {
+    Framebuffer::setFeature(Framebuffer::Feature::DepthTest, false);
     camera->draw(drawables);
+    Framebuffer::setFeature(Framebuffer::Feature::DepthTest, true);
 }
 
 void Menu::mousePressEvent(MouseEvent& event) {
