@@ -55,7 +55,7 @@ endif()
 
 # Installation for NaCl
 if(MAGNUM_TARGET_NACL)
-    install(FILES push-the-box.html push-the-box.nmf DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(FILES index.html push-the-box.nmf DESTINATION ${CMAKE_INSTALL_PREFIX})
     install(TARGETS push-the-box DESTINATION ${CMAKE_INSTALL_PREFIX})
 
     include(NaClMacros)
