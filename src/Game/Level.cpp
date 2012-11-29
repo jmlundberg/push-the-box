@@ -31,12 +31,24 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     in >> _size.x() >> _size.y();
     level.resize(_size.product(), TileType::Empty);
     CORRADE_ASSERT(_size > Math::Vector2<int>(3, 3), "Level" << name << "is too small:" << _size, );
+
+    if(in.peek() == '\r')
+        in.ignore();
+
     CORRADE_INTERNAL_ASSERT(in.peek() == '\n');
+    in.ignore();
+
+    /* Next level name on second line */
+    getline(in, _nextName);
+    if(_nextName.back()=='\r')
+        _nextName = _nextName.substr(0, _nextName.size()-1);
     in.ignore();
 
     /* Sanity checks */
     size_t boxCount = 0;
     size_t targetCount = 0;
+
+    targetsRemain = 0;
 
     /* Parse the file */
     _startingPosition = {-1, -1};
@@ -75,6 +87,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
             case '.':
                 type = TileType::Target;
                 ++targetCount;
+                ++targetsRemain;
                 break;
 
             /* Box on target */
@@ -83,6 +96,11 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
                 ++boxCount;
                 ++targetCount;
                 break;
+
+            case '\r':
+                in.ignore();
+                CORRADE_INTERNAL_ASSERT(in.peek() == '\n');
+                /*no break*/
 
             /* New line */
             case '\n':

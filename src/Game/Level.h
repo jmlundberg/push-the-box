@@ -26,6 +26,10 @@ class Level: public Object3D {
             return _name;
         }
 
+        inline std::string nextLevel() const {
+            return _nextName;
+        }
+
         inline Math::Vector2<int> size() const {
             return _size;
         }
@@ -33,6 +37,8 @@ class Level: public Object3D {
         inline Math::Vector2<int> startingPosition() const {
             return _startingPosition;
         }
+
+        std::size_t targetsRemain;
 
     private:
         void set(const Math::Vector2<int>& position, TileType type, SceneGraph::DrawableGroup<3>* drawables);
@@ -46,6 +52,7 @@ class Level: public Object3D {
         static Level* _current;
 
         std::string _name;
+        std::string _nextName;
         Math::Vector2<int> _size;
         Math::Vector2<int> _startingPosition;
         std::vector<TileType> level;

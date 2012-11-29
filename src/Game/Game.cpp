@@ -19,7 +19,7 @@ Game::Game() {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
 
     /* Create level */
-    level = new Level("1", &scene, &drawables);
+    level = new Level("0", &scene, &drawables);
 
     /* Add player */
     player = new Player(level->startingPosition(), &scene, &drawables);
@@ -72,6 +72,16 @@ void Game::keyPressEvent(KeyEvent& event) {
             player->move({direction.x() > 0 ? -1 : 1, 0});
         else if(angle > Constants::pi()*5/6)
             player->move({0, 1});
+
+        if(level->targetsRemain==0){
+            /*save next level name*/
+            std::string nextName = level->nextLevel();
+
+            /*Loads new level and reset player*/
+            delete level;
+            level = new Level(nextName, &scene, &drawables);
+            player->reset(level->startingPosition());
+        }
 
     /* Restart level */
     } else if(event.key() == KeyEvent::Key::R) {

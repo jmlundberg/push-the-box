@@ -56,12 +56,15 @@ void Player::move(const Math::Vector2<int>& direction) {
         box->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
         box->position += direction;
 
-        if(Level::current()->at(newPosition) == Level::TileType::BoxOnTarget)
+        if(Level::current()->at(newPosition) == Level::TileType::BoxOnTarget){
             Level::current()->at(newPosition) = Level::TileType::Target;
+            ++Level::current()->targetsRemain;
+        }
         else Level::current()->at(newPosition) = Level::TileType::Floor;
 
         if(Level::current()->at(newBoxPosition) == Level::TileType::Target)  {
             Level::current()->at(newBoxPosition) = Level::TileType::BoxOnTarget;
+            --Level::current()->targetsRemain;
             box->type = Box::Type::OnTarget;
         } else {
             Level::current()->at(newBoxPosition) = Level::TileType::Box;
