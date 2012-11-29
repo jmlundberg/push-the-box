@@ -38,9 +38,17 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     CORRADE_INTERNAL_ASSERT(in.peek() == '\n');
     in.ignore();
 
+    /* Next level name on second line */
+    getline(in, _nextName);
+    if(_nextName.back()=='\r')
+        _nextName = _nextName.substr(0, _nextName.size()-1);
+    in.ignore();
+
     /* Sanity checks */
     size_t boxCount = 0;
     size_t targetCount = 0;
+
+    targetsRemain = 0;
 
     /* Parse the file */
     _startingPosition = {-1, -1};
@@ -79,6 +87,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
             case '.':
                 type = TileType::Target;
                 ++targetCount;
+                ++targetsRemain;
                 break;
 
             /* Box on target */
