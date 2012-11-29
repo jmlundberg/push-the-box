@@ -5,10 +5,10 @@ is to **push** all the boxes to their destination places.
 
 ![Screenshot](https://github.com/nuclearwhales/push-the-box/raw/master/screenshot.png)
 
-**Playable version is available** on http://mosra.cz/push-the-box/ . Please be
-patient, it will took a while before it loads -- the dependency libraries have
-~25 MB in total and the server isn't particularly fast. If you encounter any
-problems, please let us know :-)
+**Playable version is available** on http://nuclearwhales.github.com/push-the-box .
+Please be patient, it will took a while before it loads -- the dependency
+libraries have ~10 MB in total. If you encounter any problems, please let us
+know :-)
 
 Browser requirements
 --------------------
@@ -53,8 +53,8 @@ compile and run it on your own. You need these things:
  - [CMake](http://www.cmake.org) 2.8.8 or newer
  - [Corrade](https://github.com/mosra/corrade) and
    [Magnum](https://github.com/mosra/magnum) libraries compiled for NaCl. You
-   can get the binaries [here](https://github.com/downloads/mosra/corrade/corrade-nacl-20121127-0564739.zip)
-   and [here](https://github.com/downloads/mosra/magnum/magnum-nacl-20121127-b219552.zip).
+   can get the binaries [here](https://github.com/downloads/mosra/corrade/corrade-nacl-20121129-4577467.zip)
+   and [here](https://github.com/downloads/mosra/magnum/magnum-nacl-20121129-029a480.zip).
    Unzip them and put the files in root of
    your NaCl SDK, e.g. `/home/johndoe/nacl_sdk/pepper_22`.
  - Corrade compiled for your system (needed for resource compiler). You can
