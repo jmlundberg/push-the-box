@@ -42,7 +42,6 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     std::getline(in, _nextName);
     if(_nextName[_nextName.size()-1] == '\r')
         _nextName = _nextName.substr(0, _nextName.size()-1);
-    in.ignore();
 
     /* Sanity checks */
     size_t boxCount = 0;
