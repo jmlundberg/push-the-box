@@ -29,7 +29,8 @@ corrade_add_resource(PushTheBox_RCS PushTheBoxData
     ../levels/medium3.txt ALIAS levels/medium3.txt
     ../levels/medium4.txt ALIAS levels/medium4.txt
     ../levels/medium5.txt ALIAS levels/medium5.txt
-    ../levels/hard1.txt ALIAS levels/hard1.txt)
+    ../levels/hard1.txt ALIAS levels/hard1.txt
+    ../levels/winner.txt ALIAS levels/winner.txt)
 
 set(PushTheBox_SRCS
     Application.cpp
