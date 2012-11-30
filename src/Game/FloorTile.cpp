@@ -15,9 +15,8 @@ FloorTile::FloorTile(const Math::Vector2<int>& position, Type type, Object3D* pa
     translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
 }
 
-void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
+void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>*) {
     shader->setTransformationMatrix(transformationMatrix)
-          ->setProjectionMatrix(camera->projectionMatrix())
           ->setDiffuseColor(type == Type::Floor ? Color3<>::fromHSV(60.0f, 0.1f, 0.8f) :
                                                   Color3<>::fromHSV(120.0f, 1.0f, 0.6f))
           ->use();

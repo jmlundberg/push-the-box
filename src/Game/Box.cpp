@@ -15,9 +15,8 @@ Box::Box(const Math::Vector2<int>& position, Type type, Object3D* parent, SceneG
     translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
 }
 
-void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
+void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>*) {
     shader->setTransformationMatrix(transformationMatrix)
-          ->setProjectionMatrix(camera->projectionMatrix())
           ->setDiffuseColor(type == Type::OnFloor ? Color3<>::fromHSV(0.0f, 1.0f, 0.6f) :
                                                     Color3<>::fromHSV(120.0f, 1.0f, 0.6f))
           ->use();

@@ -55,6 +55,7 @@ void Game::viewportEvent(const Math::Vector2<GLsizei>& size) {
 void Game::drawEvent() {
     /* Shader settings commn for all objects */
     shader->setLightPosition((camera->cameraMatrix()*Point3D(1.0f, 4.0f, 1.2f)).xyz())
+          ->setProjectionMatrix(camera->projectionMatrix())
           ->setAmbientColor(Color3<>::fromHSV(15.0f, 0.5f, 0.06f))
           ->setSpecularColor(Color3<>::fromHSV(50.0f, 0.5f, 1.0f));
     camera->draw(drawables);

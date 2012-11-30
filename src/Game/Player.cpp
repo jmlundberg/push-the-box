@@ -18,9 +18,8 @@ Player::Player(const Math::Vector2<int>& position, Object3D* parent, SceneGraph:
     translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
 }
 
-void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) {
+void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>*) {
     shader->setTransformationMatrix(transformationMatrix)
-          ->setProjectionMatrix(camera->projectionMatrix())
           ->use();
 
     shader->setDiffuseColor(Color3<>::fromHSV(210.0f, 0.85f, 0.8f));
