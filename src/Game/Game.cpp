@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <Math/Constants.h>
+#include <Swizzle.h>
 #include <SceneGraph/Camera3D.h>
 #include <Shaders/PhongShader.h>
 
@@ -53,8 +54,12 @@ void Game::viewportEvent(const Math::Vector2<GLsizei>& size) {
 }
 
 void Game::drawEvent() {
+    /* Light is above the center of level */
+    Vector3 lightPosition = Vector3(1.0f, 4.0f, 1.2f) +
+            Vector3::from(swizzle<'x', '0', 'y'>(level->size()/2));
+
     /* Shader settings commn for all objects */
-    shader->setLightPosition((camera->cameraMatrix()*Point3D(1.0f, 4.0f, 1.2f)).xyz())
+    shader->setLightPosition((camera->cameraMatrix()*Point3D(lightPosition)).xyz())
           ->setProjectionMatrix(camera->projectionMatrix())
           ->setAmbientColor(Color3<>::fromHSV(15.0f, 0.5f, 0.06f))
           ->setSpecularColor(Color3<>::fromHSV(50.0f, 0.5f, 1.0f));
