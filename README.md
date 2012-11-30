@@ -30,7 +30,8 @@ Click on the image and the game will start in fullscreen. Clicking again will
 pause the game and leave the fullscreen. Use your **mouse to look around**
 and press **up arrow** or **W key** to move forward or push any box. If you
 screw something up, you can restart the level with **R key**. When you
-successfully complete the level, next level will be loaded (if there is any).
+successfully complete the level, next level will be loaded. There are
+currently 11 playable levels.
 
 Why there is no...
 ------------------
