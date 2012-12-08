@@ -22,39 +22,29 @@ class Level: public Object3D {
         Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables);
         ~Level();
 
-        inline std::string name() const {
-            return _name;
-        }
+        inline std::string name() const { return _name; }
 
-        inline std::string nextLevel() const {
-            return _nextName;
-        }
+        inline std::string nextLevel() const { return _nextName; }
 
-        inline Math::Vector2<int> size() const {
-            return _size;
-        }
+        inline Vector2i size() const { return _size; }
 
-        inline Math::Vector2<int> startingPosition() const {
-            return _startingPosition;
-        }
+        inline Vector2i startingPosition() const { return _startingPosition; }
 
         std::size_t targetsRemain;
 
     private:
-        void set(const Math::Vector2<int>& position, TileType type, SceneGraph::DrawableGroup<3>* drawables);
+        void set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables);
 
-        inline TileType& at(const Math::Vector2<int>& position) {
+        inline TileType& at(const Vector2i& position) {
             return level[position.y()*_size.x()+position.x()];
         }
 
-        Box* boxAt(const Math::Vector2<int>& position);
+        Box* boxAt(const Vector2i& position);
 
         static Level* _current;
 
-        std::string _name;
-        std::string _nextName;
-        Math::Vector2<int> _size;
-        Math::Vector2<int> _startingPosition;
+        std::string _name, _nextName;
+        Vector2i _size, _startingPosition;
         std::vector<TileType> level;
         std::vector<Box*> boxes;
 };

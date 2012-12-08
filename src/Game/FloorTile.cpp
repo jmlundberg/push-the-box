@@ -8,7 +8,7 @@
 
 namespace PushTheBox { namespace Game {
 
-FloorTile::FloorTile(const Math::Vector2<int>& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), type(type) {
+FloorTile::FloorTile(const Vector2i& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), type(type) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>(ResourceKey(type == Type::Floor ? "floor-mesh" : "floor-target-mesh"));
 

@@ -33,7 +33,7 @@ class Box: public Object3D, public SceneGraph::Drawable<3> {
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        Box(const Math::Vector2<int>& position, Type type, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        Box(const Vector2i& position, Type type, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
@@ -41,7 +41,7 @@ class Box: public Object3D, public SceneGraph::Drawable<3> {
     private:
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
         Resource<Mesh> mesh;
-        Math::Vector2<int> position;
+        Vector2i position;
         Type type;
 };
 

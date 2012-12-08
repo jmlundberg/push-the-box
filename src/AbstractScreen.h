@@ -124,7 +124,7 @@ class AbstractScreen: private Corrade::Containers::LinkedListItem<AbstractScreen
          * Setting viewport on default framebuffer should be done by the
          * application.
          */
-        virtual void viewportEvent(const Math::Vector2<GLsizei>& size) = 0;
+        virtual void viewportEvent(const Vector2i& size) = 0;
 
         /**
          * @brief Draw event

@@ -1,7 +1,7 @@
 #include "Menu.h"
 
 #include <SceneGraph/Camera2D.h>
-#include <Framebuffer.h>
+#include <Renderer.h>
 
 #include "MenuItem.h"
 
@@ -17,7 +17,7 @@ Menu::Menu() {
     /* Configure color of menu debug shapes */
     /** @todo remove when done properly */
     auto o = new Physics::DebugDrawResourceManager::Options;
-    o->color = Color3<GLfloat>::fromHSV(240.0f, 0.2f, 0.5f);
+    o->color = Color3<>::fromHSV(240.0f, 0.2f, 0.5f);
     debugDrawResourceManager.set<Physics::DebugDrawResourceManager::Options>("menu", o, ResourceDataState::Final, ResourcePolicy::Resident);
 
     /* Add some dummy menu items */
@@ -35,14 +35,14 @@ void Menu::blurEvent() {
     setPropagatedEvents({});
 }
 
-void Menu::viewportEvent(const Math::Vector2<GLsizei>& size) {
+void Menu::viewportEvent(const Vector2i& size) {
     camera->setViewport(size);
 }
 
 void Menu::drawEvent() {
-    Framebuffer::setFeature(Framebuffer::Feature::DepthTest, false);
+    Renderer::setFeature(Renderer::Feature::DepthTest, false);
     camera->draw(drawables);
-    Framebuffer::setFeature(Framebuffer::Feature::DepthTest, true);
+    Renderer::setFeature(Renderer::Feature::DepthTest, true);
 }
 
 void Menu::mousePressEvent(MouseEvent& event) {

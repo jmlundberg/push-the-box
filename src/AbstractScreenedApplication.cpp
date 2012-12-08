@@ -28,7 +28,7 @@ AbstractScreenedApplication* AbstractScreenedApplication::focusScreen(AbstractSc
     return this;
 }
 
-void AbstractScreenedApplication::viewportEvent(const Math::Vector2<GLsizei>& size) {
+void AbstractScreenedApplication::viewportEvent(const Vector2i& size) {
     Framebuffer::setViewport({}, size);
 
     for(AbstractScreen* s = first(); s; s = s->next())

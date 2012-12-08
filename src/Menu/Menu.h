@@ -23,7 +23,7 @@ class Menu: public AbstractScreen {
     protected:
         void focusEvent() override;
         void blurEvent() override;
-        void viewportEvent(const Math::Vector2<GLsizei>& size) override;
+        void viewportEvent(const Vector2i& size) override;
         void drawEvent() override;
         void mousePressEvent(MouseEvent& event) override;
 

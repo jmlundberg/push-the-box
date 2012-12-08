@@ -9,7 +9,7 @@
 
 namespace PushTheBox { namespace Game {
 
-Player::Player(const Math::Vector2<int>& position, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), position(position) {
+Player::Player(const Vector2i& position, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), position(position) {
     /* Get shader and mesh buffer */
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("player-mesh");
@@ -28,20 +28,20 @@ void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamer
     bodyMesh->draw();
 }
 
-void Player::move(const Math::Vector2<int>& direction) {
-    Math::Vector2<int> newPosition = position + direction;
+void Player::move(const Vector2i& direction) {
+    Vector2i newPosition = position + direction;
 
     /* Cannot move out of map */
-    if(!(newPosition >= Math::Vector2<int>() && newPosition < Level::current()->size()))
+    if(!(newPosition >= Vector2i() && newPosition < Level::current()->size()))
         return;
 
     /* Pushing box */
     if(Level::current()->at(newPosition) == Level::TileType::Box ||
        Level::current()->at(newPosition) == Level::TileType::BoxOnTarget) {
-        Math::Vector2<int> newBoxPosition = position + direction*2;
+        Vector2i newBoxPosition = position + direction*2;
 
         /* Cannot push box out of map */
-        if(!(newBoxPosition >= Math::Vector2<int>() && newBoxPosition < Level::current()->size()))
+        if(!(newBoxPosition >= Vector2i() && newBoxPosition < Level::current()->size()))
             return;
 
         /* The box can be pushed only on the floor */
@@ -58,8 +58,7 @@ void Player::move(const Math::Vector2<int>& direction) {
         if(Level::current()->at(newPosition) == Level::TileType::BoxOnTarget){
             Level::current()->at(newPosition) = Level::TileType::Target;
             ++Level::current()->targetsRemain;
-        }
-        else Level::current()->at(newPosition) = Level::TileType::Floor;
+        } else Level::current()->at(newPosition) = Level::TileType::Floor;
 
         if(Level::current()->at(newBoxPosition) == Level::TileType::Target)  {
             Level::current()->at(newBoxPosition) = Level::TileType::BoxOnTarget;
@@ -80,7 +79,7 @@ void Player::move(const Math::Vector2<int>& direction) {
     position = newPosition;
 }
 
-void Player::reset(const Math::Vector2<int>& position) {
+void Player::reset(const Vector2i& position) {
     this->position = position;
     setTransformation(Matrix4::translation(Vector3::from(swizzle<'x', '0', 'y'>(position))));
 }

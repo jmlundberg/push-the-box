@@ -30,7 +30,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     /* Level size on first line */
     in >> _size.x() >> _size.y();
     level.resize(_size.product(), TileType::Empty);
-    CORRADE_ASSERT(_size > Math::Vector2<int>(3, 3), "Level" << name << "is too small:" << _size, );
+    CORRADE_ASSERT(_size > Vector2i(3, 3), "Level" << name << "is too small:" << _size, );
 
     if(in.peek() == '\r')
         in.ignore();
@@ -44,14 +44,14 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
         _nextName = _nextName.substr(0, _nextName.size()-1);
 
     /* Sanity checks */
-    size_t boxCount = 0;
-    size_t targetCount = 0;
+    std::size_t boxCount = 0;
+    std::size_t targetCount = 0;
 
     targetsRemain = 0;
 
     /* Parse the file */
     _startingPosition = {-1, -1};
-    Math::Vector2<int> position;
+    Vector2i position;
     while(in.peek() > 0) {
         TileType type = {};
         switch(in.peek()) {
@@ -63,7 +63,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
 
             /* Starting position */
             case '@':
-                CORRADE_ASSERT(_startingPosition == Math::Vector2<int>(-1, -1), "Multiple starting positions in level" << name, );
+                CORRADE_ASSERT(_startingPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
                 _startingPosition = position;
                 /* No break, as we need to mark it as floor */
 
@@ -78,7 +78,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
 
             /* Starting position on target */
             case '+':
-                CORRADE_ASSERT(_startingPosition == Math::Vector2<int>(-1, -1), "Multiple starting positions in level" << name, );
+                CORRADE_ASSERT(_startingPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
                 _startingPosition = position;
                 /* No break, as we need to mark it as target */
 
@@ -118,7 +118,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     }
 
     /* Sanity checks */
-    CORRADE_ASSERT(_startingPosition != Math::Vector2<int>(-1, -1), "Level" << name << "has no starting position", );
+    CORRADE_ASSERT(_startingPosition != Vector2i(-1, -1), "Level" << name << "has no starting position", );
     CORRADE_ASSERT(boxCount == targetCount, "Level" << name << "has" << boxCount << "boxes, but" << targetCount << "targets", );
 }
 
@@ -127,7 +127,7 @@ Level::~Level() {
     _current = nullptr;
 }
 
-void Level::set(const Math::Vector2<int>& position, TileType type, SceneGraph::DrawableGroup<3>* drawables) {
+void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables) {
     at(position) = type;
 
     switch(type) {
@@ -151,8 +151,8 @@ void Level::set(const Math::Vector2<int>& position, TileType type, SceneGraph::D
     }
 }
 
-Box* Level::boxAt(const Math::Vector2<int>& position) {
-    for(size_t i = 0; i < Level::current()->boxes.size(); ++i) {
+Box* Level::boxAt(const Vector2i& position) {
+    for(std::size_t i = 0; i < Level::current()->boxes.size(); ++i) {
         if(boxes[i]->position != position) continue;
         return boxes[i];
     }

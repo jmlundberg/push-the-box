@@ -34,7 +34,7 @@ class Application: public AbstractScreenedApplication {
 
     protected:
         void drawEvent() override;
-        void viewportEvent(const Math::Vector2<GLsizei>& size) override;
+        void viewportEvent(const Vector2i& size) override;
 
     private:
         SceneResourceManager sceneResourceManager;

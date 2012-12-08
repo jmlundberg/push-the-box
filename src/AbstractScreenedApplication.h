@@ -69,9 +69,9 @@ class AbstractScreenedApplication: public ApplicationBase, private Corrade::Cont
     public:
         /** @seemagnum{Platform::Sdl2Application::Sdl2Application()} */
         #ifndef MAGNUM_TARGET_NACL
-        inline AbstractScreenedApplication(int argc, char** argv, const std::string& title = "Magnum screened application", const Math::Vector2<GLsizei>& size = Math::Vector2<GLsizei>(800, 600)): ApplicationBase(argc, argv, title, size) {}
+        inline AbstractScreenedApplication(int argc, char** argv, const std::string& title = "Magnum screened application", const Vector2i& size = Vector2i(800, 600)): ApplicationBase(argc, argv, title, size) {}
         #else
-        inline AbstractScreenedApplication(PP_Instance instance, const Math::Vector2<GLsizei>& size = Math::Vector2<GLsizei>(640, 480)): ApplicationBase(instance, size) {}
+        inline AbstractScreenedApplication(PP_Instance instance, const Vector2i& size = Vector2i(640, 480)): ApplicationBase(instance, size) {}
         #endif
 
         /**
@@ -130,7 +130,7 @@ class AbstractScreenedApplication: public ApplicationBase, private Corrade::Cont
          * the event to all screens.
          * @seemagnum{Platform::Sdl2Application::viewportEvent()}
          */
-        void viewportEvent(const Math::Vector2<GLsizei>& size) override = 0;
+        void viewportEvent(const Vector2i& size) override = 0;
 
         /**
          * @brief Draw event

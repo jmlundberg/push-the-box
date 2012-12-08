@@ -21,14 +21,14 @@ MeshResourceLoader::MeshResourceLoader() {
     data = rs.get("push-the-box.mesh");
 
     /* Fill name map */
-    for(size_t i = 0, end = conf->groupCount("mesh"); i != end; ++i)
-        nameMap[conf->group("mesh", i)->value<std::string>("name")] = i;
+    for(std::size_t i = 0, end = conf->groupCount("mesh"); i != end; ++i)
+        nameMap[conf->group("mesh", i)->value("name")] = i;
 }
 
 std::string MeshResourceLoader::name(ResourceKey key) const {
     auto it = nameMap.find(key);
     if(it == nameMap.end()) return "";
-    return conf->group("mesh", it->second)->value<std::string>("name");
+    return conf->group("mesh", it->second)->value("name");
 }
 
 void MeshResourceLoader::load(ResourceKey key) {

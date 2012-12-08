@@ -49,7 +49,7 @@ void Game::blurEvent() {
     #endif
 }
 
-void Game::viewportEvent(const Math::Vector2<GLsizei>& size) {
+void Game::viewportEvent(const Vector2i& size) {
     camera->setViewport(size);
 }
 

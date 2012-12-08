@@ -8,7 +8,7 @@
 
 namespace PushTheBox { namespace Game {
 
-Box::Box(const Math::Vector2<int>& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), position(position), type(type) {
+Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group), position(position), type(type) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
 

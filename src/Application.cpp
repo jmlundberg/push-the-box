@@ -2,6 +2,7 @@
 
 #include <AbstractShaderProgram.h>
 #include <Framebuffer.h>
+#include <Renderer.h>
 #include <Mesh.h>
 
 #include "Game/Game.h"
@@ -15,9 +16,9 @@ Application::Application(int argc, char** argv): AbstractScreenedApplication(arg
 Application::Application(PP_Instance instance): AbstractScreenedApplication(instance) {
 #endif
 
-    Framebuffer::setFeature(Framebuffer::Feature::FaceCulling, true);
-    Framebuffer::setFeature(Framebuffer::Feature::DepthTest, true);
-    Framebuffer::setClearColor(Color3<>(0.0f));
+    Renderer::setFeature(Renderer::Feature::FaceCulling, true);
+    Renderer::setFeature(Renderer::Feature::DepthTest, true);
+    Renderer::setClearColor(Color3<>(0.0f));
 
     /* Add resource loader and fallback meshes */
     sceneResourceManager.setLoader(&meshResourceLoader);
@@ -34,7 +35,7 @@ Application::~Application() {
     while(backScreen()) removeScreen(backScreen());
 }
 
-void Application::viewportEvent(const Math::Vector2<GLsizei>& size) {
+void Application::viewportEvent(const Vector2i& size) {
     Framebuffer::setViewport({}, size);
 
     AbstractScreenedApplication::viewportEvent(size);
