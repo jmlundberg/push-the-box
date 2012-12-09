@@ -20,7 +20,7 @@ Level* Level::current() {
     return _current;
 }
 
-Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables): Object3D(scene), _name(name) {
+Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables): Object3D(scene), _name(name), _remainingTargets(0) {
     CORRADE_ASSERT(!_current, "Only one Level instance can be created at a time", );
     _current = this;
 
@@ -47,8 +47,6 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     /* Sanity checks */
     std::size_t boxCount = 0;
     std::size_t targetCount = 0;
-
-    targetsRemain = 0;
 
     /* Parse the file */
     playerPosition = {-1, -1};
@@ -87,7 +85,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
             case '.':
                 type = TileType::Target;
                 ++targetCount;
-                ++targetsRemain;
+                ++_remainingTargets;
                 break;
 
             /* Box on target */
@@ -161,14 +159,14 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
         box->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
         box->position += direction;
 
-        if(at(newPosition) == TileType::BoxOnTarget){
+        if(at(newPosition) == TileType::BoxOnTarget) {
+            ++_remainingTargets;
             at(newPosition) = TileType::Target;
-            ++targetsRemain;
         } else at(newPosition) = TileType::Floor;
 
-        if(at(newBoxPosition) == TileType::Target)  {
+        if(at(newBoxPosition) == TileType::Target) {
+            --_remainingTargets;
             at(newBoxPosition) = TileType::BoxOnTarget;
-            --targetsRemain;
             box->type = Box::Type::OnTarget;
         } else {
             at(newBoxPosition) = TileType::Box;

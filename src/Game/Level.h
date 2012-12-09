@@ -35,7 +35,8 @@ class Level: public Object3D {
         /** @brief Move player in given direction */
         void movePlayer(Player* player, const Vector2i& direction);
 
-        std::size_t targetsRemain;
+        /** @brief Remaining targets */
+        inline std::size_t remainingTargets() const { return _remainingTargets; }
 
     private:
         void set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables);
@@ -52,6 +53,7 @@ class Level: public Object3D {
         Vector2i _size, playerPosition;
         std::vector<TileType> level;
         std::vector<Box*> boxes;
+        std::size_t _remainingTargets;
 };
 
 }}

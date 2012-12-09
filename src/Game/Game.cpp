@@ -80,8 +80,7 @@ void Game::keyPressEvent(KeyEvent& event) {
         else if(angle > Constants::pi()*5/6)
             level->movePlayer(player, {0, 1});
 
-        if(level->targetsRemain==0){
-            /*save next level name*/
+        if(level->remainingTargets() == 0) {
             std::string nextName = level->nextLevel();
 
             /*Loads new level and reset player*/
