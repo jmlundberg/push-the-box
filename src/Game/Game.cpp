@@ -19,12 +19,12 @@ Game::Game() {
         new Shaders::PhongShader, ResourceDataState::Final, ResourcePolicy::Resident);
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
 
-    /* Create level */
-    level = new Level("easy1", &scene, &drawables);
-
     /* Add player */
     player = new Player(&scene, &drawables);
-    level->resetPlayer(player);
+
+    /* Create level */
+    (level = new Level("easy1", &scene, &drawables))
+        ->resetPlayer(player);
 
     /* Add camera */
     (camera = new Camera(player))
@@ -83,7 +83,7 @@ void Game::keyPressEvent(KeyEvent& event) {
         if(level->remainingTargets() == 0) {
             std::string nextName = level->nextLevel();
 
-            /*Loads new level and reset player*/
+            /* Load new level */
             delete level;
             (level = new Level(nextName, &scene, &drawables))
                 ->resetPlayer(player);
@@ -93,7 +93,7 @@ void Game::keyPressEvent(KeyEvent& event) {
     } else if(event.key() == KeyEvent::Key::R) {
         std::string name = level->name();
 
-        /* Recreate level and reset player */
+        /* Recreate level */
         delete level;
         (level = new Level(name, &scene, &drawables))
             ->resetPlayer(player);
