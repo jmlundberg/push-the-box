@@ -134,6 +134,7 @@ Level* Level::resetPlayer(Player* player) {
 }
 
 void Level::movePlayer(Player* player, const Vector2i& direction) {
+    CORRADE_INTERNAL_ASSERT(direction.dot() == 1);
     Vector2i newPosition = playerPosition + direction;
 
     /* Cannot move out of map */
