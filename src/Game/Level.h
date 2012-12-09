@@ -10,8 +10,6 @@
 namespace PushTheBox { namespace Game {
 
 class Level: public Object3D {
-    friend class Player;
-
     public:
         enum class TileType {
             Empty = 0, Floor, Box, Wall, Target, BoxOnTarget
@@ -28,7 +26,14 @@ class Level: public Object3D {
 
         inline Vector2i size() const { return _size; }
 
-        inline Vector2i startingPosition() const { return _startingPosition; }
+        /**
+         * @brief Reset player to starting position in this level
+         * @return Pointer to self (for method chaining)
+         */
+        Level* resetPlayer(Player* player);
+
+        /** @brief Move player in given direction */
+        void movePlayer(Player* player, const Vector2i& direction);
 
         std::size_t targetsRemain;
 
@@ -44,7 +49,7 @@ class Level: public Object3D {
         static Level* _current;
 
         std::string _name, _nextName;
-        Vector2i _size, _startingPosition;
+        Vector2i _size, playerPosition;
         std::vector<TileType> level;
         std::vector<Box*> boxes;
 };

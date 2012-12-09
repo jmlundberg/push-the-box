@@ -3,6 +3,7 @@
 #include <sstream>
 #include <Utility/Resource.h>
 #include <Math/Vector2.h>
+#include <Swizzle.h>
 #include <SceneGraph/Scene.h>
 
 #include "FloorTile.h"
@@ -50,7 +51,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     targetsRemain = 0;
 
     /* Parse the file */
-    _startingPosition = {-1, -1};
+    playerPosition = {-1, -1};
     Vector2i position;
     while(in.peek() > 0) {
         TileType type = {};
@@ -63,8 +64,8 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
 
             /* Starting position */
             case '@':
-                CORRADE_ASSERT(_startingPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
-                _startingPosition = position;
+                CORRADE_ASSERT(playerPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
+                playerPosition = position;
                 /* No break, as we need to mark it as floor */
 
             /* Floor */
@@ -78,8 +79,8 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
 
             /* Starting position on target */
             case '+':
-                CORRADE_ASSERT(_startingPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
-                _startingPosition = position;
+                CORRADE_ASSERT(playerPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
+                playerPosition = position;
                 /* No break, as we need to mark it as target */
 
             /* Target */
@@ -118,13 +119,69 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     }
 
     /* Sanity checks */
-    CORRADE_ASSERT(_startingPosition != Vector2i(-1, -1), "Level" << name << "has no starting position", );
+    CORRADE_ASSERT(playerPosition != Vector2i(-1, -1), "Level" << name << "has no starting position", );
     CORRADE_ASSERT(boxCount == targetCount, "Level" << name << "has" << boxCount << "boxes, but" << targetCount << "targets", );
 }
 
 Level::~Level() {
     CORRADE_INTERNAL_ASSERT(_current == this);
     _current = nullptr;
+}
+
+Level* Level::resetPlayer(Player* player) {
+    player->setTransformation(Matrix4::translation(Vector3::from(swizzle<'x', '0', 'y'>(playerPosition))));
+    return this;
+}
+
+void Level::movePlayer(Player* player, const Vector2i& direction) {
+    Vector2i newPosition = playerPosition + direction;
+
+    /* Cannot move out of map */
+    if(!(newPosition >= Vector2i() && newPosition < size()))
+        return;
+
+    /* Pushing box */
+    if(at(newPosition) == TileType::Box ||
+       at(newPosition) == TileType::BoxOnTarget) {
+        Vector2i newBoxPosition = playerPosition + direction*2;
+
+        /* Cannot push box out of map */
+        if(!(newBoxPosition >= Vector2i() && newBoxPosition < size()))
+            return;
+
+        /* The box can be pushed only on the floor */
+        if(at(newBoxPosition) != TileType::Floor &&
+           at(newBoxPosition) != TileType::Target)
+            return;
+
+        /* Move the box */
+        Box* box = boxAt(newPosition);
+        CORRADE_INTERNAL_ASSERT(box);
+        box->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+        box->position += direction;
+
+        if(at(newPosition) == TileType::BoxOnTarget){
+            at(newPosition) = TileType::Target;
+            ++targetsRemain;
+        } else at(newPosition) = TileType::Floor;
+
+        if(at(newBoxPosition) == TileType::Target)  {
+            at(newBoxPosition) = TileType::BoxOnTarget;
+            --targetsRemain;
+            box->type = Box::Type::OnTarget;
+        } else {
+            at(newBoxPosition) = TileType::Box;
+            box->type = Box::Type::OnFloor;
+        }
+
+    /* Other than that we can move on the floor, but nowhere else */
+    } else if(at(newPosition) != TileType::Floor &&
+              at(newPosition) != TileType::Target)
+        return;
+
+    /* Move the player */
+    player->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+    playerPosition = newPosition;
 }
 
 void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables) {

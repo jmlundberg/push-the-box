@@ -23,7 +23,8 @@ Game::Game() {
     level = new Level("easy1", &scene, &drawables);
 
     /* Add player */
-    player = new Player(level->startingPosition(), &scene, &drawables);
+    player = new Player(&scene, &drawables);
+    level->resetPlayer(player);
 
     /* Add camera */
     (camera = new Camera(player))
@@ -73,11 +74,11 @@ void Game::keyPressEvent(KeyEvent& event) {
         GLfloat angle = Vector3::angle(Vector3::zAxis(), direction);
 
         if(angle < Constants::pi()/6)
-            player->move({0, -1});
+            level->movePlayer(player, {0, -1});
         else if(angle > Constants::pi()/3 && angle < Constants::pi()*2/3)
-            player->move({direction.x() > 0 ? -1 : 1, 0});
+            level->movePlayer(player, {direction.x() > 0 ? -1 : 1, 0});
         else if(angle > Constants::pi()*5/6)
-            player->move({0, 1});
+            level->movePlayer(player, {0, 1});
 
         if(level->targetsRemain==0){
             /*save next level name*/
@@ -85,8 +86,8 @@ void Game::keyPressEvent(KeyEvent& event) {
 
             /*Loads new level and reset player*/
             delete level;
-            level = new Level(nextName, &scene, &drawables);
-            player->reset(level->startingPosition());
+            (level = new Level(nextName, &scene, &drawables))
+                ->resetPlayer(player);
         }
 
     /* Restart level */
@@ -95,8 +96,8 @@ void Game::keyPressEvent(KeyEvent& event) {
 
         /* Recreate level and reset player */
         delete level;
-        level = new Level(name, &scene, &drawables);
-        player->reset(level->startingPosition());
+        (level = new Level(name, &scene, &drawables))
+            ->resetPlayer(player);
 
     /* Switch to menu */
     } else if(event.key() == KeyEvent::Key::Esc)

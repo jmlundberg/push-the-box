@@ -20,24 +20,17 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
     public:
         /**
          * @brief Constructor
-         * @param position  Initial position in level
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        Player(const Vector2i& position, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        Player(Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
 
-        /** @brief Reset player to original position */
-        void reset(const Vector2i& position);
-
-        void move(const Vector2i& direction);
-
     private:
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
         Resource<Mesh> mesh, bodyMesh;
-        Vector2i position;
 };
 
 }}

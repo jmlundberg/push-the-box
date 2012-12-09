@@ -18,7 +18,6 @@ namespace PushTheBox { namespace Game {
 /** @brief %Box */
 class Box: public Object3D, public SceneGraph::Drawable<3> {
     friend class Level;
-    friend class Player;
 
     public:
         enum class Type {
