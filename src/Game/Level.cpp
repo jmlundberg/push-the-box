@@ -117,6 +117,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     }
 
     /* Sanity checks */
+    CORRADE_ASSERT(_remainingTargets != 0, "Level is already solved", );
     CORRADE_ASSERT(playerPosition != Vector2i(-1, -1), "Level" << name << "has no starting position", );
     CORRADE_ASSERT(boxCount == targetCount, "Level" << name << "has" << boxCount << "boxes, but" << targetCount << "targets", );
 }
