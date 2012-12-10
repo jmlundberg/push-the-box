@@ -20,7 +20,7 @@ Level* Level::current() {
     return _current;
 }
 
-Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables): Object3D(scene), _name(name), _remainingTargets(0) {
+Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables): Object3D(scene), _name(name), _remainingTargets(0) {
     CORRADE_ASSERT(!_current, "Only one Level instance can be created at a time", );
     _current = this;
 
@@ -112,7 +112,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
         }
 
         in.ignore();
-        set(position, type, drawables);
+        set(position, type, drawables, animables);
         ++position.x();
     }
 
@@ -184,7 +184,7 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
     playerPosition = newPosition;
 }
 
-void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables) {
+void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables) {
     at(position) = type;
 
     switch(type) {

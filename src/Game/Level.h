@@ -17,7 +17,7 @@ class Level: public Object3D {
 
         static Level* current();
 
-        Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables);
+        Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables);
         ~Level();
 
         inline std::string name() const { return _name; }
@@ -39,7 +39,7 @@ class Level: public Object3D {
         inline std::size_t remainingTargets() const { return _remainingTargets; }
 
     private:
-        void set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables);
+        void set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables);
 
         inline TileType& at(const Vector2i& position) {
             return level[position.y()*_size.x()+position.x()];

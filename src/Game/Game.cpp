@@ -2,6 +2,7 @@
 
 #include <Math/Constants.h>
 #include <Swizzle.h>
+#include <SceneGraph/AnimableGroup.h>
 #include <SceneGraph/Camera3D.h>
 #include <Shaders/PhongShader.h>
 
@@ -23,7 +24,7 @@ Game::Game() {
     player = new Player(&scene, &drawables);
 
     /* Create level */
-    (level = new Level("easy1", &scene, &drawables))
+    (level = new Level("easy1", &scene, &drawables, &animables))
         ->resetPlayer(player);
 
     /* Add camera */
@@ -55,6 +56,9 @@ void Game::viewportEvent(const Vector2i& size) {
 }
 
 void Game::drawEvent() {
+    /* Animate */
+    animables.step(application()->timeline().previousFrameTime(), application()->timeline().previousFrameDuration());
+
     /* Light is above the center of level */
     Vector3 lightPosition = Vector3(1.0f, 4.0f, 1.2f) +
             Vector3::from(swizzle<'x', '0', 'y'>(level->size()/2));
@@ -65,6 +69,9 @@ void Game::drawEvent() {
           ->setAmbientColor(Color3<>::fromHSV(15.0f, 0.5f, 0.06f))
           ->setSpecularColor(Color3<>::fromHSV(50.0f, 0.5f, 1.0f));
     camera->draw(drawables);
+
+    /* Schedule redraw, if there is something to animate */
+    if(animables.runningCount()) redraw();
 }
 
 void Game::keyPressEvent(KeyEvent& event) {
@@ -85,7 +92,7 @@ void Game::keyPressEvent(KeyEvent& event) {
 
             /* Load new level */
             delete level;
-            (level = new Level(nextName, &scene, &drawables))
+            (level = new Level(nextName, &scene, &drawables, &animables))
                 ->resetPlayer(player);
         }
 
@@ -95,7 +102,7 @@ void Game::keyPressEvent(KeyEvent& event) {
 
         /* Recreate level */
         delete level;
-        (level = new Level(name, &scene, &drawables))
+        (level = new Level(name, &scene, &drawables, &animables))
             ->resetPlayer(player);
 
     /* Switch to menu */
