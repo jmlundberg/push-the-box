@@ -168,10 +168,16 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
         if(at(newBoxPosition) == TileType::Target) {
             --_remainingTargets;
             at(newBoxPosition) = TileType::BoxOnTarget;
-            box->type = Box::Type::OnTarget;
+            if(box->type != Box::Type::OnTarget) {
+                box->type = Box::Type::OnTarget;
+                box->movedToTarget();
+            }
         } else {
             at(newBoxPosition) = TileType::Box;
-            box->type = Box::Type::OnFloor;
+            if(box->type != Box::Type::OnFloor) {
+                box->type = Box::Type::OnFloor;
+                box->movedFromTarget();
+            }
         }
 
     /* Other than that we can move on the floor, but nowhere else */

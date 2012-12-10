@@ -53,6 +53,7 @@ set(PushTheBox_SRCS
 
 add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box
+    ${CORRADE_INTERCONNECT_LIBRARIES}
     ${MAGNUM_LIBRARIES}
     ${MAGNUM_PHYSICS_LIBRARIES}
     ${MAGNUM_SCENEGRAPH_LIBRARIES}

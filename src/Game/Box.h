@@ -5,6 +5,8 @@
  * @brief Class PushTheBox::Game::Box
  */
 
+#include <Interconnect/Emitter.h>
+#include <Interconnect/Receiver.h>
 #include <Color.h>
 #include <ResourceManager.h>
 #include <SceneGraph/Drawable.h>
@@ -16,7 +18,7 @@
 namespace PushTheBox { namespace Game {
 
 /** @brief %Box */
-class Box: public Object3D, public SceneGraph::Drawable<3> {
+class Box: public Object3D, public SceneGraph::Drawable<3>, public Corrade::Interconnect::Emitter, public Corrade::Interconnect::Receiver {
     friend class Level;
 
     public:
@@ -34,6 +36,17 @@ class Box: public Object3D, public SceneGraph::Drawable<3> {
          */
         Box(const Vector2i& position, Type type, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
 
+        /** @brief Box was moved to target */
+        inline Signal movedToTarget() {
+            return emit(&Box::movedToTarget);
+        }
+
+        /** @brief Box was moved from target */
+        inline Signal movedFromTarget() {
+            return emit(&Box::movedFromTarget);
+        }
+
+    protected:
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
 
