@@ -9,6 +9,7 @@
 #include <Interconnect/Receiver.h>
 #include <Color.h>
 #include <ResourceManager.h>
+#include <SceneGraph/Animable.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/MatrixTransformation3D.h>
 #include <Shaders/Shaders.h>
@@ -18,7 +19,7 @@
 namespace PushTheBox { namespace Game {
 
 /** @brief %Box */
-class Box: public Object3D, public SceneGraph::Drawable<3>, public Corrade::Interconnect::Emitter, public Corrade::Interconnect::Receiver {
+class Box: public Object3D, public SceneGraph::Drawable<3>, public SceneGraph::Animable<3>, public Corrade::Interconnect::Emitter, public Corrade::Interconnect::Receiver {
     friend class Level;
 
     public:
@@ -32,9 +33,10 @@ class Box: public Object3D, public SceneGraph::Drawable<3>, public Corrade::Inte
          * @param position  Initial position in level
          * @param type      Box type
          * @param parent    Parent object
-         * @param group     Drawable group
+         * @param drawables Drawable group
+         * @param animables Animable group
          */
-        Box(const Vector2i& position, Type type, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        Box(const Vector2i& position, Type type, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* drawables = nullptr, SceneGraph::AnimableGroup<3>* animables = nullptr);
 
         /** @brief Box was moved to target */
         inline Signal movedToTarget() {
@@ -50,11 +52,22 @@ class Box: public Object3D, public SceneGraph::Drawable<3>, public Corrade::Inte
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
 
+        /** @seemagnum{SceneGraph::Animable::animationStep()} */
+        void animationStep(GLfloat time, GLfloat delta) override;
+
+        /** @seemagnum{SceneGraph::Animable::animationStopped()} */
+        void animationStopped() override;
+
     private:
+        inline void animateMoveFromToTarget() {
+            setState(SceneGraph::AnimationState::Running);
+        }
+
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
         Resource<Mesh> mesh;
         Vector2i position;
         Type type;
+        Color3<> color;
 };
 
 }}

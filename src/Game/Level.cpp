@@ -197,13 +197,13 @@ void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGro
         case TileType::Empty:
             break;
         case TileType::Box:
-            boxes.push_back(new Box(position, Box::Type::OnFloor, this, drawables));
+            boxes.push_back(new Box(position, Box::Type::OnFloor, this, drawables, animables));
             /* No break, as we need floor tile under it */
         case TileType::Floor:
             new FloorTile(position, FloorTile::Type::Floor, this, drawables);
             break;
         case TileType::BoxOnTarget:
-            boxes.push_back(new Box(position, Box::Type::OnTarget, this, drawables));
+            boxes.push_back(new Box(position, Box::Type::OnTarget, this, drawables, animables));
             /* No break, as we need target tile under it */
         case TileType::Target:
             new FloorTile(position, FloorTile::Type::Target, this, drawables);
