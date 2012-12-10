@@ -6,6 +6,7 @@
  */
 
 #include <ResourceManager.h>
+#include <Timeline.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/MatrixTransformation3D.h>
 #include <SceneGraph/Scene.h>

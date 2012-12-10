@@ -27,6 +27,8 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     /* Add the screens */
     addScreen(new Menu::Menu);
     addScreen(new Game::Game);
+
+    _timeline.start();
 }
 
 Application::~Application() {
@@ -47,6 +49,7 @@ void Application::drawEvent() {
     AbstractScreenedApplication::drawEvent();
 
     swapBuffers();
+    _timeline.nextFrame();
 }
 
 }

@@ -14,6 +14,7 @@
 #endif
 
 #include <ResourceManager.h>
+#include <Timeline.h>
 
 #include "AbstractScreenedApplication.h"
 #include "ResourceManagement/MeshResourceLoader.h"
@@ -32,6 +33,10 @@ class Application: public AbstractScreenedApplication {
 
         ~Application();
 
+        /** @brief Timeline */
+        inline Timeline& timeline() { return _timeline; }
+        inline const Timeline& timeline() const { return _timeline; } /**< @overload */
+
     protected:
         void drawEvent() override;
         void viewportEvent(const Vector2i& size) override;
@@ -39,6 +44,7 @@ class Application: public AbstractScreenedApplication {
     private:
         SceneResourceManager sceneResourceManager;
         ResourceManagement::MeshResourceLoader meshResourceLoader;
+        Timeline _timeline;
 };
 
 }
