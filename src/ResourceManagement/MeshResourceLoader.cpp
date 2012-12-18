@@ -1,5 +1,6 @@
 #include "MeshResourceLoader.h"
 
+#include <sstream>
 #include <Utility/Resource.h>
 #include <Buffer.h>
 #include <IndexedMesh.h>

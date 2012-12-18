@@ -1,6 +1,6 @@
 #include "AbstractScreenedApplication.h"
 
-#include <Framebuffer.h>
+#include <DefaultFramebuffer.h>
 
 #include "AbstractScreen.h"
 
@@ -29,7 +29,7 @@ AbstractScreenedApplication* AbstractScreenedApplication::focusScreen(AbstractSc
 }
 
 void AbstractScreenedApplication::viewportEvent(const Vector2i& size) {
-    Framebuffer::setViewport({}, size);
+    defaultFramebuffer.setViewport({}, size);
 
     for(AbstractScreen* s = first(); s; s = s->next())
         s->viewportEvent(size);

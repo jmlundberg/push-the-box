@@ -1,5 +1,6 @@
 #include "ResourceCompiler.h"
 
+#include <ostream>
 #include <Math/Constants.h>
 #include <Math/Matrix4.h>
 #include <MeshTools/CompressIndices.h>
@@ -43,7 +44,7 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
             char* data;
             std::tie(indexCount, indexType, data) = MeshTools::compressIndices(*mesh->indices());
 
-            group->addValue("indexOffset", out.tellp());
+            group->addValue("indexOffset", std::size_t(out.tellp()));
             group->addValue("indexCount", indexCount);
             group->addValue("indexType", indexType);
 
@@ -64,7 +65,7 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
         std::tie(vertexCount, stride, data) = MeshTools::interleave(*mesh->positions(0), *mesh->normals(0));
 
         group->addValue<std::string>("vertexArray", "3D interleaved position normal");
-        group->addValue("vertexOffset", out.tellp());
+        group->addValue("vertexOffset", std::size_t(out.tellp()));
         group->addValue("vertexCount", vertexCount);
         group->addValue("vertexStride", stride);
 

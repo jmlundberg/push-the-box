@@ -1,7 +1,7 @@
 #include "Application.h"
 
 #include <AbstractShaderProgram.h>
-#include <Framebuffer.h>
+#include <DefaultFramebuffer.h>
 #include <Renderer.h>
 #include <Mesh.h>
 
@@ -38,13 +38,13 @@ Application::~Application() {
 }
 
 void Application::viewportEvent(const Vector2i& size) {
-    Framebuffer::setViewport({}, size);
+    defaultFramebuffer.setViewport({}, size);
 
     AbstractScreenedApplication::viewportEvent(size);
 }
 
 void Application::drawEvent() {
-    Framebuffer::clear(Framebuffer::Clear::Color|Framebuffer::Clear::Depth);
+    defaultFramebuffer.clear(AbstractFramebuffer::Clear::Color|AbstractFramebuffer::Clear::Depth);
 
     AbstractScreenedApplication::drawEvent();
 
