@@ -8,7 +8,7 @@
 #include <Physics/DebugDrawResourceManager.h>
 #include <Physics/ObjectShapeGroup.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/MatrixTransformation2D.h>
+#include <SceneGraph/EuclideanMatrixTransformation2D.h>
 #include <SceneGraph/Scene.h>
 
 #include "AbstractScreen.h"

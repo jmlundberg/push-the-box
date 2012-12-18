@@ -2,7 +2,7 @@
 #define PushTheBox_Game_Camera_h
 
 #include <SceneGraph/Camera3D.h>
-#include <SceneGraph/MatrixTransformation3D.h>
+#include <SceneGraph/EuclideanMatrixTransformation3D.h>
 
 #include "PushTheBox.h"
 

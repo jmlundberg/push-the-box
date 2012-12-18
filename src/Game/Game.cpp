@@ -77,7 +77,7 @@ void Game::drawEvent() {
 void Game::keyPressEvent(KeyEvent& event) {
     /* Move forward */
     if(event.key() == KeyEvent::Key::Up || event.key() == KeyEvent::Key::W) {
-        Vector3 direction = player->transformation().backward().normalized();
+        Vector3 direction = player->transformation().backward();
         GLfloat angle = Vector3::angle(Vector3::zAxis(), direction);
 
         if(angle < Constants::pi()/6)
@@ -125,15 +125,15 @@ void Game::mousePressEvent(MouseEvent& event) {
 
 void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
     /** @todo mouse sensitivity */
-    player->rotateY(-rad((Constants::pi()*event.relativePosition().x()/500.0f)),
+    player->normalizeRotation()->rotateY(-rad((Constants::pi()*event.relativePosition().x()/500.0f)),
         SceneGraph::TransformationType::Local);
 
-    Matrix4 xRotation = Matrix4::rotationX(rad(-Constants::pi()*event.relativePosition().y()/500.0f))*
-        camera->transformation();
+    GLfloat angle = rad(-Constants::pi()*event.relativePosition().y()/500.0f);
+    Matrix4 xRotation = Matrix4::rotationX(angle)*camera->transformation();
 
     /* Don't rotate under the floor */
-    if(std::abs(Vector3::dot((xRotation.rotation()*Vector3::yAxis()).normalized(), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
-        camera->setTransformation(xRotation);
+    if(std::abs(Vector3::dot(xRotation.rotation()*Vector3::yAxis(), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
+        camera->normalizeRotation()->rotateX(angle);
 
     event.setAccepted();
     redraw();

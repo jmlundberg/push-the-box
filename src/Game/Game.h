@@ -9,7 +9,7 @@
 #include <Timeline.h>
 #include <SceneGraph/AnimableGroup.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/MatrixTransformation3D.h>
+#include <SceneGraph/EuclideanMatrixTransformation3D.h>
 #include <SceneGraph/Scene.h>
 #include <Shaders/Shaders.h>
 

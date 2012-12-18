@@ -128,7 +128,8 @@ Level::~Level() {
 }
 
 Level* Level::resetPlayer(Player* player) {
-    player->setTransformation(Matrix4::translation(Vector3::from(swizzle<'x', '0', 'y'>(playerPosition))));
+    player->resetTransformation()
+          ->translate(Vector3::from(swizzle<'x', '0', 'y'>(playerPosition)));
     return this;
 }
 

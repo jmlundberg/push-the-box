@@ -6,7 +6,7 @@
  */
 
 #include <Physics/Physics.h>
-#include <SceneGraph/MatrixTransformation2D.h>
+#include <SceneGraph/EuclideanMatrixTransformation2D.h>
 
 #include "PushTheBox.h"
 

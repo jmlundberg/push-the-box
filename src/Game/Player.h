@@ -8,7 +8,7 @@
 #include <Color.h>
 #include <ResourceManager.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/MatrixTransformation3D.h>
+#include <SceneGraph/EuclideanMatrixTransformation3D.h>
 #include <Shaders/Shaders.h>
 
 #include "PushTheBox.h"

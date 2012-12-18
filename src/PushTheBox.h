@@ -21,16 +21,16 @@ namespace PushTheBox {
 using namespace Magnum;
 
 /** @brief Base 3D object */
-typedef SceneGraph::Object<SceneGraph::MatrixTransformation3D<>> Object3D;
+typedef SceneGraph::Object<SceneGraph::EuclideanMatrixTransformation3D<>> Object3D;
 
 /** @brief Base 3D scene */
-typedef SceneGraph::Scene<SceneGraph::MatrixTransformation3D<>> Scene3D;
+typedef SceneGraph::Scene<SceneGraph::EuclideanMatrixTransformation3D<>> Scene3D;
 
 /** @brief Base 2D object */
-typedef SceneGraph::Object<SceneGraph::MatrixTransformation2D<>> Object2D;
+typedef SceneGraph::Object<SceneGraph::EuclideanMatrixTransformation2D<>> Object2D;
 
 /** @brief Base 2D scene */
-typedef SceneGraph::Scene<SceneGraph::MatrixTransformation2D<>> Scene2D;
+typedef SceneGraph::Scene<SceneGraph::EuclideanMatrixTransformation2D<>> Scene2D;
 
 /**
 @brief Base for application
