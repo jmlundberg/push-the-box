@@ -1,6 +1,7 @@
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wold-style-cast -Winit-self -pedantic -std=c++0x -fvisibility=hidden")
 
 find_package(Magnum REQUIRED
+    DebugTools
     MeshTools
     Physics
     SceneGraph
@@ -55,6 +56,7 @@ add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box
     ${CORRADE_INTERCONNECT_LIBRARIES}
     ${MAGNUM_LIBRARIES}
+    ${MAGNUM_DEBUGTOOLS_LIBRARIES}
     ${MAGNUM_PHYSICS_LIBRARIES}
     ${MAGNUM_SCENEGRAPH_LIBRARIES}
     ${MAGNUM_SHADERS_LIBRARIES}

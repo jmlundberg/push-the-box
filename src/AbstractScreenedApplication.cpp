@@ -29,7 +29,7 @@ AbstractScreenedApplication* AbstractScreenedApplication::focusScreen(AbstractSc
 }
 
 void AbstractScreenedApplication::viewportEvent(const Vector2i& size) {
-    defaultFramebuffer.setViewport({}, size);
+    defaultFramebuffer.setViewport({{}, size});
 
     for(AbstractScreen* s = first(); s; s = s->next())
         s->viewportEvent(size);

@@ -56,8 +56,8 @@ void MeshResourceLoader::load(ResourceKey key) {
         /* Configure indices */
         indexedMesh->setIndexBuffer(indexBuffer)
                    ->setIndexCount(group->value<GLsizei>("indexCount"))
-                   ->setIndexType(group->value<Type>("indexType"));
-        indexBuffer->setData(indexedMesh->indexCount()*TypeInfo::sizeOf(indexedMesh->indexType()),
+                   ->setIndexType(group->value<IndexedMesh::IndexType>("indexType"));
+        indexBuffer->setData(indexedMesh->indexCount()*IndexedMesh::indexSize(indexedMesh->indexType()),
                              data.c_str()+group->value<std::size_t>("indexOffset"),
                              Buffer::Usage::StaticDraw);
 

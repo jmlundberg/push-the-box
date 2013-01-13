@@ -5,7 +5,7 @@
  * @brief Class PushTheBox::Menu::Menu
  */
 
-#include <Physics/DebugDrawResourceManager.h>
+#include <DebugTools/ResourceManager.h>
 #include <Physics/ObjectShapeGroup.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/EuclideanMatrixTransformation2D.h>
@@ -29,7 +29,7 @@ class Menu: public AbstractScreen {
 
     private:
         /** @todo remove when done properly */
-        Physics::DebugDrawResourceManager debugDrawResourceManager;
+        DebugTools::ResourceManager debugDrawResourceManager;
 
         Scene2D scene;
         SceneGraph::DrawableGroup<2> drawables;

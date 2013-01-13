@@ -38,7 +38,7 @@ Application::~Application() {
 }
 
 void Application::viewportEvent(const Vector2i& size) {
-    defaultFramebuffer.setViewport({}, size);
+    defaultFramebuffer.setViewport({{}, size});
 
     AbstractScreenedApplication::viewportEvent(size);
 }

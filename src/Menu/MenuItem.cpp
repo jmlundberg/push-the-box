@@ -1,7 +1,7 @@
 #include "MenuItem.h"
 
 #include <Physics/AxisAlignedBox.h>
-#include <Physics/DebugDrawResourceManager.h>
+#include <DebugTools/ShapeRenderer.h>
 #include <Physics/ObjectShape.h>
 #include <SceneGraph/Drawable.h>
 
@@ -14,7 +14,7 @@ MenuItem::MenuItem(Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup
 
     /* Draw some shape on the screen actually */
     /** @todo Do this seriously with text and shit */
-    drawableGroup->add(Physics::DebugDrawResourceManager::createDebugRenderer(shape, "menu"));
+    new DebugTools::ShapeRenderer2D(shape, "menu", drawableGroup);
 }
 
 }}

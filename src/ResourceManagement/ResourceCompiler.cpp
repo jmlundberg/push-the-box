@@ -40,7 +40,7 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
             MeshTools::tipsify(*mesh->indices(), mesh->positions(0)->size(), 24);
 
             std::size_t indexCount;
-            Type indexType;
+            IndexedMesh::IndexType indexType;
             char* data;
             std::tie(indexCount, indexType, data) = MeshTools::compressIndices(*mesh->indices());
 
@@ -48,7 +48,7 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
             group->addValue("indexCount", indexCount);
             group->addValue("indexType", indexType);
 
-            out.write(data, indexCount*TypeInfo::sizeOf(indexType));
+            out.write(data, indexCount*IndexedMesh::indexSize(indexType));
             delete[] data;
         }
 

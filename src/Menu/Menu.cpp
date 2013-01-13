@@ -1,7 +1,8 @@
 #include "Menu.h"
 
-#include <SceneGraph/Camera2D.h>
+#include <DebugTools/ShapeRenderer.h>
 #include <Renderer.h>
+#include <SceneGraph/Camera2D.h>
 
 #include "MenuItem.h"
 
@@ -16,9 +17,8 @@ Menu::Menu() {
 
     /* Configure color of menu debug shapes */
     /** @todo remove when done properly */
-    auto o = new Physics::DebugDrawResourceManager::Options;
-    o->color = Color3<>::fromHSV(240.0f, 0.2f, 0.5f);
-    debugDrawResourceManager.set<Physics::DebugDrawResourceManager::Options>("menu", o, ResourceDataState::Final, ResourcePolicy::Resident);
+    debugDrawResourceManager.set("menu", (new DebugTools::ShapeRendererOptions)->setColor(Color3<>::fromHSV(240.0f, 0.2f, 0.5f)),
+                                 ResourceDataState::Final, ResourcePolicy::Resident);
 
     /* Add some dummy menu items */
     (new MenuItem(&scene, &drawables, &shapes));
