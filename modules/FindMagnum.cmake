@@ -15,14 +15,19 @@
 # components. The base library depends on Corrade, OpenGL and GLEW
 # libraries. Additional dependencies are specified by the components. The
 # optional components are:
+#  DebugTools    - DebugTools library (depends on MeshTools, Physics,
+#                  Primitives, SceneGraph and Shaders components)
 #  MeshTools     - MeshTools library
-#  Physics       - Physics library (depends on Primitives, SceneGraph and
-#                  Shaders components)
+#  Physics       - Physics library
 #  Primitives    - Library with stock geometric primitives (static)
 #  SceneGraph    - Scene graph library
 #  Shaders       - Library with stock shaders
+#  Text          - Text rendering library
+#  TextureTools  - TextureTools library
 #  GlxApplication - GLX application (depends on X11 libraries)
 #  XEglApplication - X/EGL application (depends on EGL and X11 libraries)
+#  WindowlessGlxApplication - Windowless GLX application (depends on X11
+#   libraries)
 #  GlutApplication - GLUT application (depends on GLUT library)
 #  Sdl2Application - SDL2 application (depends on SDL2 library)
 #  NaClApplication - NaCl application (only if targetting Google Chrome
@@ -80,12 +85,18 @@ string(FIND "${_magnumConfigure}" "#define MAGNUM_TARGET_NACL" _TARGET_NACL)
 if(NOT _TARGET_NACL EQUAL -1)
     set(MAGNUM_TARGET_NACL 1)
 endif()
+string(FIND "${_magnumConfigure}" "#define MAGNUM_TARGET_DESKTOP_GLES" _TARGET_DESKTOP_GLES)
+if(NOT _TARGET_DESKTOP_GLES EQUAL -1)
+    set(MAGNUM_TARGET_DESKTOP_GLES 1)
+endif()
 
-if(NOT MAGNUM_TARGET_GLES)
+if(NOT MAGNUM_TARGET_GLES OR MAGNUM_TARGET_DESKTOP_GLES)
     find_package(OpenGL REQUIRED)
-    find_package(GLEW REQUIRED)
 else()
     find_package(OpenGLES2 REQUIRED)
+endif()
+if(NOT MAGNUM_TARGET_GLES)
+    find_package(GLEW REQUIRED)
 endif()
 
 # On Windows, *Application libraries need to have ${MAGNUM_LIBRARY} listed
@@ -152,6 +163,21 @@ foreach(component ${Magnum_FIND_COMPONENTS})
                 unset(MAGNUM_${_COMPONENT}_LIBRARY)
             endif()
         endif()
+
+        # Windowless GLX application dependencies
+        if(${component} STREQUAL WindowlessGlxApplication)
+            find_package(X11)
+            if(X11_FOUND)
+                set(_MAGNUM_${_COMPONENT}_LIBRARIES ${X11_LIBRARIES} ${_WINDOWCONTEXT_MAGNUM_LIBRARY_DEPENDENCY})
+            else()
+                unset(MAGNUM_${_COMPONENT}_LIBRARY)
+            endif()
+        endif()
+    endif()
+
+    # DebugTools library
+    if(${component} STREQUAL DebugTools)
+        set(_MAGNUM_${_COMPONENT}_INCLUDE_PATH_NAMES Profiler.h)
     endif()
 
     # Mesh tools library
@@ -177,6 +203,16 @@ foreach(component ${Magnum_FIND_COMPONENTS})
     # Shaders library
     if(${component} STREQUAL Shaders)
         set(_MAGNUM_${_COMPONENT}_INCLUDE_PATH_NAMES PhongShader.h)
+    endif()
+
+    # Text library
+    if(${component} STREQUAL Text)
+        set(_MAGNUM_${_COMPONENT}_INCLUDE_PATH_NAMES Font.h)
+    endif()
+
+    # TextureTools library
+    if(${component} STREQUAL TextureTools)
+        set(_MAGNUM_${_COMPONENT}_INCLUDE_PATH_NAMES Atlas.h)
     endif()
 
     # Try to find the includes
@@ -212,13 +248,13 @@ set(MAGNUM_INCLUDE_DIRS ${MAGNUM_INCLUDE_DIR}
 set(MAGNUM_LIBRARIES ${MAGNUM_LIBRARY}
     ${CORRADE_UTILITY_LIBRARY}
     ${CORRADE_PLUGINMANAGER_LIBRARY})
-if(NOT MAGNUM_TARGET_GLES)
-    set(MAGNUM_LIBRARIES ${MAGNUM_LIBRARIES}
-        ${OPENGL_gl_LIBRARY}
-        ${GLEW_LIBRARY})
+if(NOT MAGNUM_TARGET_GLES OR MAGNUM_TARGET_DESKTOP_GLES)
+    set(MAGNUM_LIBRARIES ${MAGNUM_LIBRARIES} ${OPENGL_gl_LIBRARY})
 else()
-    set(MAGNUM_LIBRARIES ${MAGNUM_LIBRARIES}
-        ${OPENGLES2_LIBRARY})
+    set(MAGNUM_LIBRARIES ${MAGNUM_LIBRARIES} ${OPENGLES2_LIBRARY})
+endif()
+if(NOT MAGNUM_TARGET_GLES)
+    set(MAGNUM_LIBRARIES ${MAGNUM_LIBRARIES} ${GLEW_LIBRARY})
 endif()
 
 # Installation dirs
