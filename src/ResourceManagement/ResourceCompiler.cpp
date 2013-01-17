@@ -1,7 +1,9 @@
 #include "ResourceCompiler.h"
 
+#include <algorithm>
 #include <ostream>
 #include <Math/Constants.h>
+#include <Math/Functions.h>
 #include <Math/Matrix4.h>
 #include <MeshTools/CompressIndices.h>
 #include <MeshTools/Interleave.h>
@@ -58,11 +60,16 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
         MeshTools::transform(rotation, *mesh->positions(0));
         MeshTools::transform(rotation.rotation(), *mesh->normals(0));
 
+        /* Compress normals */
+        std::vector<Math::Vector3<std::int8_t>> normals(mesh->normals(0)->size());
+        std::transform(mesh->normals(0)->begin(), mesh->normals(0)->end(), normals.begin(),
+                       [](const Vector3& vec) { return Math::denormalize<Math::Vector3<std::int8_t>>(vec); });
+
         /* Compile vertex array */
         char* data;
         std::size_t vertexCount;
         std::size_t stride;
-        std::tie(vertexCount, stride, data) = MeshTools::interleave(*mesh->positions(0), *mesh->normals(0));
+        std::tie(vertexCount, stride, data) = MeshTools::interleave(*mesh->positions(0), normals, 1);
 
         group->addValue<std::string>("vertexArray", "3D interleaved position normal");
         group->addValue("vertexOffset", std::size_t(out.tellp()));

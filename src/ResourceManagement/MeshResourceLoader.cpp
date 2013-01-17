@@ -71,7 +71,8 @@ void MeshResourceLoader::load(ResourceKey key) {
     /* Configure vertices */
     mesh->setPrimitive(group->value<Mesh::Primitive>("primitive"))
         ->setVertexCount(group->value<GLsizei>("vertexCount"))
-        ->addInterleavedVertexBuffer(vertexBuffer, 0, Shaders::PhongShader::Position(), Shaders::PhongShader::Normal());
+        ->addInterleavedVertexBuffer(vertexBuffer, 0, Shaders::PhongShader::Position(),
+                Shaders::PhongShader::Normal(Shaders::PhongShader::Normal::DataType::Byte, Shaders::PhongShader::Normal::DataOption::Normalized), 1);
     vertexBuffer->setData(mesh->vertexCount()*group->value<std::size_t>("vertexStride"),
                           data.c_str()+group->value<std::size_t>("vertexOffset"),
                           Buffer::Usage::StaticDraw);
