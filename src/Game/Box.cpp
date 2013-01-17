@@ -39,7 +39,7 @@ void Box::animationStep(GLfloat time, GLfloat) {
 }
 
 void Box::animationStopped() {
-    color = type == Type::OnFloor ? on : off;
+    color = type == Type::OnFloor ? off : on;
 }
 
 }}
