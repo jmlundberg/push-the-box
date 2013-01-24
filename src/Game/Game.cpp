@@ -16,8 +16,7 @@ Game::Game() {
     setPropagatedEvents(PropagatedEvent::Draw);
 
     /* Add shader to resource manager */
-    SceneResourceManager::instance()->set<AbstractShaderProgram>("phong",
-        new Shaders::PhongShader, ResourceDataState::Final, ResourcePolicy::Resident);
+    SceneResourceManager::instance()->set<AbstractShaderProgram>("phong", new Shaders::PhongShader);
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
 
     /* Add player */

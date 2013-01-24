@@ -3,7 +3,7 @@
 #include <sstream>
 #include <Utility/Resource.h>
 #include <Buffer.h>
-#include <IndexedMesh.h>
+#include <Mesh.h>
 #include <Shaders/PhongShader.h>
 
 #include <Resource.h>
@@ -44,22 +44,21 @@ void MeshResourceLoader::load(ResourceKey key) {
     }
 
     /* Indexed mesh */
-    Mesh* mesh;
+    Mesh* mesh = new Mesh;
     if(group->keyExists("indexOffset")) {
-        IndexedMesh* indexedMesh = new IndexedMesh;
-        mesh = indexedMesh;
 
         /* Add index buffer to the manager */
         Buffer* indexBuffer = new Buffer(Buffer::Target::ElementArray);
         SceneResourceManager::instance()->set(group->value("name") + "-index", indexBuffer, ResourceDataState::Final, ResourcePolicy::Resident);
 
         /* Configure indices */
-        indexedMesh->setIndexBuffer(indexBuffer)
-                   ->setIndexCount(group->value<GLsizei>("indexCount"))
-                   ->setIndexType(group->value<IndexedMesh::IndexType>("indexType"));
-        indexBuffer->setData(indexedMesh->indexCount()*IndexedMesh::indexSize(indexedMesh->indexType()),
-                             data.c_str()+group->value<std::size_t>("indexOffset"),
-                             Buffer::Usage::StaticDraw);
+        GLsizei indexCount = group->value<GLsizei>("indexCount");
+        Mesh::IndexType indexType = group->value<Mesh::IndexType>("indexType");
+        mesh->setIndexCount(indexCount)
+            ->setIndexBuffer(indexBuffer, 0, indexType);
+        indexBuffer->setData(indexCount*Mesh::indexSize(indexType),
+            data.c_str()+group->value<std::size_t>("indexOffset"),
+            Buffer::Usage::StaticDraw);
 
     /* Non-indexed mesh */
     } else mesh = new Mesh;

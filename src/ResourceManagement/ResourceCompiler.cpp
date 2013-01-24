@@ -30,10 +30,10 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
 
         /* Import mesh */
         Trade::MeshData3D* mesh = importer->mesh3D(i);
-        CORRADE_ASSERT(mesh->positions(0), "Mesh" << mesh->name() << "has no position array", );
-        CORRADE_ASSERT(mesh->normals(0), "Mesh" << mesh->name() << "has no normal array", );
+        CORRADE_ASSERT(mesh->positions(0), "Mesh" << importer->mesh3DName(i) << "has no position array", );
+        CORRADE_ASSERT(mesh->normals(0), "Mesh" << importer->mesh3DName(i) << "has no normal array", );
 
-        group->addValue("name", mesh->name());
+        group->addValue("name", importer->mesh3DName(i));
         group->addValue("primitive", mesh->primitive());
 
         /* Compile index array, if present */
@@ -42,7 +42,7 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
             MeshTools::tipsify(*mesh->indices(), mesh->positions(0)->size(), 24);
 
             std::size_t indexCount;
-            IndexedMesh::IndexType indexType;
+            Mesh::IndexType indexType;
             char* data;
             std::tie(indexCount, indexType, data) = MeshTools::compressIndices(*mesh->indices());
 
@@ -50,7 +50,7 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
             group->addValue("indexCount", indexCount);
             group->addValue("indexType", indexType);
 
-            out.write(data, indexCount*IndexedMesh::indexSize(indexType));
+            out.write(data, indexCount*Mesh::indexSize(indexType));
             delete[] data;
         }
 

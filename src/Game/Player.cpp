@@ -1,6 +1,6 @@
 #include "Player.h"
 
-#include <IndexedMesh.h>
+#include <Mesh.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
 

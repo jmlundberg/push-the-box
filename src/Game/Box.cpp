@@ -13,11 +13,12 @@ namespace {
     static const Color3<> off = Color3<>::fromHSV(0.0f, 1.0f, 0.6f);
 }
 
-Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables): Object3D(parent), SceneGraph::Drawable<3>(this, drawables), SceneGraph::Animable<3>(this, 0.375f, animables), position(position), type(type), color(type == Type::OnFloor ? off : on) {
+Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables): Object3D(parent), SceneGraph::Drawable<3>(this, drawables), SceneGraph::Animable<3>(this, animables), position(position), type(type), color(type == Type::OnFloor ? off : on) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
 
     translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
+    setDuration(0.375f);
 
     connect(this, &Box::movedToTarget, this, &Box::animateMoveFromToTarget);
     connect(this, &Box::movedFromTarget, this, &Box::animateMoveFromToTarget);
