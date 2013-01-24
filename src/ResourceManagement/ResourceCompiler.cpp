@@ -45,10 +45,13 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
             Mesh::IndexType indexType;
             char* data;
             std::tie(indexCount, indexType, data) = MeshTools::compressIndices(*mesh->indices());
+            auto minmax = std::minmax_element(mesh->indices()->begin(), mesh->indices()->end());
 
             group->addValue("indexOffset", std::size_t(out.tellp()));
             group->addValue("indexCount", indexCount);
             group->addValue("indexType", indexType);
+            group->addValue("indexStart", *minmax.first);
+            group->addValue("indexEnd", *minmax.second);
 
             out.write(data, indexCount*Mesh::indexSize(indexType));
             delete[] data;
