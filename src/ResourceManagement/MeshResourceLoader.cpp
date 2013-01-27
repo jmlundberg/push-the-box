@@ -15,11 +15,11 @@ namespace PushTheBox { namespace ResourceManagement {
 
 MeshResourceLoader::MeshResourceLoader() {
     /* Get data from compiled-in resource */
-    /** @todo Configuration directly from string, data as raw pointer */
+    /** @todo Configuration directly from string */
     Corrade::Utility::Resource rs("PushTheBoxData");
     std::istringstream in(rs.get("push-the-box.conf"));
     conf = new Configuration(in, Configuration::Flag::ReadOnly);
-    data = rs.get("push-the-box.mesh");
+    std::tie(data, size) = rs.getRaw("push-the-box.mesh");
 
     /* Fill name map */
     for(std::size_t i = 0, end = conf->groupCount("mesh"); i != end; ++i)
@@ -58,7 +58,7 @@ void MeshResourceLoader::load(ResourceKey key) {
             ->setIndexBuffer(indexBuffer, 0, indexType,
                 group->value<GLuint>("indexStart"), group->value<GLuint>("indexEnd"));
         indexBuffer->setData(indexCount*Mesh::indexSize(indexType),
-            data.c_str()+group->value<std::size_t>("indexOffset"),
+            data+group->value<std::size_t>("indexOffset"),
             Buffer::Usage::StaticDraw);
 
     /* Non-indexed mesh */
@@ -74,7 +74,7 @@ void MeshResourceLoader::load(ResourceKey key) {
         ->addInterleavedVertexBuffer(vertexBuffer, 0, Shaders::PhongShader::Position(),
                 Shaders::PhongShader::Normal(Shaders::PhongShader::Normal::DataType::Byte, Shaders::PhongShader::Normal::DataOption::Normalized), 1);
     vertexBuffer->setData(mesh->vertexCount()*group->value<std::size_t>("vertexStride"),
-                          data.c_str()+group->value<std::size_t>("vertexOffset"),
+                          data+group->value<std::size_t>("vertexOffset"),
                           Buffer::Usage::StaticDraw);
 
     /* Finally add the mesh to the manager */

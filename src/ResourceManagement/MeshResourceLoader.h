@@ -30,7 +30,8 @@ class MeshResourceLoader: public AbstractResourceLoader<Mesh> {
         std::unordered_map<ResourceKey, std::uint32_t, Implementation::ResourceKeyHash> nameMap;
 
         Corrade::Utility::Configuration* conf;
-        std::string data;
+        const unsigned char* data;
+        std::size_t size;
 };
 
 }}
