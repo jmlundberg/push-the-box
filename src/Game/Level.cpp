@@ -31,7 +31,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     /* Level size on first line */
     in >> _size.x() >> _size.y();
     level.resize(_size.product(), TileType::Empty);
-    CORRADE_ASSERT(_size > Vector2i(3, 3), "Level" << name << "is too small:" << _size, );
+    CORRADE_ASSERT((_size > Vector2i(3, 3)).all(), "Level" << name << "is too small:" << _size, );
 
     if(in.peek() == '\r')
         in.ignore();
@@ -129,7 +129,7 @@ Level::~Level() {
 
 Level* Level::resetPlayer(Player* player) {
     player->resetTransformation()
-          ->translate(Vector3::from(swizzle<'x', '0', 'y'>(playerPosition)));
+          ->translate(Vector3(swizzle<'x', '0', 'y'>(playerPosition)));
     return this;
 }
 
@@ -138,7 +138,7 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
     Vector2i newPosition = playerPosition + direction;
 
     /* Cannot move out of map */
-    if(!(newPosition >= Vector2i() && newPosition < size()))
+    if((newPosition < Vector2i()).any() || (newPosition >= size()).any())
         return;
 
     /* Pushing box */
@@ -147,7 +147,7 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
         Vector2i newBoxPosition = playerPosition + direction*2;
 
         /* Cannot push box out of map */
-        if(!(newBoxPosition >= Vector2i() && newBoxPosition < size()))
+        if((newBoxPosition < Vector2i()).any() || (newBoxPosition >= size()).any())
             return;
 
         /* The box can be pushed only on the floor */
@@ -158,7 +158,7 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
         /* Move the box */
         Box* box = boxAt(newPosition);
         CORRADE_INTERNAL_ASSERT(box);
-        box->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+        box->translate(Vector3(swizzle<'x', '0', 'y'>(direction)));
         box->position += direction;
 
         if(at(newPosition) == TileType::BoxOnTarget) {
@@ -187,7 +187,7 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
         return;
 
     /* Move the player */
-    player->translate(Vector3::from(swizzle<'x', '0', 'y'>(direction)));
+    player->translate(Vector3(swizzle<'x', '0', 'y'>(direction)));
     playerPosition = newPosition;
 }
 

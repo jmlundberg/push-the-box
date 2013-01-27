@@ -11,7 +11,7 @@ WallBrick::WallBrick(const Vector2i& position, Object3D* parent, SceneGraph::Dra
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("wall-mesh");
 
-    translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
+    translate(Vector3(swizzle<'x', '0', 'y'>(position)));
 }
 
 void WallBrick::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>*) {

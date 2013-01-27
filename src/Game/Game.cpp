@@ -60,7 +60,7 @@ void Game::drawEvent() {
 
     /* Light is above the center of level */
     Vector3 lightPosition = Vector3(1.0f, 4.0f, 1.2f) +
-            Vector3::from(swizzle<'x', '0', 'y'>(level->size()/2));
+            Vector3(swizzle<'x', '0', 'y'>(level->size()/2));
 
     /* Shader settings commn for all objects */
     shader->setLightPosition((camera->cameraMatrix()*Point3D(lightPosition)).xyz())

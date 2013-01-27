@@ -12,7 +12,7 @@ FloorTile::FloorTile(const Vector2i& position, Type type, Object3D* parent, Scen
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>(ResourceKey(type == Type::Floor ? "floor-mesh" : "floor-target-mesh"));
 
-    translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
+    translate(Vector3(swizzle<'x', '0', 'y'>(position)));
 }
 
 void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>*) {

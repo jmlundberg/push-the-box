@@ -17,7 +17,7 @@ Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::Draw
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
 
-    translate(Vector3::from(swizzle<'x', '0', 'y'>(position)));
+    translate(Vector3(swizzle<'x', '0', 'y'>(position)));
     setDuration(0.375f);
 
     connect(this, &Box::movedToTarget, this, &Box::animateMoveFromToTarget);
