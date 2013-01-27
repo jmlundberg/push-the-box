@@ -18,7 +18,7 @@ namespace PushTheBox { namespace Menu {
 /** @brief %Menu screen */
 class Menu: public AbstractScreen {
     public:
-        Menu();
+        Menu(Text::FontRenderer& renderer);
 
     protected:
         void focusEvent() override;

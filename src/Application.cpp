@@ -4,6 +4,7 @@
 #include <DefaultFramebuffer.h>
 #include <Renderer.h>
 #include <Mesh.h>
+#include <Text/Font.h>
 
 #include "Game/Game.h"
 #include "Menu/Menu.h"
@@ -25,7 +26,7 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     sceneResourceManager.setFallback<Mesh>(new Mesh);
 
     /* Add the screens */
-    addScreen(new Menu::Menu);
+    addScreen(new Menu::Menu(fontRenderer));
     addScreen(new Game::Game);
 
     _timeline.start();

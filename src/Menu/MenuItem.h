@@ -5,23 +5,38 @@
  * @brief Class PushTheBox::Menu::MenuItem
  */
 
+#include <Buffer.h>
+#include <Mesh.h>
+#include <Resource.h>
 #include <Physics/Physics.h>
+#include <SceneGraph/Drawable.h>
 #include <SceneGraph/EuclideanMatrixTransformation2D.h>
+#include <Shaders/Shaders.h>
 
 #include "PushTheBox.h"
 
 namespace PushTheBox { namespace Menu {
 
 /** @brief %Menu item */
-class MenuItem: public Object2D {
+class MenuItem: public Object2D, SceneGraph::Drawable<2> {
     public:
         /**
          * @brief Constructor
+         * @param title             Title
          * @param parent            Parent object
          * @param drawableGroup     Drawable group
          * @param shapeGroup        Shape group
          */
-        MenuItem(Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup, Physics::ObjectShapeGroup2D* shapeGroup);
+        MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup, Physics::ObjectShapeGroup2D* shapeGroup);
+
+    protected:
+        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;
+
+    private:
+        Resource<AbstractShaderProgram, Shaders::TextShader2D> shader;
+        Resource<Text::Font> font;
+        Buffer vertexBuffer, indexBuffer;
+        Mesh mesh;
 };
 
 }}

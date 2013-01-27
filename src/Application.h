@@ -15,6 +15,7 @@
 
 #include <ResourceManager.h>
 #include <Timeline.h>
+#include <Text/FontRenderer.h>
 
 #include "AbstractScreenedApplication.h"
 #include "ResourceManagement/MeshResourceLoader.h"
@@ -42,6 +43,7 @@ class Application: public AbstractScreenedApplication {
         void viewportEvent(const Vector2i& size) override;
 
     private:
+        Text::FontRenderer fontRenderer;
         SceneResourceManager sceneResourceManager;
         ResourceManagement::MeshResourceLoader meshResourceLoader;
         Timeline _timeline;

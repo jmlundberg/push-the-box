@@ -7,6 +7,7 @@
 
 #include <Magnum.h>
 #include <SceneGraph/SceneGraph.h>
+#include <Text/Text.h>
 
 namespace Magnum { namespace Platform {
     #ifndef MAGNUM_TARGET_NACL
@@ -44,7 +45,7 @@ typedef Platform::NaClApplication ApplicationBase;
 #endif
 
 /** @brief Resource manager */
-typedef ResourceManager<AbstractShaderProgram, Buffer, Mesh> SceneResourceManager;
+typedef ResourceManager<AbstractShaderProgram, Buffer, Mesh, Text::Font> SceneResourceManager;
 
 }
 

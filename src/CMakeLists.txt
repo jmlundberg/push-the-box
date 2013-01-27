@@ -5,7 +5,8 @@ find_package(Magnum REQUIRED
     MeshTools
     Physics
     SceneGraph
-    Shaders)
+    Shaders
+    Text)
 
 if(MAGNUM_TARGET_NACL)
     find_package(Magnum REQUIRED NaClApplication)
@@ -61,6 +62,7 @@ target_link_libraries(push-the-box
     ${MAGNUM_PHYSICS_LIBRARIES}
     ${MAGNUM_SCENEGRAPH_LIBRARIES}
     ${MAGNUM_SHADERS_LIBRARIES}
+    ${MAGNUM_TEXT_LIBRARIES}
     ${APPLICATION_LIBRARY})
 
 if(NOT MAGNUM_TARGET_NACL)
