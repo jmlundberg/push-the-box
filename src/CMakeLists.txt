@@ -18,6 +18,7 @@ endif()
 include_directories(${MAGNUM_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
 
 corrade_add_resource(PushTheBox_RCS PushTheBoxData
+    ../resources/luckiest-guy.ttf ALIAS luckiest-guy.ttf
     ../resources/push-the-box.mesh ALIAS push-the-box.mesh
     ../resources/push-the-box.conf ALIAS push-the-box.conf
     ../levels/easy1.txt ALIAS levels/easy1.txt
