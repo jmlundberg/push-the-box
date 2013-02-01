@@ -6,8 +6,10 @@
  */
 
 #include <Buffer.h>
+#include <Color.h>
 #include <Mesh.h>
 #include <Resource.h>
+#include <Physics/ObjectShape.h>
 #include <Physics/Physics.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/EuclideanMatrixTransformation2D.h>
@@ -18,7 +20,7 @@
 namespace PushTheBox { namespace Menu {
 
 /** @brief %Menu item */
-class MenuItem: public Object2D, SceneGraph::Drawable<2> {
+class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::ObjectShape2D {
     public:
         /**
          * @brief Constructor
@@ -29,6 +31,8 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2> {
          */
         MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup, Physics::ObjectShapeGroup2D* shapeGroup);
 
+        void hoverChanged(bool hovered);
+
     protected:
         void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;
 
@@ -37,6 +41,7 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2> {
         Resource<Text::Font> font;
         Buffer vertexBuffer, indexBuffer;
         Mesh mesh;
+        Color3<> color;
 };
 
 }}

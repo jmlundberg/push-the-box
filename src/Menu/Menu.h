@@ -15,6 +15,8 @@
 
 namespace PushTheBox { namespace Menu {
 
+class Cursor;
+
 /** @brief %Menu screen */
 class Menu: public AbstractScreen {
     public:
@@ -26,6 +28,7 @@ class Menu: public AbstractScreen {
         void viewportEvent(const Vector2i& size) override;
         void drawEvent() override;
         void mousePressEvent(MouseEvent& event) override;
+        void mouseMoveEvent(MouseMoveEvent& event) override;
 
     private:
         /** @todo remove when done properly */
@@ -37,6 +40,7 @@ class Menu: public AbstractScreen {
 
         Object2D* cameraObject;
         SceneGraph::Camera2D<>* camera;
+        Cursor* cursor;
 };
 
 }}

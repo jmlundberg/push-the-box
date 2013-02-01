@@ -8,6 +8,7 @@
 #include <Shaders/TextShader.h>
 #include <Text/Font.h>
 
+#include "Cursor.h"
 #include "MenuItem.h"
 
 namespace PushTheBox { namespace Menu {
@@ -32,7 +33,7 @@ Menu::Menu(Text::FontRenderer& fontRenderer) {
     /* Configure color of menu debug shapes */
     /** @todo remove when done properly */
     debugDrawResourceManager.set("menu", (new DebugTools::ShapeRendererOptions)
-        ->setColor(Color3<>::fromHSV(240.0f, 0.2f, 0.5f)));
+        ->setColor(Color3<>::fromHSV(240.0f, 0.2f, 0.5f))->setPointSize(0.10f));
 
     /* Add menu items */
     (new MenuItem("resume", &scene, &drawables, &shapes))
@@ -44,8 +45,9 @@ Menu::Menu(Text::FontRenderer& fontRenderer) {
     (new MenuItem("credits", &scene, &drawables, &shapes))
         ->translate(Vector2::yAxis(-0.45f));
 
-    /** @todo fix this in magnum, so it doesn't have to be called? */
-    shapes.setClean();
+    /* Add cursor */
+    (cursor = new Cursor(&scene, &drawables, &shapes))
+        ->translate({-10.0f, -10.0f});
 }
 
 void Menu::focusEvent() {
@@ -64,6 +66,8 @@ void Menu::drawEvent() {
     Renderer::setFeature(Renderer::Feature::Blending, true);
     Renderer::setBlendFunction(Renderer::BlendFunction::One, Renderer::BlendFunction::OneMinusSourceAlpha);
     Renderer::setFeature(Renderer::Feature::DepthTest, false);
+    /** @todo fix this in magnum, so it doesn't have to be called? */
+    shapes.setClean();
     camera->draw(drawables);
     Renderer::setFeature(Renderer::Feature::DepthTest, true);
     Renderer::setFeature(Renderer::Feature::Blending, false);
@@ -73,6 +77,23 @@ void Menu::mousePressEvent(MouseEvent& event) {
     if(event.button() == MouseEvent::Button::Left)
         application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
     else return;
+
+    event.setAccepted();
+    redraw();
+}
+
+void Menu::mouseMoveEvent(MouseMoveEvent& event) {
+    Vector2 cursorPosition =
+        Vector2::yScale(-1.0f)*(Vector2(event.position())/defaultFramebuffer.viewport().size()-Vector2(0.5f))*camera->projectionSize();
+
+    MenuItem* collisionBefore = static_cast<MenuItem*>(shapes.firstCollision(cursor));
+    cursor->resetTransformation()->translate(cursorPosition);
+    MenuItem* collisionAfter = static_cast<MenuItem*>(shapes.firstCollision(cursor));
+
+    if(collisionBefore != collisionAfter) {
+        if(collisionBefore) collisionBefore->hoverChanged(false);
+        if(collisionAfter) collisionAfter->hoverChanged(true);
+    }
 
     event.setAccepted();
     redraw();

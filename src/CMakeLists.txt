@@ -47,6 +47,7 @@ set(PushTheBox_SRCS
     Game/Level.cpp
     Game/WallBrick.cpp
 
+    Menu/Cursor.cpp
     Menu/Menu.cpp
     Menu/MenuItem.cpp
 
