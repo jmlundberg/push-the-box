@@ -5,7 +5,6 @@
  * @brief Class PushTheBox::Game::Player
  */
 
-#include <Color.h>
 #include <ResourceManager.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/EuclideanMatrixTransformation3D.h>
@@ -20,10 +19,10 @@ class Player: public Object3D, SceneGraph::Drawable<3> {
     public:
         /**
          * @brief Constructor
-         * @param parent    Parent object
-         * @param group     Drawable group
+         * @param parent        Parent object
+         * @param drawables     Drawable group
          */
-        Player(Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        Player(Object3D* parent, SceneGraph::DrawableGroup<3>* drawables);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;

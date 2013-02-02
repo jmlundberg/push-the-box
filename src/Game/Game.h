@@ -14,28 +14,35 @@
 #include <Shaders/Shaders.h>
 
 #include "AbstractScreen.h"
-#include "Application.h"
-#include "Level.h"
-#include "Box.h"
 
 namespace PushTheBox { namespace Game {
 
 class Camera;
+class Level;
 class Player;
 
-/** @brief %Game screen */
+/**
+@brief %Game screen
+
+Renders current state of the game.
+*/
 class Game: public AbstractScreen {
     public:
+        static Game* instance();
+
         Game();
 
-    protected:
-        inline Application* application() {
-            return static_cast<Application*>(AbstractScreen::application());
-        }
-        inline const Application* application() const {
-            return static_cast<const Application*>(AbstractScreen::application());
-        }
+        ~Game();
 
+        void restartLevel();
+        void nextLevel();
+        void loadLevel(const std::string& name);
+        void movePlayer(const Vector2i& direction);
+
+        void pause();
+        void resume();
+
+    protected:
         void focusEvent() override;
         void blurEvent() override;
         void viewportEvent(const Vector2i& size) override;
@@ -45,6 +52,8 @@ class Game: public AbstractScreen {
         void mouseMoveEvent(MouseMoveEvent& event) override;
 
     private:
+        static Game* _instance;
+
         Scene3D scene;
         SceneGraph::DrawableGroup<3> drawables;
         SceneGraph::AnimableGroup<3> animables;
@@ -52,8 +61,8 @@ class Game: public AbstractScreen {
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
         Camera* camera;
 
-        Player* player;
         Level* level;
+        Player* player;
 };
 
 }}

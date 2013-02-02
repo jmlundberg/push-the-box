@@ -1,5 +1,5 @@
-#ifndef PushTheBox_MenuItem_h
-#define PushTheBox_MenuItem_h
+#ifndef PushTheBox_Menu_MenuItem_h
+#define PushTheBox_Menu_MenuItem_h
 
 /** @file
  * @brief Class PushTheBox::Menu::MenuItem

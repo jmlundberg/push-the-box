@@ -1,42 +1,49 @@
 #ifndef PushTheBox_Game_Level_h
 #define PushTheBox_Game_Level_h
 
-#include "Box.h"
-#include "Player.h"
-
 #include <vector>
 #include <string>
+#include <SceneGraph/EuclideanMatrixTransformation3D.h>
+
+#include "PushTheBox.h"
 
 namespace PushTheBox { namespace Game {
 
+class Box;
+
+/** @brief %Level */
 class Level: public Object3D {
     public:
         enum class TileType {
             Empty = 0, Floor, Box, Wall, Target, BoxOnTarget
         };
 
-        static Level* current();
-
+        /**
+         * @brief Constructor
+         * @param name          Level name
+         * @param scene         Scene to which to add the level
+         * @param drawables     Drawable group
+         * @param animables     Animable group
+         */
         Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables);
-        ~Level();
 
+        /** @brief Level name */
         inline std::string name() const { return _name; }
 
-        inline std::string nextLevel() const { return _nextName; }
+        /** @brief Next level name */
+        inline std::string nextName() const { return _nextName; }
 
+        /** @brief Level size */
         inline Vector2i size() const { return _size; }
 
-        /**
-         * @brief Reset player to starting position in this level
-         * @return Pointer to self (for method chaining)
-         */
-        Level* resetPlayer(Player* player);
-
-        /** @brief Move player in given direction */
-        void movePlayer(Player* player, const Vector2i& direction);
+        /** @brief Player position */
+        inline Vector2i playerPosition() { return _playerPosition; }
 
         /** @brief Remaining targets */
         inline std::size_t remainingTargets() const { return _remainingTargets; }
+
+        /** @brief Move player in given direction */
+        void movePlayer(const Vector2i& direction);
 
     private:
         void set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables);
@@ -45,15 +52,11 @@ class Level: public Object3D {
             return level[position.y()*_size.x()+position.x()];
         }
 
-        Box* boxAt(const Vector2i& position);
-
-        static Level* _current;
-
         std::string _name, _nextName;
-        Vector2i _size, playerPosition;
+        Vector2i _size, _playerPosition;
+        std::size_t _remainingTargets;
         std::vector<TileType> level;
         std::vector<Box*> boxes;
-        std::size_t _remainingTargets;
 };
 
 }}

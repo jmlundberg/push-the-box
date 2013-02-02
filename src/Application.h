@@ -22,9 +22,19 @@
 
 namespace PushTheBox {
 
+namespace Game {
+    class Game;
+}
+
+namespace Menu {
+    class Menu;
+}
+
 /** @brief Main application class */
 class Application: public AbstractScreenedApplication {
     public:
+        static Application* instance();
+
         /** @brief Constructor */
         #ifndef MAGNUM_TARGET_NACL
         Application(int argc, char** argv);
@@ -34,19 +44,29 @@ class Application: public AbstractScreenedApplication {
 
         ~Application();
 
+        /** @brief Game screen */
+        inline Game::Game* gameScreen() { return _gameScreen; }
+
+        /** @brief Menu screen */
+        inline Menu::Menu* menuScreen() { return _menuScreen; }
+
         /** @brief Timeline */
         inline Timeline& timeline() { return _timeline; }
-        inline const Timeline& timeline() const { return _timeline; } /**< @overload */
 
     protected:
         void drawEvent() override;
         void viewportEvent(const Vector2i& size) override;
 
     private:
+        static Application* _instance;
+
         Text::FontRenderer fontRenderer;
         SceneResourceManager sceneResourceManager;
         ResourceManagement::MeshResourceLoader meshResourceLoader;
         Timeline _timeline;
+
+        Game::Game* _gameScreen;
+        Menu::Menu* _menuScreen;
 };
 
 }

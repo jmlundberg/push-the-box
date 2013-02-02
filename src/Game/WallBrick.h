@@ -5,7 +5,6 @@
  * @brief Class PushTheBox::Game::WallBrick
  */
 
-#include <Color.h>
 #include <ResourceManager.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/EuclideanMatrixTransformation3D.h>

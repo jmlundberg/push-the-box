@@ -2,7 +2,6 @@
 
 #include <Mesh.h>
 #include <Swizzle.h>
-#include <SceneGraph/AbstractCamera.h>
 #include <Shaders/PhongShader.h>
 
 namespace PushTheBox { namespace Game {

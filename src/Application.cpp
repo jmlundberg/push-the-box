@@ -11,11 +11,20 @@
 
 namespace PushTheBox {
 
+Application* Application::_instance = nullptr;
+
+Application* Application::instance() {
+    CORRADE_INTERNAL_ASSERT(_instance);
+    return _instance;
+}
+
 #ifndef MAGNUM_TARGET_NACL
 Application::Application(int argc, char** argv): AbstractScreenedApplication(argc, argv, "Push The Box") {
 #else
 Application::Application(PP_Instance instance): AbstractScreenedApplication(instance) {
 #endif
+    CORRADE_INTERNAL_ASSERT(!_instance);
+    _instance = this;
 
     Renderer::setFeature(Renderer::Feature::FaceCulling, true);
     Renderer::setFeature(Renderer::Feature::DepthTest, true);
@@ -26,13 +35,15 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     sceneResourceManager.setFallback<Mesh>(new Mesh);
 
     /* Add the screens */
-    addScreen(new Menu::Menu(fontRenderer));
-    addScreen(new Game::Game);
+    addScreen(_menuScreen = new Menu::Menu(fontRenderer));
+    addScreen(_gameScreen = new Game::Game);
 
     _timeline.start();
 }
 
 Application::~Application() {
+    CORRADE_INTERNAL_ASSERT(_instance == this);
+
     /* Remove all screens before deleting the resource manager, so the
        resources can be properly freed */
     while(backScreen()) removeScreen(backScreen());

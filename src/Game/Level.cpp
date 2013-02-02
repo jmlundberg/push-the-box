@@ -8,22 +8,11 @@
 
 #include "FloorTile.h"
 #include "WallBrick.h"
-
-using namespace std;
+#include "Game/Box.h"
 
 namespace PushTheBox { namespace Game {
 
-Level* Level::_current = nullptr;
-
-Level* Level::current() {
-    CORRADE_ASSERT(_current, "No Level instance created", nullptr);
-    return _current;
-}
-
 Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables): Object3D(scene), _name(name), _remainingTargets(0) {
-    CORRADE_ASSERT(!_current, "Only one Level instance can be created at a time", );
-    _current = this;
-
     /* Get level data */
     Corrade::Utility::Resource rs("PushTheBoxData");
     std::istringstream in(rs.get("levels/" + name + ".txt"));
@@ -49,7 +38,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     std::size_t targetCount = 0;
 
     /* Parse the file */
-    playerPosition = {-1, -1};
+    _playerPosition = {-1, -1};
     Vector2i position;
     while(in.peek() > 0) {
         TileType type = {};
@@ -62,8 +51,8 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
 
             /* Starting position */
             case '@':
-                CORRADE_ASSERT(playerPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
-                playerPosition = position;
+                CORRADE_ASSERT(_playerPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
+                _playerPosition = position;
                 /* No break, as we need to mark it as floor */
 
             /* Floor */
@@ -77,8 +66,8 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
 
             /* Starting position on target */
             case '+':
-                CORRADE_ASSERT(playerPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
-                playerPosition = position;
+                CORRADE_ASSERT(_playerPosition == Vector2i(-1, -1), "Multiple starting positions in level" << name, );
+                _playerPosition = position;
                 /* No break, as we need to mark it as target */
 
             /* Target */
@@ -118,24 +107,13 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
 
     /* Sanity checks */
     CORRADE_ASSERT(_remainingTargets != 0, "Level is already solved", );
-    CORRADE_ASSERT(playerPosition != Vector2i(-1, -1), "Level" << name << "has no starting position", );
+    CORRADE_ASSERT(_playerPosition != Vector2i(-1, -1), "Level" << name << "has no starting position", );
     CORRADE_ASSERT(boxCount == targetCount, "Level" << name << "has" << boxCount << "boxes, but" << targetCount << "targets", );
 }
 
-Level::~Level() {
-    CORRADE_INTERNAL_ASSERT(_current == this);
-    _current = nullptr;
-}
-
-Level* Level::resetPlayer(Player* player) {
-    player->resetTransformation()
-          ->translate(Vector3(swizzle<'x', '0', 'y'>(playerPosition)));
-    return this;
-}
-
-void Level::movePlayer(Player* player, const Vector2i& direction) {
+void Level::movePlayer(const Vector2i& direction) {
     CORRADE_INTERNAL_ASSERT(direction.dot() == 1);
-    Vector2i newPosition = playerPosition + direction;
+    Vector2i newPosition = _playerPosition + direction;
 
     /* Cannot move out of map */
     if((newPosition < Vector2i()).any() || (newPosition >= size()).any())
@@ -144,7 +122,7 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
     /* Pushing box */
     if(at(newPosition) == TileType::Box ||
        at(newPosition) == TileType::BoxOnTarget) {
-        Vector2i newBoxPosition = playerPosition + direction*2;
+        Vector2i newBoxPosition = _playerPosition + direction*2;
 
         /* Cannot push box out of map */
         if((newBoxPosition < Vector2i()).any() || (newBoxPosition >= size()).any())
@@ -156,8 +134,15 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
             return;
 
         /* Move the box */
-        Box* box = boxAt(newPosition);
+        Box* box = nullptr;
+        for(std::size_t i = 0; i < boxes.size(); ++i) {
+            if(boxes[i]->position == newPosition) {
+                box = boxes[i];
+                break;
+            }
+        }
         CORRADE_INTERNAL_ASSERT(box);
+
         box->translate(Vector3(swizzle<'x', '0', 'y'>(direction)));
         box->position += direction;
 
@@ -187,8 +172,7 @@ void Level::movePlayer(Player* player, const Vector2i& direction) {
         return;
 
     /* Move the player */
-    player->translate(Vector3(swizzle<'x', '0', 'y'>(direction)));
-    playerPosition = newPosition;
+    _playerPosition = newPosition;
 }
 
 void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables) {
@@ -213,15 +197,6 @@ void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGro
             new WallBrick(position, this, drawables);
             break;
     }
-}
-
-Box* Level::boxAt(const Vector2i& position) {
-    for(std::size_t i = 0; i < Level::current()->boxes.size(); ++i) {
-        if(boxes[i]->position != position) continue;
-        return boxes[i];
-    }
-
-    return nullptr;
 }
 
 }}
