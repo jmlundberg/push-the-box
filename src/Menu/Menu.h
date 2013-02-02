@@ -5,6 +5,7 @@
  * @brief Class PushTheBox::Menu::Menu
  */
 
+#include <Interconnect/Receiver.h>
 #include <DebugTools/ResourceManager.h>
 #include <Physics/ObjectShapeGroup.h>
 #include <SceneGraph/Drawable.h>
@@ -18,7 +19,7 @@ namespace PushTheBox { namespace Menu {
 class Cursor;
 
 /** @brief %Menu screen */
-class Menu: public AbstractScreen {
+class Menu: public AbstractScreen, public Corrade::Interconnect::Receiver {
     public:
         Menu(Text::FontRenderer& renderer);
 

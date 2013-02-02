@@ -8,8 +8,10 @@
 #include <Shaders/TextShader.h>
 #include <Text/Font.h>
 
-#include "Cursor.h"
-#include "MenuItem.h"
+#include "Application.h"
+#include "Game/Game.h"
+#include "Menu/Cursor.h"
+#include "Menu/MenuItem.h"
 
 namespace PushTheBox { namespace Menu {
 
@@ -36,14 +38,17 @@ Menu::Menu(Text::FontRenderer& fontRenderer) {
         ->setColor(Color3<>::fromHSV(240.0f, 0.2f, 0.5f))->setPointSize(0.10f));
 
     /* Add menu items */
-    (new MenuItem("resume", &scene, &drawables, &shapes))
-        ->translate(Vector2::yAxis(0.45f));
-    (new MenuItem("restart level", &scene, &drawables, &shapes))
-        ->translate(Vector2::yAxis(0.15f));
-    (new MenuItem("new game", &scene, &drawables, &shapes))
-        ->translate(Vector2::yAxis(-0.15f));
-    (new MenuItem("credits", &scene, &drawables, &shapes))
-        ->translate(Vector2::yAxis(-0.45f));
+    MenuItem* i;
+    (i = new MenuItem("resume", &scene, &drawables, &shapes))
+        ->translate(Vector2::yAxis(0.3f));
+    MenuItem::connect(i, &MenuItem::clicked, Game::Game::instance(), &Game::Game::resume);
+
+    (i = new MenuItem("restart level", &scene, &drawables, &shapes));
+    MenuItem::connect(i, &MenuItem::clicked, Game::Game::instance(), &Game::Game::restartLevel);
+
+    (i = new MenuItem("exit", &scene, &drawables, &shapes))
+        ->translate(Vector2::yAxis(-0.3f));
+    MenuItem::connect(i, &MenuItem::clicked, Application::instance(), &Application::exit);
 
     /* Add cursor */
     (cursor = new Cursor(&scene, &drawables, &shapes))
@@ -74,9 +79,14 @@ void Menu::drawEvent() {
 }
 
 void Menu::mousePressEvent(MouseEvent& event) {
-    if(event.button() == MouseEvent::Button::Left)
-        application()->focusScreen(application()->backScreen()); /** @todo Implement me better */
-    else return;
+    if(event.button() == MouseEvent::Button::Left) {
+        cursor->resetTransformation()->translate(
+        Vector2::yScale(-1.0f)*(Vector2(event.position())/defaultFramebuffer.viewport().size()-Vector2(0.5f))*camera->projectionSize());
+
+        MenuItem* item = static_cast<MenuItem*>(shapes.firstCollision(cursor));
+        if(item) item->clicked();
+
+    } else return;
 
     event.setAccepted();
     redraw();

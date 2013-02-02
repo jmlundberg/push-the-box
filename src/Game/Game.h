@@ -5,6 +5,7 @@
  * @brief Class PushTheBox::Game::Game
  */
 
+#include <Interconnect/Receiver.h>
 #include <ResourceManager.h>
 #include <Timeline.h>
 #include <SceneGraph/AnimableGroup.h>
@@ -26,7 +27,7 @@ class Player;
 
 Renders current state of the game.
 */
-class Game: public AbstractScreen {
+class Game: public AbstractScreen, public Corrade::Interconnect::Receiver {
     public:
         static Game* instance();
 

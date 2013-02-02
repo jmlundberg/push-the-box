@@ -14,13 +14,14 @@
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/EuclideanMatrixTransformation2D.h>
 #include <Shaders/Shaders.h>
+#include <Interconnect/Emitter.h>
 
 #include "PushTheBox.h"
 
 namespace PushTheBox { namespace Menu {
 
 /** @brief %Menu item */
-class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::ObjectShape2D {
+class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::ObjectShape2D, public Corrade::Interconnect::Emitter {
     public:
         /**
          * @brief Constructor
@@ -32,6 +33,10 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::Object
         MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup, Physics::ObjectShapeGroup2D* shapeGroup);
 
         void hoverChanged(bool hovered);
+
+        inline Signal clicked() {
+            return emit(&MenuItem::clicked);
+        }
 
     protected:
         void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;

@@ -61,6 +61,8 @@ void Game::restartLevel() {
 
     /* copy string to avoid dangling reference */
     loadLevel(std::string(level->name()));
+
+    resume();
 }
 
 void Game::nextLevel() {

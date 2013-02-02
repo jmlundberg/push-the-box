@@ -35,8 +35,10 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     sceneResourceManager.setFallback<Mesh>(new Mesh);
 
     /* Add the screens */
-    addScreen(_menuScreen = new Menu::Menu(fontRenderer));
-    addScreen(_gameScreen = new Game::Game);
+    _gameScreen = new Game::Game;
+    _menuScreen = new Menu::Menu(fontRenderer);
+    addScreen(_menuScreen);
+    addScreen(_gameScreen);
 
     _timeline.start();
 }

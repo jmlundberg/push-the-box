@@ -13,6 +13,7 @@
 #include <Platform/NaClApplication.h>
 #endif
 
+#include <Interconnect/Receiver.h>
 #include <ResourceManager.h>
 #include <Timeline.h>
 #include <Text/FontRenderer.h>
@@ -31,7 +32,7 @@ namespace Menu {
 }
 
 /** @brief Main application class */
-class Application: public AbstractScreenedApplication {
+class Application: public AbstractScreenedApplication, public Corrade::Interconnect::Receiver {
     public:
         static Application* instance();
 
