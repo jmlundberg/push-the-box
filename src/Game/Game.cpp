@@ -4,13 +4,15 @@
 #include <Swizzle.h>
 #include <SceneGraph/Animable.h>
 #include <SceneGraph/AnimableGroup.h>
-#include <SceneGraph/Camera3D.h>
+#include <SceneGraph/Camera2D.h>
 #include <Shaders/PhongShader.h>
+#include <Renderer.h>
 
 #include "Application.h"
 #include "Game/Camera.h"
 #include "Game/Level.h"
 #include "Game/Player.h"
+#include "Hud.h"
 #include "Menu/Menu.h"
 
 namespace PushTheBox { namespace Game {
@@ -41,6 +43,16 @@ Game::Game(): level(nullptr) {
         ->translate({0.0f, 1.0f, 7.5f})
         ->rotateX(deg(-35.0f));
 
+    /* Hud */
+    remainingTargets = new RemainingTargets(&hudScene, &hudDrawables);
+    moves = new Moves(&hudScene, &hudDrawables);
+
+    /* Hud camera */
+    hudCameraObject = new Object2D(&hudScene);
+    (hudCamera = new SceneGraph::Camera2D<>(&hudScene))
+        ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
+        ->setProjection({2.667f, 2.0f});
+
     loadLevel("easy1");
 }
 
@@ -54,6 +66,12 @@ void Game::loadLevel(const std::string& name) {
     level = new Level(name, &scene, &drawables, &animables);
     player->resetTransformation()
           ->translate(Vector3(swizzle<'x', '0', 'y'>(level->playerPosition())));
+
+    /* Connect HUD to level state changes */
+    remainingTargets->update(level->remainingTargets());
+    moves->update(level->moves());
+    Level::connect(level, &Level::remainingTargetsChanged, remainingTargets, &RemainingTargets::update);
+    Level::connect(level, &Level::movesChanged, moves, &Moves::update);
 }
 
 void Game::restartLevel() {
@@ -125,6 +143,14 @@ void Game::drawEvent() {
           ->setAmbientColor(Color3<>::fromHSV(15.0f, 0.5f, 0.06f))
           ->setSpecularColor(Color3<>::fromHSV(50.0f, 0.5f, 1.0f));
     camera->draw(drawables);
+
+    /* Draw HUD */
+    Renderer::setFeature(Renderer::Feature::Blending, true);
+    Renderer::setBlendFunction(Renderer::BlendFunction::One, Renderer::BlendFunction::OneMinusSourceAlpha);
+    Renderer::setFeature(Renderer::Feature::DepthTest, false);
+    hudCamera->draw(hudDrawables);
+    Renderer::setFeature(Renderer::Feature::DepthTest, true);
+    Renderer::setFeature(Renderer::Feature::Blending, false);
 
     /* Schedule redraw, if there is something to animate */
     if(animables.runningCount()) redraw();

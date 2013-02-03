@@ -42,6 +42,7 @@ set(PushTheBox_SRCS
     Game/Camera.cpp
     Game/FloorTile.cpp
     Game/Game.cpp
+    Game/Hud.cpp
     Game/Player.cpp
     Game/Level.cpp
     Game/WallBrick.cpp

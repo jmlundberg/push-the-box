@@ -10,6 +10,7 @@
 #include <Timeline.h>
 #include <SceneGraph/AnimableGroup.h>
 #include <SceneGraph/Drawable.h>
+#include <SceneGraph/EuclideanMatrixTransformation2D.h>
 #include <SceneGraph/EuclideanMatrixTransformation3D.h>
 #include <SceneGraph/Scene.h>
 #include <Shaders/Shaders.h>
@@ -20,7 +21,9 @@ namespace PushTheBox { namespace Game {
 
 class Camera;
 class Level;
+class Moves;
 class Player;
+class RemainingTargets;
 
 /**
 @brief %Game screen
@@ -61,9 +64,16 @@ class Game: public AbstractScreen, public Corrade::Interconnect::Receiver {
 
         Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
         Camera* camera;
-
         Level* level;
         Player* player;
+
+        Scene2D hudScene;
+        SceneGraph::DrawableGroup<2> hudDrawables;
+        Object2D* hudCameraObject;
+        SceneGraph::Camera2D<>* hudCamera;
+
+        RemainingTargets* remainingTargets;
+        Moves* moves;
 };
 
 }}
