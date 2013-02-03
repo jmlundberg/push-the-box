@@ -1,9 +1,11 @@
 #include "Application.h"
 
+#include <Utility/Resource.h>
 #include <AbstractShaderProgram.h>
 #include <DefaultFramebuffer.h>
 #include <Renderer.h>
 #include <Mesh.h>
+#include <Shaders/TextShader.h>
 #include <Text/Font.h>
 
 #include "Game/Game.h"
@@ -34,9 +36,19 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     sceneResourceManager.setLoader(&meshResourceLoader);
     sceneResourceManager.setFallback<Mesh>(new Mesh);
 
+    /* Text rendering... */
+    SceneResourceManager::instance()->set<AbstractShaderProgram>("text2d", new Shaders::TextShader2D);
+    Corrade::Utility::Resource rs("PushTheBoxData");
+    const unsigned char* fontData;
+    std::size_t fontSize;
+    std::tie(fontData, fontSize) = rs.getRaw("luckiest-guy.ttf");
+    Text::Font* font = new Text::Font(fontRenderer, fontData, fontSize, 96.0f);
+    font->prerender("abcdefghijklmnopqrstuvwxyz0123456789 ", Vector2i(768));
+    SceneResourceManager::instance()->set("font", font);
+
     /* Add the screens */
     _gameScreen = new Game::Game;
-    _menuScreen = new Menu::Menu(fontRenderer);
+    _menuScreen = new Menu::Menu;
     addScreen(_menuScreen);
     addScreen(_gameScreen);
 

@@ -21,7 +21,7 @@ class Cursor;
 /** @brief %Menu screen */
 class Menu: public AbstractScreen, public Corrade::Interconnect::Receiver {
     public:
-        Menu(Text::FontRenderer& renderer);
+        Menu();
 
     protected:
         void focusEvent() override;
