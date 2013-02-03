@@ -76,8 +76,8 @@ void Game::nextLevel() {
 void Game::movePlayer(const Vector2i& direction) {
     CORRADE_ASSERT(level, "Game::Game::movePlayer(): no level loaded", );
 
-    level->movePlayer(direction);
-    player->translate(Vector3(swizzle<'x', '0', 'y'>(direction)));
+    if(level->movePlayer(direction))
+        player->translate(Vector3(swizzle<'x', '0', 'y'>(direction)));
 }
 
 void Game::pause() {

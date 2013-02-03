@@ -111,13 +111,13 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
     CORRADE_ASSERT(boxCount == targetCount, "Level" << name << "has" << boxCount << "boxes, but" << targetCount << "targets", );
 }
 
-void Level::movePlayer(const Vector2i& direction) {
+bool Level::movePlayer(const Vector2i& direction) {
     CORRADE_INTERNAL_ASSERT(direction.dot() == 1);
     Vector2i newPosition = _playerPosition + direction;
 
     /* Cannot move out of map */
     if((newPosition < Vector2i()).any() || (newPosition >= size()).any())
-        return;
+        return false;
 
     /* Pushing box */
     if(at(newPosition) == TileType::Box ||
@@ -126,12 +126,12 @@ void Level::movePlayer(const Vector2i& direction) {
 
         /* Cannot push box out of map */
         if((newBoxPosition < Vector2i()).any() || (newBoxPosition >= size()).any())
-            return;
+            return false;
 
         /* The box can be pushed only on the floor */
         if(at(newBoxPosition) != TileType::Floor &&
            at(newBoxPosition) != TileType::Target)
-            return;
+            return false;
 
         /* Move the box */
         Box* box = nullptr;
@@ -169,10 +169,11 @@ void Level::movePlayer(const Vector2i& direction) {
     /* Other than that we can move on the floor, but nowhere else */
     } else if(at(newPosition) != TileType::Floor &&
               at(newPosition) != TileType::Target)
-        return;
+        return false;
 
     /* Move the player */
     _playerPosition = newPosition;
+    return true;
 }
 
 void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables) {

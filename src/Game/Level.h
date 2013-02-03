@@ -42,8 +42,11 @@ class Level: public Object3D {
         /** @brief Remaining targets */
         inline std::size_t remainingTargets() const { return _remainingTargets; }
 
-        /** @brief Move player in given direction */
-        void movePlayer(const Vector2i& direction);
+        /**
+         * @brief Move player in given direction
+         * @return `True` if the player moved, `false` otherwise
+         */
+        bool movePlayer(const Vector2i& direction);
 
     private:
         void set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables);
