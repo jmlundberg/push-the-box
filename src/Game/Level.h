@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <Interconnect/Emitter.h>
 #include <SceneGraph/EuclideanMatrixTransformation3D.h>
 
 #include "PushTheBox.h"
@@ -12,7 +13,7 @@ namespace PushTheBox { namespace Game {
 class Box;
 
 /** @brief %Level */
-class Level: public Object3D {
+class Level: public Object3D, public Corrade::Interconnect::Emitter {
     public:
         enum class TileType {
             Empty = 0, Floor, Box, Wall, Target, BoxOnTarget
@@ -42,8 +43,18 @@ class Level: public Object3D {
         /** @brief Remaining targets */
         inline std::uint32_t remainingTargets() const { return _remainingTargets; }
 
+        /** @brief Remaining targets changed */
+        inline Signal remainingTargetsChanged(std::uint32_t count) {
+            return emit(&Level::remainingTargetsChanged, count);
+        }
+
         /** @brief Player moves */
         inline std::uint32_t moves() const { return _moves; }
+
+        /** @brief Player moves changed */
+        inline Signal movesChanged(std::uint32_t count) {
+            return emit(&Level::movesChanged, count);
+        }
 
         /**
          * @brief Move player in given direction

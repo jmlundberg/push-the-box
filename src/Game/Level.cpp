@@ -147,12 +147,12 @@ bool Level::movePlayer(const Vector2i& direction) {
         box->position += direction;
 
         if(at(newPosition) == TileType::BoxOnTarget) {
-            ++_remainingTargets;
+            remainingTargetsChanged(++_remainingTargets);
             at(newPosition) = TileType::Target;
         } else at(newPosition) = TileType::Floor;
 
         if(at(newBoxPosition) == TileType::Target) {
-            --_remainingTargets;
+            remainingTargetsChanged(--_remainingTargets);
             at(newBoxPosition) = TileType::BoxOnTarget;
             if(box->type != Box::Type::OnTarget) {
                 box->type = Box::Type::OnTarget;
@@ -173,7 +173,7 @@ bool Level::movePlayer(const Vector2i& direction) {
 
     /* Move the player */
     _playerPosition = newPosition;
-    _moves += Math::abs(direction).sum();
+    movesChanged(_moves += Math::abs(direction).sum());
     return true;
 }
 
