@@ -40,7 +40,7 @@ class Level: public Object3D {
         inline Vector2i playerPosition() { return _playerPosition; }
 
         /** @brief Remaining targets */
-        inline std::size_t remainingTargets() const { return _remainingTargets; }
+        inline std::uint32_t remainingTargets() const { return _remainingTargets; }
 
         /**
          * @brief Move player in given direction
@@ -57,7 +57,7 @@ class Level: public Object3D {
 
         std::string _name, _nextName;
         Vector2i _size, _playerPosition;
-        std::size_t _remainingTargets;
+        std::uint32_t _remainingTargets;
         std::vector<TileType> level;
         std::vector<Box*> boxes;
 };
