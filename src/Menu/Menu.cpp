@@ -2,7 +2,6 @@
 
 #include <DefaultFramebuffer.h>
 #include <Renderer.h>
-#include <DebugTools/ShapeRenderer.h>
 #include <SceneGraph/Camera2D.h>
 
 #include "Application.h"
@@ -19,11 +18,6 @@ Menu::Menu() {
         ->setProjection({8.0f/3.0f, 2.0f})
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 
-    /* Configure color of menu debug shapes */
-    /** @todo remove when done properly */
-    debugDrawResourceManager.set("menu", (new DebugTools::ShapeRendererOptions)
-        ->setColor(Color3<>::fromHSV(240.0f, 0.2f, 0.5f))->setPointSize(0.10f));
-
     /* Add menu items */
     MenuItem* i;
     (i = new MenuItem("resume", &scene, &drawables, &shapes))
@@ -38,7 +32,7 @@ Menu::Menu() {
     MenuItem::connect(i, &MenuItem::clicked, Application::instance(), &Application::exit);
 
     /* Add cursor */
-    (cursor = new Cursor(&scene, &drawables, &shapes))
+    (cursor = new Cursor(&scene, &shapes))
         ->translate({-10.0f, -10.0f});
 }
 

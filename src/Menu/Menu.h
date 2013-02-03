@@ -6,7 +6,6 @@
  */
 
 #include <Interconnect/Receiver.h>
-#include <DebugTools/ResourceManager.h>
 #include <Physics/ObjectShapeGroup.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/EuclideanMatrixTransformation2D.h>
@@ -32,9 +31,6 @@ class Menu: public AbstractScreen, public Corrade::Interconnect::Receiver {
         void mouseMoveEvent(MouseMoveEvent& event) override;
 
     private:
-        /** @todo remove when done properly */
-        DebugTools::ResourceManager debugDrawResourceManager;
-
         Scene2D scene;
         SceneGraph::DrawableGroup<2> drawables;
         Physics::ObjectShapeGroup2D shapes;

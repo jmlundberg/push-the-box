@@ -10,7 +10,7 @@ namespace PushTheBox { namespace Menu {
 
 class Cursor: public Object2D, public Physics::ObjectShape2D {
     public:
-        explicit Cursor(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawableGroup, Physics::ObjectShapeGroup2D* objectShapeGroup);
+        explicit Cursor(Object2D* parent, Physics::ObjectShapeGroup2D* shapes);
 };
 
 }}

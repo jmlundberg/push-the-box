@@ -1,6 +1,5 @@
 #include "MenuItem.h"
 
-#include <DebugTools/ShapeRenderer.h>
 #include <Physics/AxisAlignedBox.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <SceneGraph/Drawable.h>
@@ -15,7 +14,7 @@ namespace {
     static const Color3<> on = Color3<>::fromHSV(210.0f, 0.85f, 0.9f);
 }
 
-MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup, Physics::ObjectShapeGroup2D* shapeGroup): Object2D(parent), SceneGraph::Drawable<2>(this, drawableGroup), Physics::ObjectShape2D(this, shapeGroup), color(off) {
+MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawables, Physics::ObjectShapeGroup2D* shapes): Object2D(parent), SceneGraph::Drawable<2>(this, drawables), Physics::ObjectShape2D(this, shapes), color(off) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::TextShader2D>("text2d");
     font = SceneResourceManager::instance()->get<Text::Font>("font");
 
@@ -26,9 +25,6 @@ MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::Drawa
 
     /* Shape for collision detection */
     setShape(Physics::AxisAlignedBox2D(rect.bottomLeft(), rect.topRight()));
-
-    /** @todo remove when debugging no more */
-    new DebugTools::ShapeRenderer2D(this, "menu", drawableGroup);
 }
 
 void MenuItem::hoverChanged(bool hovered) {

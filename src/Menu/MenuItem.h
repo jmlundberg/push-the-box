@@ -25,10 +25,10 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::Object
     public:
         /**
          * @brief Constructor
-         * @param title             Title
-         * @param parent            Parent object
-         * @param drawableGroup     Drawable group
-         * @param shapeGroup        Shape group
+         * @param title         Title
+         * @param parent        Parent object
+         * @param drawables     Drawable group
+         * @param shapes        Shape group
          */
         MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup, Physics::ObjectShapeGroup2D* shapeGroup);
 
