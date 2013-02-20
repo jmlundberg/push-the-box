@@ -34,9 +34,9 @@ void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3
 
 void Box::animationStep(GLfloat time, GLfloat) {
     if(type == Type::OnFloor)
-        color = Color3<>::lerp(on, off, time/duration());
+        color = Math::lerp(on, off, time/duration());
     else
-        color = Color3<>::lerp(off, on, time/duration());
+        color = Math::lerp(off, on, time/duration());
 }
 
 void Box::animationStopped() {
