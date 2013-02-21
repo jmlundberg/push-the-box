@@ -202,7 +202,7 @@ void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
     Matrix4 xRotation = Matrix4::rotationX(angle)*camera->transformation();
 
     /* Don't rotate under the floor */
-    if(std::abs(Vector3::dot(xRotation.rotation()*Vector3::yAxis(), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
+    if(Math::abs(Vector3::dot(xRotation.rotation()*Vector3::yAxis(), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
         camera->normalizeRotation()->rotateX(angle);
 
     event.setAccepted();
