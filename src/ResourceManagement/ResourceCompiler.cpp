@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <ostream>
-#include <Math/Constants.h>
 #include <Math/Functions.h>
 #include <Math/Matrix4.h>
 #include <MeshTools/CompressIndices.h>
@@ -59,7 +58,7 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
 
         /* Rotate to have Y up */
         /** @todo Fix this in Collada importer itself */
-        Matrix4 rotation = Matrix4::rotationX(deg(-90.0f));
+        Matrix4 rotation = Matrix4::rotationX(-90.0_degf);
         MeshTools::transform(rotation, *mesh->positions(0));
         MeshTools::transform(rotation.rotation(), *mesh->normals(0));
 

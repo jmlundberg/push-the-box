@@ -1,6 +1,5 @@
 #include "Game.h"
 
-#include <Math/Constants.h>
 #include <Swizzle.h>
 #include <SceneGraph/Animable.h>
 #include <SceneGraph/AnimableGroup.h>
@@ -41,7 +40,7 @@ Game::Game(): level(nullptr) {
     /* Add camera */
     (camera = new Camera(player))
         ->translate({0.0f, 1.0f, 7.5f})
-        ->rotateX(deg(-35.0f));
+        ->rotateX(Deg(-35.0f));
 
     /* Hud */
     remainingTargets = new RemainingTargets(&hudScene, &hudDrawables);
@@ -140,8 +139,8 @@ void Game::drawEvent() {
     /* Shader settings commn for all objects */
     shader->setLightPosition((camera->cameraMatrix()*Point3D(lightPosition)).xyz())
           ->setProjectionMatrix(camera->projectionMatrix())
-          ->setAmbientColor(Color3<>::fromHSV(15.0f, 0.5f, 0.06f))
-          ->setSpecularColor(Color3<>::fromHSV(50.0f, 0.5f, 1.0f));
+          ->setAmbientColor(Color3<>::fromHSV(Deg(15.0f), 0.5f, 0.06f))
+          ->setSpecularColor(Color3<>::fromHSV(Deg(50.0f), 0.5f, 1.0f));
     camera->draw(drawables);
 
     /* Draw HUD */
@@ -160,13 +159,13 @@ void Game::keyPressEvent(KeyEvent& event) {
     /* Move forward */
     if(event.key() == KeyEvent::Key::Up || event.key() == KeyEvent::Key::W) {
         Vector3 direction = player->transformation().backward();
-        GLfloat angle = Vector3::angle(Vector3::zAxis(), direction);
+        Deg angle = Vector3::angle(Vector3::zAxis(), direction);
 
-        if(angle < Constants::pi()/6)
+        if(angle < Deg(30.0f))
             movePlayer({0, -1});
-        else if(angle > Constants::pi()/3 && angle < Constants::pi()*2/3)
+        else if(angle > Deg(60.0f) && angle < Deg(120.0f))
             movePlayer({direction.x() > 0 ? -1 : 1, 0});
-        else if(angle > Constants::pi()*5/6)
+        else if(angle > Deg(150.0f))
             movePlayer({0, 1});
 
         if(!level->remainingTargets()) nextLevel();
@@ -196,10 +195,10 @@ void Game::mousePressEvent(MouseEvent& event) {
 
 void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
     /** @todo mouse sensitivity */
-    player->normalizeRotation()->rotateY(-rad((Constants::pi()*event.relativePosition().x()/500.0f)),
+    player->normalizeRotation()->rotateY(-Rad((Constants::pi()*event.relativePosition().x()/500.0f)),
         SceneGraph::TransformationType::Local);
 
-    GLfloat angle = rad(-Constants::pi()*event.relativePosition().y()/500.0f);
+    Rad angle(-Constants::pi()*event.relativePosition().y()/500.0f);
     Matrix4 xRotation = Matrix4::rotationX(angle)*camera->transformation();
 
     /* Don't rotate under the floor */

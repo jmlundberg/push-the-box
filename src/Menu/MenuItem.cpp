@@ -10,8 +10,8 @@
 namespace PushTheBox { namespace Menu {
 
 namespace {
-    static const Color3<> off = Color3<>::fromHSV(210.0f, 0.55f, 0.9f);
-    static const Color3<> on = Color3<>::fromHSV(210.0f, 0.85f, 0.9f);
+    static const Color3<> off = Color3<>::fromHSV(Deg(210.0f), 0.55f, 0.9f);
+    static const Color3<> on = Color3<>::fromHSV(Deg(210.0f), 0.85f, 0.9f);
 }
 
 MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawables, Physics::ObjectShapeGroup2D* shapes): Object2D(parent), SceneGraph::Drawable<2>(this, drawables), Physics::ObjectShape2D(this, shapes), color(off) {
