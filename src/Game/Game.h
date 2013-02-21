@@ -69,6 +69,7 @@ class Game: public AbstractScreen, public Corrade::Interconnect::Receiver {
 
         Scene2D hudScene;
         SceneGraph::DrawableGroup<2> hudDrawables;
+        SceneGraph::AnimableGroup<2> hudAnimables;
         Object2D* hudCameraObject;
         SceneGraph::Camera2D<>* hudCamera;
 

@@ -43,7 +43,7 @@ Game::Game(): level(nullptr) {
         ->rotateX(Deg(-35.0f));
 
     /* Hud */
-    remainingTargets = new RemainingTargets(&hudScene, &hudDrawables);
+    remainingTargets = new RemainingTargets(&hudScene, &hudDrawables, &hudAnimables);
     moves = new Moves(&hudScene, &hudDrawables);
 
     /* Hud camera */
@@ -131,6 +131,8 @@ void Game::drawEvent() {
     /* Animate */
     animables.step(Application::instance()->timeline().previousFrameTime(),
                    Application::instance()->timeline().previousFrameDuration());
+    hudAnimables.step(Application::instance()->timeline().previousFrameTime(),
+                      Application::instance()->timeline().previousFrameDuration());
 
     /* Light is above the center of level */
     Vector3 lightPosition = Vector3(1.0f, 4.0f, 1.2f) +

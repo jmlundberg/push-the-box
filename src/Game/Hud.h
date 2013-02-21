@@ -3,6 +3,7 @@
 
 #include <Interconnect/Receiver.h>
 #include <ResourceManager.h>
+#include <SceneGraph/Animable.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/EuclideanMatrixTransformation2D.h>
 #include <Shaders/TextShader.h>
@@ -26,11 +27,19 @@ class AbstractHudText: public Object2D, SceneGraph::Drawable2D<>, public Corrade
         Resource<Text::Font> font;
 };
 
-class RemainingTargets: public AbstractHudText {
+class RemainingTargets: public AbstractHudText, SceneGraph::Animable2D<> {
     public:
-        RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables);
+        RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables, SceneGraph::AnimableGroup2D<>* animables);
 
         void update(std::uint32_t count);
+
+    protected:
+        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;
+        void animationStep(GLfloat time, GLfloat delta) override;
+        void animationStopped() override;
+
+    private:
+        GLfloat scale;
 };
 
 class Moves: public AbstractHudText {
