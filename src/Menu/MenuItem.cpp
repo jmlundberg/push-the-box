@@ -19,7 +19,7 @@ MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::Drawa
     font = SceneResourceManager::instance()->get<Text::Font>("font");
 
     /* Render text */
-    Rectangle rect;
+    Magnum::Rectangle rect; /* Rectangle conflicts with WINAPI, damn */
     std::tie(mesh, rect) = Text::TextRenderer2D::render(*font, 0.15f, title, &vertexBuffer, &indexBuffer, Buffer::Usage::StaticDraw);
     translate({-rect.width()/2, -0.075f});
 
