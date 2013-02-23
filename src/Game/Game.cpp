@@ -153,8 +153,8 @@ void Game::drawEvent() {
     Renderer::setFeature(Renderer::Feature::DepthTest, true);
     Renderer::setFeature(Renderer::Feature::Blending, false);
 
-    /* Schedule redraw, if there is something to animate */
-    if(animables.runningCount()) redraw();
+    /** @todo properly schedule redraw only if there is something to animate */
+    redraw();
 }
 
 void Game::keyPressEvent(KeyEvent& event) {
