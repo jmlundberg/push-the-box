@@ -139,7 +139,7 @@ void Game::drawEvent() {
             Vector3(swizzle<'x', '0', 'y'>(level->size()/2));
 
     /* Shader settings commn for all objects */
-    shader->setLightPosition((camera->cameraMatrix()*Point3D(lightPosition)).xyz())
+    shader->setLightPosition(camera->cameraMatrix().transformPoint(lightPosition))
           ->setProjectionMatrix(camera->projectionMatrix())
           ->setAmbientColor(Color3<>::fromHSV(Deg(15.0f), 0.5f, 0.06f))
           ->setSpecularColor(Color3<>::fromHSV(Deg(50.0f), 0.5f, 1.0f));
