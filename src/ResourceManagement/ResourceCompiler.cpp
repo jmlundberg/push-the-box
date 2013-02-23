@@ -58,9 +58,9 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
 
         /* Rotate to have Y up */
         /** @todo Fix this in Collada importer itself */
-        Matrix4 rotation = Matrix4::rotationX(-90.0_degf);
-        MeshTools::transform(rotation, *mesh->positions(0));
-        MeshTools::transform(rotation.rotation(), *mesh->normals(0));
+        auto rotation = Quaternion::rotation(-90.0_degf, Vector3::xAxis());
+        MeshTools::transformVectorsInPlace(rotation, *mesh->normals(0));
+        MeshTools::transformVectorsInPlace(rotation, *mesh->positions(0));
 
         /* Compress normals */
         std::vector<Math::Vector3<std::int8_t>> normals(mesh->normals(0)->size());
