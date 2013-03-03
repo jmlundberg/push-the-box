@@ -6,7 +6,7 @@
 
 namespace PushTheBox { namespace Game {
 
-AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables): Object2D(parent), Drawable<2>(this, drawables), shader(SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::TextShader2D>("text2d")), font(SceneResourceManager::instance()->get<Text::Font>("font")) {
+AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables): Object2D(parent), Drawable<2>(this, drawables), shader(SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D>("text2d")), font(SceneResourceManager::instance()->get<Text::Font>("font")) {
     text = new Text::TextRenderer2D(*font, 0.06f);
 }
 
@@ -15,7 +15,7 @@ void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::Abst
         ->setColor(Color3<>(1.0f))
         ->use();
 
-    font->texture().bind(Shaders::TextShader2D::FontTextureLayer);
+    font->texture().bind(Shaders::DistanceFieldVectorShader2D::VectorTextureLayer);
 
     text->mesh()->draw();
 }

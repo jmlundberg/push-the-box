@@ -3,7 +3,7 @@
 #include <Physics/AxisAlignedBox.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <SceneGraph/Drawable.h>
-#include <Shaders/TextShader.h>
+#include <Shaders/DistanceFieldVectorShader.h>
 #include <Text/TextRenderer.h>
 #include <Text/Font.h>
 
@@ -15,7 +15,7 @@ namespace {
 }
 
 MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawables, Physics::ObjectShapeGroup2D* shapes): Object2D(parent), SceneGraph::Drawable<2>(this, drawables), Physics::ObjectShape2D(this, shapes), color(off) {
-    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::TextShader2D>("text2d");
+    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D>("text2d");
     font = SceneResourceManager::instance()->get<Text::Font>("font");
 
     /* Render text */
@@ -36,7 +36,7 @@ void MenuItem::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCam
         ->setTransformationProjectionMatrix(camera->projectionMatrix()*transformationMatrix)
         ->use();
 
-    font->texture().bind(Shaders::TextShader2D::FontTextureLayer);
+    font->texture().bind(Shaders::DistanceFieldVectorShader2D::VectorTextureLayer);
 
     mesh.draw();
 }

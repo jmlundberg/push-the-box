@@ -5,7 +5,7 @@
 #include <DefaultFramebuffer.h>
 #include <Renderer.h>
 #include <Mesh.h>
-#include <Shaders/TextShader.h>
+#include <Shaders/DistanceFieldVectorShader.h>
 #include <Text/Font.h>
 
 #include "Game/Game.h"
@@ -37,13 +37,13 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     sceneResourceManager.setFallback<Mesh>(new Mesh);
 
     /* Text rendering... */
-    SceneResourceManager::instance()->set<AbstractShaderProgram>("text2d", new Shaders::TextShader2D);
+    SceneResourceManager::instance()->set<AbstractShaderProgram>("text2d", new Shaders::DistanceFieldVectorShader2D);
     Corrade::Utility::Resource rs("PushTheBoxData");
     const unsigned char* fontData;
     std::size_t fontSize;
     std::tie(fontData, fontSize) = rs.getRaw("luckiest-guy.ttf");
-    Text::Font* font = new Text::Font(fontRenderer, fontData, fontSize, 96.0f);
-    font->prerender("abcdefghijklmnopqrstuvwxyz0123456789 ", Vector2i(768));
+    Text::Font* font = new Text::Font(fontRenderer, fontData, fontSize, 128.0f);
+    font->prerenderDistanceField("abcdefghijklmnopqrstuvwxyz0123456789 ", Vector2i(1536), Vector2i(256), 24);
     SceneResourceManager::instance()->set("font", font);
 
     /* Add the screens */

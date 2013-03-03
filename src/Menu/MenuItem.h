@@ -42,7 +42,7 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::Object
         void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;
 
     private:
-        Resource<AbstractShaderProgram, Shaders::TextShader2D> shader;
+        Resource<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D> shader;
         Resource<Text::Font> font;
         Buffer vertexBuffer, indexBuffer;
         Mesh mesh;
