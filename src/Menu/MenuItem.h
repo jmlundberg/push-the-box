@@ -46,7 +46,7 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::Object
         Resource<Text::Font> font;
         Buffer vertexBuffer, indexBuffer;
         Mesh mesh;
-        Color3<> color;
+        Color3<> color, outlineColor;
 };
 
 }}
