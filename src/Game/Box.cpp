@@ -32,7 +32,7 @@ void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3
     mesh->draw();
 }
 
-void Box::animationStep(GLfloat time, GLfloat) {
+void Box::animationStep(Float time, Float) {
     if(type == Type::OnFloor)
         color = Math::lerp(on, off, time/duration());
     else

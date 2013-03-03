@@ -40,7 +40,7 @@ void RemainingTargets::draw(const Matrix3& transformationMatrix, SceneGraph::Abs
     AbstractHudText::draw(transformationMatrix*Matrix3::scaling(Vector2(scale)), camera);
 }
 
-void RemainingTargets::animationStep(GLfloat time, GLfloat) {
+void RemainingTargets::animationStep(Float time, Float) {
     scale = 1.0f + Math::sin(Rad(Constants::pi()*time/duration()))*0.35f;
 }
 

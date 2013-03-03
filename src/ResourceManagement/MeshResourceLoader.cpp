@@ -52,11 +52,11 @@ void MeshResourceLoader::load(ResourceKey key) {
         SceneResourceManager::instance()->set(group->value("name") + "-index", indexBuffer, ResourceDataState::Final, ResourcePolicy::Resident);
 
         /* Configure indices */
-        GLsizei indexCount = group->value<GLsizei>("indexCount");
+        Int indexCount = group->value<Int>("indexCount");
         Mesh::IndexType indexType = group->value<Mesh::IndexType>("indexType");
         mesh->setIndexCount(indexCount)
             ->setIndexBuffer(indexBuffer, 0, indexType,
-                group->value<GLuint>("indexStart"), group->value<GLuint>("indexEnd"));
+                group->value<UnsignedInt>("indexStart"), group->value<UnsignedInt>("indexEnd"));
         indexBuffer->setData(indexCount*Mesh::indexSize(indexType),
             data+group->value<std::size_t>("indexOffset"),
             Buffer::Usage::StaticDraw);
@@ -70,7 +70,7 @@ void MeshResourceLoader::load(ResourceKey key) {
 
     /* Configure vertices */
     mesh->setPrimitive(group->value<Mesh::Primitive>("primitive"))
-        ->setVertexCount(group->value<GLsizei>("vertexCount"))
+        ->setVertexCount(group->value<Int>("vertexCount"))
         ->addInterleavedVertexBuffer(vertexBuffer, 0, Shaders::PhongShader::Position(),
                 Shaders::PhongShader::Normal(Shaders::PhongShader::Normal::DataType::Byte, Shaders::PhongShader::Normal::DataOption::Normalized), 1);
     vertexBuffer->setData(mesh->vertexCount()*group->value<std::size_t>("vertexStride"),

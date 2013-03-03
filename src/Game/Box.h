@@ -53,7 +53,7 @@ class Box: public Object3D, public SceneGraph::Drawable<3>, public SceneGraph::A
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
 
         /** @seemagnum{SceneGraph::Animable::animationStep()} */
-        void animationStep(GLfloat time, GLfloat delta) override;
+        void animationStep(Float time, Float delta) override;
 
         /** @seemagnum{SceneGraph::Animable::animationStopped()} */
         void animationStopped() override;

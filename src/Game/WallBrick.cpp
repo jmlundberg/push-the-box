@@ -15,7 +15,7 @@ WallBrick::WallBrick(const Vector2i& position, Object3D* parent, SceneGraph::Dra
 
 void WallBrick::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>*) {
     shader->setTransformationMatrix(transformationMatrix)
-          ->setDiffuseColor(Color3<GLfloat>::fromHSV(Deg(30.0f), 0.2f, 1.0f))
+          ->setDiffuseColor(Color3<>::fromHSV(Deg(30.0f), 0.2f, 1.0f))
           ->use();
 
     mesh->draw();

@@ -63,9 +63,9 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
         MeshTools::transformVectorsInPlace(rotation, *mesh->positions(0));
 
         /* Compress normals */
-        std::vector<Math::Vector3<std::int8_t>> normals(mesh->normals(0)->size());
+        std::vector<Math::Vector3<Byte>> normals(mesh->normals(0)->size());
         std::transform(mesh->normals(0)->begin(), mesh->normals(0)->end(), normals.begin(),
-                       [](const Vector3& vec) { return Math::denormalize<Math::Vector3<std::int8_t>>(vec); });
+                       [](const Vector3& vec) { return Math::denormalize<Math::Vector3<Byte>>(vec); });
 
         /* Compile vertex array */
         char* data;

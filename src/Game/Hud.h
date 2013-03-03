@@ -35,11 +35,11 @@ class RemainingTargets: public AbstractHudText, SceneGraph::Animable2D<> {
 
     protected:
         void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;
-        void animationStep(GLfloat time, GLfloat delta) override;
+        void animationStep(Float time, Float delta) override;
         void animationStopped() override;
 
     private:
-        GLfloat scale;
+        Float scale;
 };
 
 class Moves: public AbstractHudText {
