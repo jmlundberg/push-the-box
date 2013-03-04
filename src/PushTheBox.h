@@ -45,7 +45,7 @@ typedef Platform::NaClApplication ApplicationBase;
 #endif
 
 /** @brief Resource manager */
-typedef ResourceManager<AbstractShaderProgram, Buffer, Mesh, Text::Font> SceneResourceManager;
+typedef ResourceManager<AbstractShaderProgram, Buffer, Mesh, Text::AbstractFont> SceneResourceManager;
 
 }
 

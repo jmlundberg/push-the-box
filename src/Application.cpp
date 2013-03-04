@@ -6,7 +6,11 @@
 #include <Renderer.h>
 #include <Mesh.h>
 #include <Shaders/DistanceFieldVectorShader.h>
-#include <Text/Font.h>
+#ifdef MAGNUM_USE_HARFBUZZ
+#include <Text/HarfBuzzFont.h>
+#else
+#include <Text/FreeTypeFont.h>
+#endif
 
 #include "Game/Game.h"
 #include "Menu/Menu.h"
@@ -42,9 +46,13 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     const unsigned char* fontData;
     std::size_t fontSize;
     std::tie(fontData, fontSize) = rs.getRaw("luckiest-guy.ttf");
-    Text::Font* font = new Text::Font(fontRenderer, fontData, fontSize, 128.0f);
+    #ifdef MAGNUM_USE_HARFBUZZ
+    Text::HarfBuzzFont* font = new Text::HarfBuzzFont(fontRenderer, fontData, fontSize, 128.0f);
+    #else
+    Text::FreeTypeFont* font = new Text::FreeTypeFont(fontRenderer, fontData, fontSize, 128.0f);
+    #endif
     font->prerenderDistanceField("abcdefghijklmnopqrstuvwxyz0123456789 ", Vector2i(1536), Vector2i(256), 24);
-    SceneResourceManager::instance()->set("font", font);
+    SceneResourceManager::instance()->set<Text::AbstractFont>("font", font);
 
     /* Add the screens */
     _gameScreen = new Game::Game;

@@ -5,7 +5,7 @@
 #include <SceneGraph/Drawable.h>
 #include <Shaders/DistanceFieldVectorShader.h>
 #include <Text/TextRenderer.h>
-#include <Text/Font.h>
+#include <Text/AbstractFont.h>
 
 namespace PushTheBox { namespace Menu {
 
@@ -17,7 +17,7 @@ namespace {
 
 MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawables, Physics::ObjectShapeGroup2D* shapes): Object2D(parent), SceneGraph::Drawable<2>(this, drawables), Physics::ObjectShape2D(this, shapes), color(off), outlineColor(outline) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D>("text2d");
-    font = SceneResourceManager::instance()->get<Text::Font>("font");
+    font = SceneResourceManager::instance()->get<Text::AbstractFont>("font");
 
     /* Render text */
     Magnum::Rectangle rect; /* Rectangle conflicts with WINAPI, damn */

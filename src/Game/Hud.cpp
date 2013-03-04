@@ -1,12 +1,12 @@
 #include "Game/Hud.h"
 
 #include <SceneGraph/AbstractCamera.h>
-#include <Text/Font.h>
+#include <Text/AbstractFont.h>
 #include <Text/TextRenderer.h>
 
 namespace PushTheBox { namespace Game {
 
-AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables): Object2D(parent), Drawable<2>(this, drawables), shader(SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D>("text2d")), font(SceneResourceManager::instance()->get<Text::Font>("font")) {
+AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables): Object2D(parent), Drawable<2>(this, drawables), shader(SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D>("text2d")), font(SceneResourceManager::instance()->get<Text::AbstractFont>("font")) {
     text = new Text::TextRenderer2D(*font, 0.06f);
 }
 

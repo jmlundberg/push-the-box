@@ -43,7 +43,7 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::Object
 
     private:
         Resource<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D> shader;
-        Resource<Text::Font> font;
+        Resource<Text::AbstractFont> font;
         Buffer vertexBuffer, indexBuffer;
         Mesh mesh;
         Color3<> color, outlineColor;
