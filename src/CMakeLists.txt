@@ -1,5 +1,3 @@
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wold-style-cast -Winit-self -pedantic -std=c++0x -fvisibility=hidden")
-
 find_package(Magnum REQUIRED
     MeshTools
     Physics
@@ -15,6 +13,7 @@ else()
     set(APPLICATION_LIBRARY ${MAGNUM_SDL2APPLICATION_LIBRARIES})
 endif()
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CORRADE_CXX_FLAGS}")
 include_directories(${MAGNUM_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
 
 corrade_add_resource(PushTheBox_RCS PushTheBoxData
