@@ -160,7 +160,7 @@ void Game::drawEvent() {
 void Game::keyPressEvent(KeyEvent& event) {
     /* Move forward */
     if(event.key() == KeyEvent::Key::Up || event.key() == KeyEvent::Key::W) {
-        Vector3 direction = player->transformation().backward();
+        Vector3 direction = player->transformation().rotation().transformVectorNormalized(Vector3::zAxis());
         Deg angle = Vector3::angle(Vector3::zAxis(), direction);
 
         if(angle < Deg(30.0f))
@@ -201,11 +201,11 @@ void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
         SceneGraph::TransformationType::Local);
 
     Rad angle(-Constants::pi()*event.relativePosition().y()/500.0f);
-    Matrix4 xRotation = Matrix4::rotationX(angle)*camera->transformation();
+    DualQuaternion xRotation = DualQuaternion::rotation(angle, Vector3::xAxis())*camera->transformation();
 
     /* Don't rotate under the floor */
-    if(Math::abs(Vector3::dot(xRotation.rotation()*Vector3::yAxis(), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
-        camera->normalizeRotation()->rotateX(angle);
+    if(Math::abs(Vector3::dot(xRotation.real().transformVector(Vector3::yAxis()), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
+        camera->setTransformation(xRotation.normalized());
 
     event.setAccepted();
     redraw();

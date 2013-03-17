@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <Interconnect/Emitter.h>
-#include <SceneGraph/EuclideanMatrixTransformation3D.h>
+#include <SceneGraph/DualQuaternionTransformation.h>
 
 #include "PushTheBox.h"
 

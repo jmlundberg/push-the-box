@@ -12,7 +12,7 @@
 #include <Physics/ObjectShape.h>
 #include <Physics/Physics.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/EuclideanMatrixTransformation2D.h>
+#include <SceneGraph/DualComplexTransformation.h>
 #include <Shaders/Shaders.h>
 #include <Interconnect/Emitter.h>
 

@@ -10,8 +10,8 @@
 #include <Timeline.h>
 #include <SceneGraph/AnimableGroup.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/EuclideanMatrixTransformation2D.h>
-#include <SceneGraph/EuclideanMatrixTransformation3D.h>
+#include <SceneGraph/DualComplexTransformation.h>
+#include <SceneGraph/DualQuaternionTransformation.h>
 #include <SceneGraph/Scene.h>
 #include <Shaders/Shaders.h>
 

@@ -2,7 +2,7 @@
 #define PushTheBox_Menu_Cursor_h
 
 #include <Physics/ObjectShapeGroup.h>
-#include <SceneGraph/EuclideanMatrixTransformation2D.h>
+#include <SceneGraph/DualComplexTransformation.h>
 
 #include "PushTheBox.h"
 

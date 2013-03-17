@@ -7,7 +7,7 @@
 
 #include <ResourceManager.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/EuclideanMatrixTransformation3D.h>
+#include <SceneGraph/DualQuaternionTransformation.h>
 #include <Shaders/Shaders.h>
 
 #include "PushTheBox.h"

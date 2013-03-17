@@ -5,7 +5,7 @@
 #include <ResourceManager.h>
 #include <SceneGraph/Animable.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/EuclideanMatrixTransformation2D.h>
+#include <SceneGraph/DualComplexTransformation.h>
 #include <Shaders/DistanceFieldVectorShader.h>
 #include <Text/Text.h>
 
