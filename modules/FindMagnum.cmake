@@ -2,11 +2,8 @@
 #
 # Basic usage:
 #  find_package(Magnum [REQUIRED])
-# This command tries to find Magnum library and then defines:
-#  MAGNUM_FOUND                 - Whether the library was found
-#  MAGNUM_TARGET_GLES           - Defined if Magnum was built for OpenGL
-#   ES, slightly reducing feature count. The same variable is also
-#   #defined in Magnum headers.
+# This command tries to find base Magnum library and then defines:
+#  MAGNUM_FOUND                 - Whether the base library was found
 #  MAGNUM_LIBRARIES             - Magnum library and dependent libraries
 #  MAGNUM_INCLUDE_DIRS          - Root include dir and include dirs of
 #   dependencies
@@ -15,24 +12,25 @@
 # components. The base library depends on Corrade, OpenGL and GLEW
 # libraries. Additional dependencies are specified by the components. The
 # optional components are:
-#  DebugTools    - DebugTools library (depends on MeshTools, Physics,
-#                  Primitives, SceneGraph and Shaders components)
-#  MeshTools     - MeshTools library
-#  Physics       - Physics library
-#  Primitives    - Library with stock geometric primitives (static)
-#  SceneGraph    - Scene graph library
-#  Shaders       - Library with stock shaders
-#  Text          - Text rendering library (depends on TextureTools component,
-#                  FreeType library and possibly HarfBuzz library, see below)
-#  TextureTools  - TextureTools library
-#  GlxApplication - GLX application (depends on X11 libraries)
-#  XEglApplication - X/EGL application (depends on EGL and X11 libraries)
-#  WindowlessGlxApplication - Windowless GLX application (depends on X11
-#   libraries)
-#  GlutApplication - GLUT application (depends on GLUT library)
-#  Sdl2Application - SDL2 application (depends on SDL2 library)
-#  NaClApplication - NaCl application (only if targetting Google Chrome
-#   Native Client)
+#  DebugTools       - DebugTools library (depends on MeshTools, Physics,
+#                     Primitives, SceneGraph and Shaders components)
+#  MeshTools        - MeshTools library
+#  Physics          - Physics library (depends on SceneGraph component)
+#  Primitives       - Primitives library
+#  SceneGraph       - SceneGraph library
+#  Shaders          - Shaders library
+#  Text             - Text library (depends on TextureTools component,
+#                     FreeType library and possibly HarfBuzz library,
+#                     see below)
+#  TextureTools     - TextureTools library
+#  GlutApplication  - GLUT application (depends on GLUT library)
+#  GlxApplication   - GLX application (depends on GLX and X11 libraries)
+#  NaClApplication  - NaCl application (only if targeting Google Chrome
+#                     Native Client)
+#  Sdl2Application  - SDL2 application (depends on SDL2 library)
+#  XEglApplication  - X/EGL application (depends on EGL and X11 libraries)
+#  WindowlessGlxApplication - Windowless GLX application (depends on GLX
+#                     and X11 libraries)
 # Example usage with specifying additional components is:
 #  find_package(Magnum [REQUIRED|COMPONENTS]
 #               MeshTools Primitives GlutApplication)
@@ -40,14 +38,21 @@
 #  MAGNUM_*_FOUND   - Whether the component was found
 #  MAGNUM_*_LIBRARIES - Component library and dependent libraries
 #  MAGNUM_*_INCLUDE_DIRS - Include dirs of module dependencies
+# If exactly one *Application or exactly one Windowless*Application
+# component is requested and found, its libraries and include dirs are
+# available in convenience aliases MAGNUM_APPLICATION_LIBRARIES /
+# MAGNUM_WINDOWLESSAPPLICATION_LIBRARIES and MAGNUM_APPLICATION_INCLUDE_DIRS
+# / MAGNUM_WINDOWLESSAPPLICATION_INCLUDE_DIRS to simplify porting.
 #
 # Features of found Magnum library are exposed in these variables:
 #  MAGNUM_TARGET_GLES   - Defined if compiled for OpenGL ES
 #  MAGNUM_TARGET_GLES2  - Defined if compiled for OpenGL ES 2.0
-#  MAGNUM_TARGET_DESKTOP_GLES - Defined if compiled with OpenGL ES emulation
-#                         on desktop OpenGL
-#  MAGNUM_TARGET_NACL   - Defined if compiled for Google Chrome Native Client
-#  MAGNUM_USE_HARFBUZZ  - Defined if HarfBuzz library is used for text rendering
+#  MAGNUM_TARGET_DESKTOP_GLES - Defined if compiled with OpenGL ES
+#   emulation on desktop OpenGL
+#  MAGNUM_TARGET_NACL   - Defined if compiled for Google Chrome Native
+#   Client
+#  MAGNUM_USE_HARFBUZZ  - Defined if HarfBuzz library is used for text
+#   rendering
 #
 # Additionally these variables are defined for internal usage:
 #  MAGNUM_INCLUDE_DIR                   - Root include dir (w/o
@@ -65,6 +70,30 @@
 #  MAGNUM_INCLUDE_INSTALL_DIR           - Header installation directory
 #  MAGNUM_PLUGINS_INCLUDE_INSTALL_DIR   - Plugin header installation
 #   directory
+#
+
+#
+#   This file is part of Magnum.
+#
+#   Copyright © 2010, 2011, 2012, 2013 Vladimír Vondruš <mosra@centrum.cz>
+#
+#   Permission is hereby granted, free of charge, to any person obtaining a
+#   copy of this software and associated documentation files (the "Software"),
+#   to deal in the Software without restriction, including without limitation
+#   the rights to use, copy, modify, merge, publish, distribute, sublicense,
+#   and/or sell copies of the Software, and to permit persons to whom the
+#   Software is furnished to do so, subject to the following conditions:
+#
+#   The above copyright notice and this permission notice shall be included
+#   in all copies or substantial portions of the Software.
+#
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+#   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+#   DEALINGS IN THE SOFTWARE.
 #
 
 # Dependencies
@@ -256,6 +285,26 @@ foreach(component ${Magnum_FIND_COMPONENTS})
 
         # Don't expose variables w/o dependencies to end users
         mark_as_advanced(FORCE MAGNUM_${_COMPONENT}_LIBRARY _MAGNUM_${_COMPONENT}_INCLUDE_DIR)
+
+        # Global aliases for Windowless*Application and *Application components.
+        # If already set, unset them to avoid ambiguity.
+        if(${component} MATCHES Windowless.+Application)
+            if(NOT DEFINED MAGNUM_WINDOWLESSAPPLICATION_LIBRARIES AND NOT DEFINED MAGNUM_WINDOWLESSAPPLICATION_INCLUDE_DIRS)
+                set(MAGNUM_WINDOWLESSAPPLICATION_LIBRARIES ${MAGNUM_${_COMPONENT}_LIBRARIES})
+                set(MAGNUM_WINDOWLESSAPPLICATION_INCLUDE_DIRS ${MAGNUM_${_COMPONENT}_INCLUDE_DIRS})
+            else()
+                unset(MAGNUM_WINDOWLESSAPPLICATION_LIBRARIES)
+                unset(MAGNUM_WINDOWLESSAPPLICATION_INCLUDE_DIRS)
+            endif()
+        elseif(${component} MATCHES .+Application)
+            if(NOT DEFINED MAGNUM_APPLICATION_LIBRARIES AND NOT DEFINED MAGNUM_APPLICATION_INCLUDE_DIRS)
+                set(MAGNUM_APPLICATION_LIBRARIES ${MAGNUM_${_COMPONENT}_LIBRARIES})
+                set(MAGNUM_APPLICATION_INCLUDE_DIRS ${MAGNUM_${_COMPONENT}_INCLUDE_DIRS})
+            else()
+                unset(MAGNUM_APPLICATION_LIBRARIES)
+                unset(MAGNUM_APPLICATION_INCLUDE_DIRS)
+            endif()
+        endif()
     else()
         set(Magnum_${component}_FOUND FALSE)
     endif()
@@ -268,7 +317,7 @@ find_package_handle_standard_args(Magnum
 
 # Dependent libraries and includes
 set(MAGNUM_INCLUDE_DIRS ${MAGNUM_INCLUDE_DIR}
-    ${MAGNUM_INCLUDE_DIR}/external
+    ${MAGNUM_INCLUDE_DIR}/OpenGL
     ${CORRADE_INCLUDE_DIR})
 set(MAGNUM_LIBRARIES ${MAGNUM_LIBRARY}
     ${CORRADE_UTILITY_LIBRARY}
