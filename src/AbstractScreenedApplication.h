@@ -61,7 +61,7 @@ they are propagated to the screens:
    further.
 
 */
-class AbstractScreenedApplication: public ApplicationBase, private Corrade::Containers::LinkedList<AbstractScreen> {
+class AbstractScreenedApplication: public Platform::Application, private Corrade::Containers::LinkedList<AbstractScreen> {
     friend class Corrade::Containers::LinkedList<AbstractScreen>;
     friend class Corrade::Containers::LinkedListItem<AbstractScreen, AbstractScreenedApplication>;
     friend class AbstractScreen;
@@ -69,9 +69,9 @@ class AbstractScreenedApplication: public ApplicationBase, private Corrade::Cont
     public:
         /** @seemagnum{Platform::Sdl2Application::Sdl2Application()} */
         #ifndef MAGNUM_TARGET_NACL
-        inline AbstractScreenedApplication(int argc, char** argv, const std::string& title = "Magnum screened application", const Vector2i& size = Vector2i(800, 600)): ApplicationBase(argc, argv, title, size) {}
+        inline AbstractScreenedApplication(int argc, char** argv, const std::string& title = "Magnum screened application", const Vector2i& size = Vector2i(800, 600)): Platform::Application(argc, argv, title, size) {}
         #else
-        inline AbstractScreenedApplication(PP_Instance instance, const Vector2i& size = Vector2i(640, 480)): ApplicationBase(instance, size) {}
+        inline AbstractScreenedApplication(PP_Instance instance, const Vector2i& size = Vector2i(640, 480)): Platform::Application(instance, size) {}
         #endif
 
         /**
@@ -144,19 +144,19 @@ class AbstractScreenedApplication: public ApplicationBase, private Corrade::Cont
         void drawEvent() override = 0;
 
         /** @seemagnum{Platform::Sdl2Application::keyPressEvent()} */
-        void keyPressEvent(ApplicationBase::KeyEvent& event) override;
+        void keyPressEvent(KeyEvent& event) override;
 
         /** @seemagnum{Platform::Sdl2Application::keyReleaseEvent()} */
-        void keyReleaseEvent(ApplicationBase::KeyEvent& event) override;
+        void keyReleaseEvent(KeyEvent& event) override;
 
         /** @seemagnum{Platform::Sdl2Application::mousePressEvent()} */
-        void mousePressEvent(ApplicationBase::MouseEvent& event) override;
+        void mousePressEvent(MouseEvent& event) override;
 
         /** @seemagnum{Platform::Sdl2Application::mouseReleaseEvent()} */
-        void mouseReleaseEvent(ApplicationBase::MouseEvent& event) override;
+        void mouseReleaseEvent(MouseEvent& event) override;
 
         /** @seemagnum{Platform::Sdl2Application::mouseMoveEvent()} */
-        void mouseMoveEvent(ApplicationBase::MouseMoveEvent& event) override;
+        void mouseMoveEvent(MouseMoveEvent& event) override;
 };
 
 }

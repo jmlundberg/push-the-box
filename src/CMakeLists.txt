@@ -7,10 +7,8 @@ find_package(Magnum REQUIRED
 
 if(MAGNUM_TARGET_NACL)
     find_package(Magnum REQUIRED NaClApplication)
-    set(APPLICATION_LIBRARY ${MAGNUM_NACLAPPLICATION_LIBRARIES})
 else()
     find_package(Magnum REQUIRED Sdl2Application)
-    set(APPLICATION_LIBRARY ${MAGNUM_SDL2APPLICATION_LIBRARIES})
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CORRADE_CXX_FLAGS}")
@@ -62,7 +60,7 @@ target_link_libraries(push-the-box
     ${MAGNUM_SCENEGRAPH_LIBRARIES}
     ${MAGNUM_SHADERS_LIBRARIES}
     ${MAGNUM_TEXT_LIBRARIES}
-    ${APPLICATION_LIBRARY})
+    ${MAGNUM_APPLICATION_LIBRARIES})
 
 if(NOT MAGNUM_TARGET_NACL)
     add_subdirectory(ResourceManagement)
