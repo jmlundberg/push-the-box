@@ -25,7 +25,7 @@ Application* Application::instance() {
 }
 
 #ifndef MAGNUM_TARGET_NACL
-Application::Application(int argc, char** argv): AbstractScreenedApplication(argc, argv, "Push The Box") {
+Application::Application(int argc, char** argv): AbstractScreenedApplication(argc, argv, (new Configuration())->setTitle("Push The Box")) {
 #else
 Application::Application(PP_Instance instance): AbstractScreenedApplication(instance) {
 #endif

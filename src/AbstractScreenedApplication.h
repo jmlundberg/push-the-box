@@ -69,9 +69,9 @@ class AbstractScreenedApplication: public Platform::Application, private Corrade
     public:
         /** @seemagnum{Platform::Sdl2Application::Sdl2Application()} */
         #ifndef MAGNUM_TARGET_NACL
-        inline AbstractScreenedApplication(int argc, char** argv, const std::string& title = "Magnum screened application", const Vector2i& size = Vector2i(800, 600)): Platform::Application(argc, argv, title, size) {}
+        inline AbstractScreenedApplication(int argc, char** argv, Configuration* configuration): Platform::Application(argc, argv, configuration) {}
         #else
-        inline AbstractScreenedApplication(PP_Instance instance, const Vector2i& size = Vector2i(640, 480)): Platform::Application(instance, size) {}
+        inline AbstractScreenedApplication(PP_Instance instance, Configuration* configuration): Platform::Application(instance, configuration) {}
         #endif
 
         /**
