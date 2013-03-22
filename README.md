@@ -5,7 +5,7 @@ is to **push** all the boxes to their destination places.
 
 ![Screenshot](https://github.com/nuclearwhales/push-the-box/raw/master/screenshot.png)
 
-**Playable version is available** on http://nuclearwhales.github.com/push-the-box .
+(Slightly outdated) **playable version is available** on http://nuclearwhales.github.com/push-the-box.
 Please be patient, it will took a while before it loads -- the dependency
 libraries have ~10 MB in total. If you encounter any problems, please let us
 know :-)
@@ -36,18 +36,15 @@ currently 11 playable levels.
 Why there is no...
 ------------------
 
- - menu? highscore? HUD? help text?
- - no intuitive controls? effects? sound?
-
-Well... we ran out of time :-) The most time-consuming task was porting of the
-engine to NaCl. However, the game is still work in progress, so be sure to
-check for updates!
+Still work in progress :-)
 
 Compiling and running the game
 ------------------------------
 
 You can play the game online on the link provided above, but you can also
-compile and run it on your own. You need these things:
+compile and run it on your own. You can run it either natively using SDL2 or in
+NaCl itself (if everything needed by current version is ported there). In case
+of NaCl you need these things:
 
  - [Native Client SDK](https://developers.google.com/native-client/beta/sdk/download).
    Version used here is `pepper_22`, i.e. unzip it and run `./naclsdk update pepper_22`.
