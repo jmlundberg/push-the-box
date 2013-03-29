@@ -14,9 +14,9 @@
 #endif
 
 #include <Interconnect/Receiver.h>
+#include <PluginManager/PluginManager.h>
 #include <ResourceManager.h>
 #include <Timeline.h>
-#include <Text/FreeTypeFont.h>
 
 #include "AbstractScreenedApplication.h"
 #include "ResourceManagement/MeshResourceLoader.h"
@@ -61,7 +61,7 @@ class Application: public AbstractScreenedApplication, public Corrade::Interconn
     private:
         static Application* _instance;
 
-        Text::FreeTypeFontRenderer fontRenderer;
+        Corrade::PluginManager::PluginManager<Text::AbstractFont> fontPluginManager;
         SceneResourceManager sceneResourceManager;
         ResourceManagement::MeshResourceLoader meshResourceLoader;
         Timeline _timeline;

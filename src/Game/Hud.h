@@ -25,6 +25,7 @@ class AbstractHudText: public Object2D, SceneGraph::Drawable2D<>, public Corrade
     private:
         Resource<AbstractShaderProgram, Magnum::Shaders::DistanceFieldVectorShader2D> shader;
         Resource<Text::AbstractFont> font;
+        Resource<Text::GlyphCache> glyphCache;
 };
 
 class RemainingTargets: public AbstractHudText, SceneGraph::Animable2D<> {

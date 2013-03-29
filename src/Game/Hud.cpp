@@ -2,12 +2,13 @@
 
 #include <SceneGraph/AbstractCamera.h>
 #include <Text/AbstractFont.h>
+#include <Text/GlyphCache.h>
 #include <Text/TextRenderer.h>
 
 namespace PushTheBox { namespace Game {
 
-AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables): Object2D(parent), Drawable<2>(this, drawables), shader(SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D>("text2d")), font(SceneResourceManager::instance()->get<Text::AbstractFont>("font")) {
-    text = new Text::TextRenderer2D(*font, 0.06f);
+AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables): Object2D(parent), Drawable<2>(this, drawables), shader(SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D>("text2d")), font(SceneResourceManager::instance()->get<Text::AbstractFont>("font")), glyphCache(SceneResourceManager::instance()->get<Text::GlyphCache>("cache")) {
+    text = new Text::TextRenderer2D(font, glyphCache, 0.06f);
 }
 
 void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) {
@@ -16,7 +17,7 @@ void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::Abst
         ->setOutlineRange(0.5f, 0.0f)
         ->use();
 
-    font->texture().bind(Shaders::DistanceFieldVectorShader2D::VectorTextureLayer);
+    glyphCache->texture()->bind(Shaders::DistanceFieldVectorShader2D::VectorTextureLayer);
 
     text->mesh()->draw();
 }

@@ -1,11 +1,13 @@
 #include "MenuItem.h"
 
+#include <ResourceManager.h>
 #include <Physics/AxisAlignedBox.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <SceneGraph/Drawable.h>
 #include <Shaders/DistanceFieldVectorShader.h>
-#include <Text/TextRenderer.h>
 #include <Text/AbstractFont.h>
+#include <Text/GlyphCache.h>
+#include <Text/TextRenderer.h>
 
 namespace PushTheBox { namespace Menu {
 
@@ -17,11 +19,12 @@ namespace {
 
 MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawables, Physics::ObjectShapeGroup2D* shapes): Object2D(parent), SceneGraph::Drawable<2>(this, drawables), Physics::ObjectShape2D(this, shapes), color(off), outlineColor(outline) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D>("text2d");
-    font = SceneResourceManager::instance()->get<Text::AbstractFont>("font");
+    auto font = SceneResourceManager::instance()->get<Text::AbstractFont>("font");
+    glyphCache = SceneResourceManager::instance()->get<Text::GlyphCache>("cache");
 
     /* Render text */
     Magnum::Rectangle rect; /* Rectangle conflicts with WINAPI, damn */
-    std::tie(mesh, rect) = Text::TextRenderer2D::render(*font, 0.15f, title, &vertexBuffer, &indexBuffer, Buffer::Usage::StaticDraw);
+    std::tie(mesh, rect) = Text::TextRenderer2D::render(font, glyphCache, 0.15f, title, &vertexBuffer, &indexBuffer, Buffer::Usage::StaticDraw);
     translate({-rect.width()/2, -0.075f});
 
     /* Shape for collision detection */
@@ -40,7 +43,7 @@ void MenuItem::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCam
         ->setTransformationProjectionMatrix(camera->projectionMatrix()*transformationMatrix)
         ->use();
 
-    font->texture().bind(Shaders::DistanceFieldVectorShader2D::VectorTextureLayer);
+    glyphCache->texture()->bind(Shaders::DistanceFieldVectorShader2D::VectorTextureLayer);
 
     mesh.draw();
 }

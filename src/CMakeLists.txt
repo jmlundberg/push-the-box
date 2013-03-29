@@ -12,7 +12,10 @@ else()
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CORRADE_CXX_FLAGS}")
-include_directories(${MAGNUM_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${MAGNUM_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configure.h.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/configure.h)
 
 corrade_add_resource(PushTheBox_RCS PushTheBoxData
     ../resources/luckiest-guy.ttf ALIAS luckiest-guy.ttf

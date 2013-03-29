@@ -6,14 +6,14 @@
 #include <Renderer.h>
 #include <Mesh.h>
 #include <Shaders/DistanceFieldVectorShader.h>
-#ifdef MAGNUM_USE_HARFBUZZ
-#include <Text/HarfBuzzFont.h>
-#else
-#include <Text/FreeTypeFont.h>
-#endif
+#include <Text/DistanceFieldGlyphCache.h>
+#include <Text/AbstractFont.h>
 
 #include "Game/Game.h"
 #include "Menu/Menu.h"
+#include "configure.h"
+
+using Corrade::PluginManager::LoadState;
 
 namespace PushTheBox {
 
@@ -25,10 +25,14 @@ Application* Application::instance() {
 }
 
 #ifndef MAGNUM_TARGET_NACL
-Application::Application(int argc, char** argv): AbstractScreenedApplication(argc, argv, (new Configuration())->setTitle("Push The Box")) {
+Application::Application(int argc, char** argv): AbstractScreenedApplication(argc, argv, (new Configuration())
+    ->setTitle("Push The Box")
+    ->setSampleCount(16)),
 #else
-Application::Application(PP_Instance instance): AbstractScreenedApplication(instance) {
+Application::Application(PP_Instance instance): AbstractScreenedApplication(instance),
 #endif
+        fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
+{
     CORRADE_INTERNAL_ASSERT(!_instance);
     _instance = this;
 
@@ -40,19 +44,31 @@ Application::Application(PP_Instance instance): AbstractScreenedApplication(inst
     sceneResourceManager.setLoader(&meshResourceLoader);
     sceneResourceManager.setFallback<Mesh>(new Mesh);
 
-    /* Text rendering... */
-    SceneResourceManager::instance()->set<AbstractShaderProgram>("text2d", new Shaders::DistanceFieldVectorShader2D);
+    /* Font plugin -- try HarfBuzz or FreeType as fallback */
+    Text::AbstractFont* font;
+    if(fontPluginManager.load("HarfBuzzFont") & (LoadState::Loaded|LoadState::Static))
+        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("HarfBuzzFont"));
+    else if(fontPluginManager.load("FreeTypeFont") & (LoadState::Loaded|LoadState::Static))
+        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("FreeTypeFont"));
+    else {
+        Error() << "Cannot open any font plugin";
+        std::exit(1);
+    }
+
+    /* Load font and create glyph cache */
     Corrade::Utility::Resource rs("PushTheBoxData");
     const unsigned char* fontData;
     std::size_t fontSize;
     std::tie(fontData, fontSize) = rs.getRaw("luckiest-guy.ttf");
-    #ifdef MAGNUM_USE_HARFBUZZ
-    Text::HarfBuzzFont* font = new Text::HarfBuzzFont(fontRenderer, fontData, fontSize, 128.0f);
-    #else
-    Text::FreeTypeFont* font = new Text::FreeTypeFont(fontRenderer, fontData, fontSize, 128.0f);
-    #endif
-    font->prerenderDistanceField("abcdefghijklmnopqrstuvwxyz0123456789 ", Vector2i(1536), Vector2i(256), 24);
-    SceneResourceManager::instance()->set<Text::AbstractFont>("font", font);
+    font->open(fontData, fontSize, 128.0f);
+    Text::GlyphCache* cache = new Text::DistanceFieldGlyphCache(Vector2i(1536), Vector2i(256), 24);
+    font->createGlyphCache(cache, "abcdefghijklmnopqrstuvwxyz0123456789 ");
+
+    /* Save font resources to resource manager */
+    SceneResourceManager::instance()->set<AbstractShaderProgram>("text2d", new Shaders::DistanceFieldVectorShader2D);
+    /** @todo No need to have manual policy when plugin is unloaded automatically */
+    SceneResourceManager::instance()->set("font", font, ResourceDataState::Final, ResourcePolicy::Manual);
+    SceneResourceManager::instance()->set("cache", cache);
 
     /* Add the screens */
     _gameScreen = new Game::Game;
@@ -69,6 +85,10 @@ Application::~Application() {
     /* Remove all screens before deleting the resource manager, so the
        resources can be properly freed */
     while(backScreen()) removeScreen(backScreen());
+
+    /** @todo fix this in PluginManager */
+    sceneResourceManager.free<Text::AbstractFont>();
+    fontPluginManager.unload("HarfBuzzFont");
 }
 
 void Application::viewportEvent(const Vector2i& size) {

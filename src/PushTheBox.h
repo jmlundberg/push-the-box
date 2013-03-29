@@ -26,7 +26,7 @@ typedef SceneGraph::Object<SceneGraph::DualComplexTransformation<>> Object2D;
 typedef SceneGraph::Scene<SceneGraph::DualComplexTransformation<>> Scene2D;
 
 /** @brief Resource manager */
-typedef ResourceManager<AbstractShaderProgram, Buffer, Mesh, Text::AbstractFont> SceneResourceManager;
+typedef ResourceManager<AbstractShaderProgram, Buffer, Mesh, Text::AbstractFont, Text::GlyphCache> SceneResourceManager;
 
 }
 
