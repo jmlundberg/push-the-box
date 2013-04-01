@@ -20,7 +20,7 @@ ResourceCompiler::ResourceCompiler(const std::string& filename): manager(MAGNUM_
     manager.load("ColladaImporter");
     importer = manager.instance("ColladaImporter");
     CORRADE_ASSERT(importer, "Cannot load ColladaImporter plugin from" << manager.pluginDirectory() << "because" << manager.loadState("ColladaImporter"), );
-    CORRADE_ASSERT(importer->open(filename), "Cannot open file" << filename, );
+    CORRADE_ASSERT(importer->openFile(filename), "Cannot open file" << filename, );
 }
 
 void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ostream& out) {
@@ -80,6 +80,7 @@ void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ost
 
         out.write(data, vertexCount*stride);
         delete[] data;
+        delete mesh;
     }
 }
 

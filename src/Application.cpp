@@ -24,14 +24,12 @@ Application* Application::instance() {
     return _instance;
 }
 
-#ifndef MAGNUM_TARGET_NACL
-Application::Application(int argc, char** argv): AbstractScreenedApplication(argc, argv, (new Configuration())
+Application::Application(const Arguments& arguments): AbstractScreenedApplication(arguments, (new Configuration())
+    #ifndef CORRADE_TARGET_NACL
     ->setTitle("Push The Box")
-    ->setSampleCount(16)),
-#else
-Application::Application(PP_Instance instance): AbstractScreenedApplication(instance),
-#endif
-        fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
+    ->setSampleCount(16)
+    #endif
+    ), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
 {
     CORRADE_INTERNAL_ASSERT(!_instance);
     _instance = this;

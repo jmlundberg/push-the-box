@@ -7,7 +7,7 @@
 
 #include "PushTheBox.h"
 
-#ifndef MAGNUM_TARGET_NACL
+#ifndef CORRADE_TARGET_NACL
 #include <Platform/Sdl2Application.h>
 #else
 #include <Platform/NaClApplication.h>
@@ -37,11 +37,7 @@ class Application: public AbstractScreenedApplication, public Corrade::Interconn
         static Application* instance();
 
         /** @brief Constructor */
-        #ifndef MAGNUM_TARGET_NACL
-        Application(int argc, char** argv);
-        #else
-        Application(PP_Instance instance);
-        #endif
+        Application(const Arguments& arguments);
 
         ~Application();
 

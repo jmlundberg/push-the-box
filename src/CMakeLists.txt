@@ -5,7 +5,7 @@ find_package(Magnum REQUIRED
     Shaders
     Text)
 
-if(MAGNUM_TARGET_NACL)
+if(CORRADE_TARGET_NACL)
     find_package(Magnum REQUIRED NaClApplication)
 else()
     find_package(Magnum REQUIRED Sdl2Application)
@@ -65,12 +65,12 @@ target_link_libraries(push-the-box
     ${MAGNUM_TEXT_LIBRARIES}
     ${MAGNUM_APPLICATION_LIBRARIES})
 
-if(NOT MAGNUM_TARGET_NACL)
+if(NOT CORRADE_TARGET_NACL)
     add_subdirectory(ResourceManagement)
 endif()
 
 # Installation for NaCl
-if(MAGNUM_TARGET_NACL)
+if(CORRADE_TARGET_NACL)
     install(FILES index.html push-the-box.nmf DESTINATION ${CMAKE_INSTALL_PREFIX})
     install(TARGETS push-the-box DESTINATION ${CMAKE_INSTALL_PREFIX})
 

@@ -106,7 +106,7 @@ void Game::resume() {
 }
 
 void Game::focusEvent() {
-    #ifdef MAGNUM_TARGET_NACL
+    #ifdef CORRADE_TARGET_NACL
     Application::instance()->setFullscreen(true);
     #endif
     Application::instance()->setMouseLocked(true);
@@ -118,7 +118,7 @@ void Game::blurEvent() {
     setPropagatedEvents(PropagatedEvent::Draw);
 
     Application::instance()->setMouseLocked(false);
-    #ifdef MAGNUM_TARGET_NACL
+    #ifdef CORRADE_TARGET_NACL
     Application::instance()->setFullscreen(false);
     #endif
 }

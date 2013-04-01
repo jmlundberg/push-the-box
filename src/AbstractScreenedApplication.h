@@ -8,7 +8,7 @@
 #include <Containers/LinkedList.h>
 #include <Magnum.h>
 
-#ifndef MAGNUM_TARGET_NACL
+#ifndef CORRADE_TARGET_NACL
 #include <Platform/Sdl2Application.h>
 #else
 #include <Platform/NaClApplication.h>
@@ -68,7 +68,7 @@ class AbstractScreenedApplication: public Platform::Application, private Corrade
 
     public:
         /** @seemagnum{Platform::Sdl2Application::Sdl2Application()} */
-        #ifndef MAGNUM_TARGET_NACL
+        #ifndef CORRADE_TARGET_NACL
         inline AbstractScreenedApplication(int argc, char** argv, Configuration* configuration): Platform::Application(argc, argv, configuration) {}
         #else
         inline AbstractScreenedApplication(PP_Instance instance, Configuration* configuration): Platform::Application(instance, configuration) {}
