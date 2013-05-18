@@ -1,9 +1,10 @@
 find_package(Magnum REQUIRED
     MeshTools
-    Physics
     SceneGraph
     Shaders
-    Text)
+    Shapes
+    Text
+    TextureTools)
 
 if(CORRADE_TARGET_NACL)
     find_package(Magnum REQUIRED NaClApplication)
@@ -12,7 +13,10 @@ else()
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CORRADE_CXX_FLAGS}")
-include_directories(${MAGNUM_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${MAGNUM_INCLUDE_DIRS}
+    ${MAGNUM_APPLICATION_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR})
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configure.h.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/configure.h)
@@ -59,10 +63,11 @@ add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box
     ${CORRADE_INTERCONNECT_LIBRARIES}
     ${MAGNUM_LIBRARIES}
-    ${MAGNUM_PHYSICS_LIBRARIES}
     ${MAGNUM_SCENEGRAPH_LIBRARIES}
     ${MAGNUM_SHADERS_LIBRARIES}
+    ${MAGNUM_SHAPES_LIBRARIES}
     ${MAGNUM_TEXT_LIBRARIES}
+    ${MAGNUM_TEXTURETOOLS_LIBRARIES}
     ${MAGNUM_APPLICATION_LIBRARIES})
 
 if(NOT CORRADE_TARGET_NACL)

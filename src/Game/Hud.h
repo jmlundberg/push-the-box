@@ -6,7 +6,7 @@
 #include <SceneGraph/Animable.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/DualComplexTransformation.h>
-#include <Shaders/DistanceFieldVectorShader.h>
+#include <Shaders/DistanceFieldVector.h>
 #include <Text/Text.h>
 
 #include "PushTheBox.h"
@@ -23,7 +23,7 @@ class AbstractHudText: public Object2D, SceneGraph::Drawable2D<>, public Corrade
         Text::TextRenderer2D* text;
 
     private:
-        Resource<AbstractShaderProgram, Magnum::Shaders::DistanceFieldVectorShader2D> shader;
+        Resource<AbstractShaderProgram, Magnum::Shaders::DistanceFieldVector2D> shader;
         Resource<Text::AbstractFont> font;
         Resource<Text::GlyphCache> glyphCache;
 };

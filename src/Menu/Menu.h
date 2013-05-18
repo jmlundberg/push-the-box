@@ -6,7 +6,7 @@
  */
 
 #include <Interconnect/Receiver.h>
-#include <Physics/ObjectShapeGroup.h>
+#include <Shapes/ShapeGroup.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/DualComplexTransformation.h>
 #include <SceneGraph/Scene.h>
@@ -33,7 +33,7 @@ class Menu: public AbstractScreen, public Corrade::Interconnect::Receiver {
     private:
         Scene2D scene;
         SceneGraph::DrawableGroup<2> drawables;
-        Physics::ObjectShapeGroup2D shapes;
+        Shapes::ShapeGroup2D shapes;
 
         Object2D* cameraObject;
         SceneGraph::Camera2D<>* camera;

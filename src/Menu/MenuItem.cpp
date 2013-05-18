@@ -1,10 +1,10 @@
 #include "MenuItem.h"
 
 #include <ResourceManager.h>
-#include <Physics/AxisAlignedBox.h>
 #include <SceneGraph/AbstractCamera.h>
 #include <SceneGraph/Drawable.h>
-#include <Shaders/DistanceFieldVectorShader.h>
+#include <Shaders/DistanceFieldVector.h>
+#include <Shapes/AxisAlignedBox.h>
 #include <Text/AbstractFont.h>
 #include <Text/GlyphCache.h>
 #include <Text/TextRenderer.h>
@@ -17,8 +17,8 @@ namespace {
     static const Color3<> on = Color3<>::fromHSV(Deg(210.0f), 0.85f, 0.9f);
 }
 
-MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawables, Physics::ObjectShapeGroup2D* shapes): Object2D(parent), SceneGraph::Drawable<2>(this, drawables), Physics::ObjectShape2D(this, shapes), color(off), outlineColor(outline) {
-    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D>("text2d");
+MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawables, Shapes::ShapeGroup2D* shapes): Object2D(parent), SceneGraph::Drawable<2>(this, drawables), Shapes::Shape<Shapes::AxisAlignedBox2D>(this, shapes), color(off), outlineColor(outline) {
+    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVector2D>("text2d");
     auto font = SceneResourceManager::instance()->get<Text::AbstractFont>("font");
     glyphCache = SceneResourceManager::instance()->get<Text::GlyphCache>("cache");
 
@@ -28,7 +28,7 @@ MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::Drawa
     translate({-rect.width()/2, -0.075f});
 
     /* Shape for collision detection */
-    setShape(Physics::AxisAlignedBox2D(rect.bottomLeft(), rect.topRight()));
+    setShape({rect.bottomLeft(), rect.topRight()});
 }
 
 void MenuItem::hoverChanged(bool hovered) {
@@ -43,7 +43,7 @@ void MenuItem::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCam
         ->setTransformationProjectionMatrix(camera->projectionMatrix()*transformationMatrix)
         ->use();
 
-    glyphCache->texture()->bind(Shaders::DistanceFieldVectorShader2D::VectorTextureLayer);
+    glyphCache->texture()->bind(Shaders::DistanceFieldVector2D::VectorTextureLayer);
 
     mesh.draw();
 }

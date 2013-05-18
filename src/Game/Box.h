@@ -63,7 +63,7 @@ class Box: public Object3D, public SceneGraph::Drawable<3>, public SceneGraph::A
             setState(SceneGraph::AnimationState::Running);
         }
 
-        Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
+        Resource<AbstractShaderProgram, Shaders::Phong> shader;
         Resource<Mesh> mesh;
         Vector2i position;
         Type type;

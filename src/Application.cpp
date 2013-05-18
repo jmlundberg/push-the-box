@@ -5,9 +5,14 @@
 #include <DefaultFramebuffer.h>
 #include <Renderer.h>
 #include <Mesh.h>
-#include <Shaders/DistanceFieldVectorShader.h>
+#include <Shaders/DistanceFieldVector.h>
 #include <Text/DistanceFieldGlyphCache.h>
 #include <Text/AbstractFont.h>
+
+#ifdef MAGNUM_BUILD_STATIC
+#include <Shaders/magnumShadersResourceImport.hpp>
+#include <TextureTools/magnumTextureToolsResourceImport.hpp>
+#endif
 
 #include "Game/Game.h"
 #include "Menu/Menu.h"
@@ -24,7 +29,7 @@ Application* Application::instance() {
     return _instance;
 }
 
-Application::Application(const Arguments& arguments): AbstractScreenedApplication(arguments, (new Configuration())
+Application::Application(const Arguments& arguments): AbstractScreenedApplication(arguments, (new Configuration)
     #ifndef CORRADE_TARGET_NACL
     ->setTitle("Push The Box")
     ->setSampleCount(16)
@@ -63,7 +68,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     font->createGlyphCache(cache, "abcdefghijklmnopqrstuvwxyz0123456789 ");
 
     /* Save font resources to resource manager */
-    SceneResourceManager::instance()->set<AbstractShaderProgram>("text2d", new Shaders::DistanceFieldVectorShader2D);
+    SceneResourceManager::instance()->set<AbstractShaderProgram>("text2d", new Shaders::DistanceFieldVector2D);
     /** @todo No need to have manual policy when plugin is unloaded automatically */
     SceneResourceManager::instance()->set("font", font, ResourceDataState::Final, ResourcePolicy::Manual);
     SceneResourceManager::instance()->set("cache", cache);

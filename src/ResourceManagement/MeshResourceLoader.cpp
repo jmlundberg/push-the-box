@@ -4,7 +4,7 @@
 #include <Utility/Resource.h>
 #include <Buffer.h>
 #include <Mesh.h>
-#include <Shaders/PhongShader.h>
+#include <Shaders/Phong.h>
 
 #include <Resource.h>
 
@@ -71,8 +71,10 @@ void MeshResourceLoader::load(ResourceKey key) {
     /* Configure vertices */
     mesh->setPrimitive(group->value<Mesh::Primitive>("primitive"))
         ->setVertexCount(group->value<Int>("vertexCount"))
-        ->addInterleavedVertexBuffer(vertexBuffer, 0, Shaders::PhongShader::Position(),
-                Shaders::PhongShader::Normal(Shaders::PhongShader::Normal::DataType::Byte, Shaders::PhongShader::Normal::DataOption::Normalized), 1);
+        ->addInterleavedVertexBuffer(vertexBuffer, 0,
+            Shaders::Phong::Position(),
+            Shaders::Phong::Normal(Shaders::Phong::Normal::DataType::Byte, Shaders::Phong::Normal::DataOption::Normalized),
+            1);
     vertexBuffer->setData(mesh->vertexCount()*group->value<std::size_t>("vertexStride"),
                           data+group->value<std::size_t>("vertexOffset"),
                           Buffer::Usage::StaticDraw);

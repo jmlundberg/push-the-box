@@ -68,11 +68,7 @@ class AbstractScreenedApplication: public Platform::Application, private Corrade
 
     public:
         /** @seemagnum{Platform::Sdl2Application::Sdl2Application()} */
-        #ifndef CORRADE_TARGET_NACL
-        inline AbstractScreenedApplication(int argc, char** argv, Configuration* configuration): Platform::Application(argc, argv, configuration) {}
-        #else
-        inline AbstractScreenedApplication(PP_Instance instance, Configuration* configuration): Platform::Application(instance, configuration) {}
-        #endif
+        inline AbstractScreenedApplication(const Arguments& arguments, Configuration* configuration): Platform::Application(arguments, configuration) {}
 
         /**
          * @brief Add screen to application

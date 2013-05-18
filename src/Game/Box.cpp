@@ -4,7 +4,7 @@
 #include <Mesh.h>
 #include <Swizzle.h>
 #include <SceneGraph/AbstractCamera.h>
-#include <Shaders/PhongShader.h>
+#include <Shaders/Phong.h>
 
 namespace PushTheBox { namespace Game {
 
@@ -14,7 +14,7 @@ namespace {
 }
 
 Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables): Object3D(parent), SceneGraph::Drawable<3>(this, drawables), SceneGraph::Animable<3>(this, animables), position(position), type(type), color(type == Type::OnFloor ? off : on) {
-    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
+    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::Phong>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
 
     translate(Vector3(swizzle<'x', '0', 'y'>(position)));

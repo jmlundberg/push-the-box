@@ -38,7 +38,7 @@ class FloorTile: public Object3D, SceneGraph::Drawable<3> {
         void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
 
     private:
-        Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
+        Resource<AbstractShaderProgram, Shaders::Phong> shader;
         Resource<Mesh> mesh;
         const Type type;
 };

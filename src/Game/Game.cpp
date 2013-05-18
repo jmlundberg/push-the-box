@@ -4,7 +4,7 @@
 #include <SceneGraph/Animable.h>
 #include <SceneGraph/AnimableGroup.h>
 #include <SceneGraph/Camera2D.h>
-#include <Shaders/PhongShader.h>
+#include <Shaders/Phong.h>
 #include <Renderer.h>
 
 #include "Application.h"
@@ -31,8 +31,8 @@ Game::Game(): level(nullptr) {
     setPropagatedEvents(PropagatedEvent::Draw);
 
     /* Add shader to resource manager */
-    SceneResourceManager::instance()->set<AbstractShaderProgram>("phong", new Shaders::PhongShader);
-    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
+    SceneResourceManager::instance()->set<AbstractShaderProgram>("phong", new Shaders::Phong);
+    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::Phong>("phong");
 
     /* Add player */
     player = new Player(&scene, &drawables);
@@ -197,7 +197,7 @@ void Game::mousePressEvent(MouseEvent& event) {
 
 void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
     /** @todo mouse sensitivity */
-    player->normalizeRotation()->rotateY(-Rad((Constants::pi()*event.relativePosition().x()/500.0f)),
+    player->normalizeRotation()->rotateY(-Rad(Constants::pi())*event.relativePosition().x()/500.0f,
         SceneGraph::TransformationType::Local);
 
     Rad angle(-Constants::pi()*event.relativePosition().y()/500.0f);

@@ -2,12 +2,12 @@
 
 #include <Mesh.h>
 #include <Swizzle.h>
-#include <Shaders/PhongShader.h>
+#include <Shaders/Phong.h>
 
 namespace PushTheBox { namespace Game {
 
 WallBrick::WallBrick(const Vector2i& position, Object3D* parent, SceneGraph::DrawableGroup<3>* group): Object3D(parent), SceneGraph::Drawable<3>(this, group) {
-    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
+    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::Phong>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("wall-mesh");
 
     translate(Vector3(swizzle<'x', '0', 'y'>(position)));

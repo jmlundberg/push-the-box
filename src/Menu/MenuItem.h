@@ -9,11 +9,11 @@
 #include <Color.h>
 #include <Mesh.h>
 #include <Resource.h>
-#include <Physics/ObjectShape.h>
-#include <Physics/Physics.h>
 #include <SceneGraph/Drawable.h>
 #include <SceneGraph/DualComplexTransformation.h>
 #include <Shaders/Shaders.h>
+#include <Shapes/AxisAlignedBox.h>
+#include <Shapes/Shape.h>
 #include <Interconnect/Emitter.h>
 
 #include "PushTheBox.h"
@@ -21,7 +21,7 @@
 namespace PushTheBox { namespace Menu {
 
 /** @brief %Menu item */
-class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::ObjectShape2D, public Corrade::Interconnect::Emitter {
+class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Shapes::Shape<Shapes::AxisAlignedBox2D>, public Corrade::Interconnect::Emitter {
     public:
         /**
          * @brief Constructor
@@ -30,7 +30,7 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::Object
          * @param drawables     Drawable group
          * @param shapes        Shape group
          */
-        MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup, Physics::ObjectShapeGroup2D* shapeGroup);
+        MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup, Shapes::ShapeGroup2D* shapes);
 
         void hoverChanged(bool hovered);
 
@@ -42,7 +42,7 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Physics::Object
         void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;
 
     private:
-        Resource<AbstractShaderProgram, Shaders::DistanceFieldVectorShader2D> shader;
+        Resource<AbstractShaderProgram, Shaders::DistanceFieldVector2D> shader;
         Resource<Text::GlyphCache> glyphCache;
         Buffer vertexBuffer, indexBuffer;
         Mesh mesh;

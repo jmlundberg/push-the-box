@@ -62,7 +62,7 @@ class Game: public AbstractScreen, public Corrade::Interconnect::Receiver {
         SceneGraph::DrawableGroup<3> drawables;
         SceneGraph::AnimableGroup<3> animables;
 
-        Resource<AbstractShaderProgram, Shaders::PhongShader> shader;
+        Resource<AbstractShaderProgram, Shaders::Phong> shader;
         Camera* camera;
         Level* level;
         Player* player;

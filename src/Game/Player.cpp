@@ -1,13 +1,13 @@
 #include "Player.h"
 
 #include <Mesh.h>
-#include <Shaders/PhongShader.h>
+#include <Shaders/Phong.h>
 
 namespace PushTheBox { namespace Game {
 
 Player::Player(Object3D* parent, SceneGraph::DrawableGroup<3>* drawables): Object3D(parent), SceneGraph::Drawable<3>(this, drawables) {
     /* Get shader and mesh buffer */
-    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::PhongShader>("phong");
+    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::Phong>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("player-mesh");
     bodyMesh = SceneResourceManager::instance()->get<Mesh>("player-body-mesh");
 }
