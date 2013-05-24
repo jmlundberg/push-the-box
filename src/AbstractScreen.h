@@ -14,9 +14,9 @@ namespace PushTheBox {
 
 See AbstractScreenedApplication for more information.
 */
-class AbstractScreen: private Corrade::Containers::LinkedListItem<AbstractScreen, AbstractScreenedApplication> {
-    friend class Corrade::Containers::LinkedListItem<AbstractScreen, AbstractScreenedApplication>;
-    friend class Corrade::Containers::LinkedList<AbstractScreen>;
+class AbstractScreen: private Containers::LinkedListItem<AbstractScreen, AbstractScreenedApplication> {
+    friend class Containers::LinkedListItem<AbstractScreen, AbstractScreenedApplication>;
+    friend class Containers::LinkedList<AbstractScreen>;
     friend class AbstractScreenedApplication;
 
     public:
@@ -48,7 +48,7 @@ class AbstractScreen: private Corrade::Containers::LinkedListItem<AbstractScreen
          *
          * @see setPropagatedEvents()
          */
-        typedef Corrade::Containers::EnumSet<PropagatedEvent, std::uint8_t> PropagatedEvents;
+        typedef Containers::EnumSet<PropagatedEvent, std::uint8_t> PropagatedEvents;
 
         /** @brief Input event */
         typedef AbstractScreenedApplication::InputEvent InputEvent;

@@ -12,8 +12,6 @@
 
 #include "configure.h"
 
-using Corrade::Utility::ConfigurationGroup;
-
 namespace PushTheBox { namespace ResourceManagement {
 
 ResourceCompiler::ResourceCompiler(const std::string& filename): manager(MAGNUM_PLUGINS_IMPORTER_DIR) {
@@ -23,9 +21,9 @@ ResourceCompiler::ResourceCompiler(const std::string& filename): manager(MAGNUM_
     CORRADE_ASSERT(importer->openFile(filename), "Cannot open file" << filename, );
 }
 
-void ResourceCompiler::compileMeshes(ConfigurationGroup* configuration, std::ostream& out) {
+void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration, std::ostream& out) {
     for(std::size_t i = 0; i != importer->mesh3DCount(); ++i) {
-        ConfigurationGroup* group = configuration->addGroup("mesh");
+        Utility::ConfigurationGroup* group = configuration->addGroup("mesh");
 
         /* Import mesh */
         Trade::MeshData3D* mesh = importer->mesh3D(i);

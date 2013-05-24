@@ -8,17 +8,14 @@
 
 #include <Resource.h>
 
-using Corrade::Utility::Configuration;
-using Corrade::Utility::ConfigurationGroup;
-
 namespace PushTheBox { namespace ResourceManagement {
 
 MeshResourceLoader::MeshResourceLoader() {
     /* Get data from compiled-in resource */
     /** @todo Configuration directly from string */
-    Corrade::Utility::Resource rs("PushTheBoxData");
+    Utility::Resource rs("PushTheBoxData");
     std::istringstream in(rs.get("push-the-box.conf"));
-    conf = new Configuration(in, Configuration::Flag::ReadOnly);
+    conf = new Utility::Configuration(in, Utility::Configuration::Flag::ReadOnly);
     std::tie(data, size) = rs.getRaw("push-the-box.mesh");
 
     /* Fill name map */
@@ -36,7 +33,7 @@ void MeshResourceLoader::load(ResourceKey key) {
     AbstractResourceLoader<Mesh>::load(key);
 
     auto it = nameMap.find(key);
-    ConfigurationGroup* group;
+    Utility::ConfigurationGroup* group;
     if(it == nameMap.end() || !(group = conf->group("mesh", it->second))) {
         Warning() << "Resource" << key << "('" + name(key) + "') was not found";
         setNotFound(key);

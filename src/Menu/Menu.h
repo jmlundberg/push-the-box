@@ -18,7 +18,7 @@ namespace PushTheBox { namespace Menu {
 class Cursor;
 
 /** @brief %Menu screen */
-class Menu: public AbstractScreen, public Corrade::Interconnect::Receiver {
+class Menu: public AbstractScreen, public Interconnect::Receiver {
     public:
         Menu();
 

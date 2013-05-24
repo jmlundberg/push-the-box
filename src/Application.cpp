@@ -18,8 +18,6 @@
 #include "Menu/Menu.h"
 #include "configure.h"
 
-using Corrade::PluginManager::LoadState;
-
 namespace PushTheBox {
 
 Application* Application::_instance = nullptr;
@@ -49,9 +47,9 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
 
     /* Font plugin -- try HarfBuzz or FreeType as fallback */
     Text::AbstractFont* font;
-    if(fontPluginManager.load("HarfBuzzFont") & (LoadState::Loaded|LoadState::Static))
+    if(fontPluginManager.load("HarfBuzzFont") & (PluginManager::LoadState::Loaded|PluginManager::LoadState::Static))
         CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("HarfBuzzFont"));
-    else if(fontPluginManager.load("FreeTypeFont") & (LoadState::Loaded|LoadState::Static))
+    else if(fontPluginManager.load("FreeTypeFont") & (PluginManager::LoadState::Loaded|PluginManager::LoadState::Static))
         CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("FreeTypeFont"));
     else {
         Error() << "Cannot open any font plugin";
@@ -59,7 +57,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     }
 
     /* Load font and create glyph cache */
-    Corrade::Utility::Resource rs("PushTheBoxData");
+    Utility::Resource rs("PushTheBoxData");
     const unsigned char* fontData;
     std::size_t fontSize;
     std::tie(fontData, fontSize) = rs.getRaw("luckiest-guy.ttf");
@@ -101,7 +99,7 @@ void Application::viewportEvent(const Vector2i& size) {
 }
 
 void Application::drawEvent() {
-    defaultFramebuffer.clear(AbstractFramebuffer::Clear::Color|AbstractFramebuffer::Clear::Depth);
+    defaultFramebuffer.clear(FramebufferClear::Color|FramebufferClear::Depth);
 
     AbstractScreenedApplication::drawEvent();
 

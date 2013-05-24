@@ -21,7 +21,7 @@
 namespace PushTheBox { namespace Menu {
 
 /** @brief %Menu item */
-class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Shapes::Shape<Shapes::AxisAlignedBox2D>, public Corrade::Interconnect::Emitter {
+class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Shapes::Shape<Shapes::AxisAlignedBox2D>, public Interconnect::Emitter {
     public:
         /**
          * @brief Constructor

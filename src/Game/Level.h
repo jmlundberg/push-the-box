@@ -13,7 +13,7 @@ namespace PushTheBox { namespace Game {
 class Box;
 
 /** @brief %Level */
-class Level: public Object3D, public Corrade::Interconnect::Emitter {
+class Level: public Object3D, public Interconnect::Emitter {
     public:
         enum class TileType {
             Empty = 0, Floor, Box, Wall, Target, BoxOnTarget

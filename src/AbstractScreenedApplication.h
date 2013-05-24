@@ -61,9 +61,9 @@ they are propagated to the screens:
    further.
 
 */
-class AbstractScreenedApplication: public Platform::Application, private Corrade::Containers::LinkedList<AbstractScreen> {
-    friend class Corrade::Containers::LinkedList<AbstractScreen>;
-    friend class Corrade::Containers::LinkedListItem<AbstractScreen, AbstractScreenedApplication>;
+class AbstractScreenedApplication: public Platform::Application, private Containers::LinkedList<AbstractScreen> {
+    friend class Containers::LinkedList<AbstractScreen>;
+    friend class Containers::LinkedListItem<AbstractScreen, AbstractScreenedApplication>;
     friend class AbstractScreen;
 
     public:

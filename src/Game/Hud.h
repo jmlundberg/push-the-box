@@ -13,7 +13,7 @@
 
 namespace PushTheBox { namespace Game {
 
-class AbstractHudText: public Object2D, SceneGraph::Drawable2D<>, public Corrade::Interconnect::Receiver {
+class AbstractHudText: public Object2D, SceneGraph::Drawable2D<>, public Interconnect::Receiver {
     public:
         AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables);
 

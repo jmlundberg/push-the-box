@@ -30,7 +30,7 @@ class RemainingTargets;
 
 Renders current state of the game.
 */
-class Game: public AbstractScreen, public Corrade::Interconnect::Receiver {
+class Game: public AbstractScreen, public Interconnect::Receiver {
     public:
         static Game* instance();
 

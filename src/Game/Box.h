@@ -19,7 +19,7 @@
 namespace PushTheBox { namespace Game {
 
 /** @brief %Box */
-class Box: public Object3D, public SceneGraph::Drawable<3>, public SceneGraph::Animable<3>, public Corrade::Interconnect::Emitter, public Corrade::Interconnect::Receiver {
+class Box: public Object3D, public SceneGraph::Drawable<3>, public SceneGraph::Animable<3>, public Interconnect::Emitter, public Interconnect::Receiver {
     friend class Level;
 
     public:

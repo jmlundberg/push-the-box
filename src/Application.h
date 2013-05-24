@@ -14,7 +14,7 @@
 #endif
 
 #include <Interconnect/Receiver.h>
-#include <PluginManager/PluginManager.h>
+#include <PluginManager/Manager.h>
 #include <ResourceManager.h>
 #include <Timeline.h>
 
@@ -32,7 +32,7 @@ namespace Menu {
 }
 
 /** @brief Main application class */
-class Application: public AbstractScreenedApplication, public Corrade::Interconnect::Receiver {
+class Application: public AbstractScreenedApplication, public Interconnect::Receiver {
     public:
         static Application* instance();
 
@@ -57,7 +57,7 @@ class Application: public AbstractScreenedApplication, public Corrade::Interconn
     private:
         static Application* _instance;
 
-        Corrade::PluginManager::PluginManager<Text::AbstractFont> fontPluginManager;
+        PluginManager::Manager<Text::AbstractFont> fontPluginManager;
         SceneResourceManager sceneResourceManager;
         ResourceManagement::MeshResourceLoader meshResourceLoader;
         Timeline _timeline;

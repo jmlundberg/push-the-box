@@ -2,7 +2,7 @@
 #define PushTheBox_ResourceManagement_ResourceCompiler_h
 
 #include <iosfwd>
-#include <PluginManager/PluginManager.h>
+#include <PluginManager/Manager.h>
 #include <Trade/AbstractImporter.h>
 
 #include "PushTheBox.h"
@@ -17,10 +17,10 @@ class ResourceCompiler {
     public:
         ResourceCompiler(const std::string& filename);
 
-        void compileMeshes(Corrade::Utility::ConfigurationGroup* configuration, std::ostream& out);
+        void compileMeshes(Utility::ConfigurationGroup* configuration, std::ostream& out);
 
     private:
-        Corrade::PluginManager::PluginManager<Trade::AbstractImporter> manager;
+        PluginManager::Manager<Trade::AbstractImporter> manager;
         Trade::AbstractImporter* importer;
 };
 
