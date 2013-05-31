@@ -13,7 +13,7 @@ namespace PushTheBox { namespace ResourceManagement {
 MeshResourceLoader::MeshResourceLoader() {
     /* Get data from compiled-in resource */
     /** @todo Configuration directly from string */
-    Utility::Resource rs("PushTheBoxData");
+    Utility::Resource rs("PushTheBoxResources");
     std::istringstream in(rs.get("push-the-box.conf"));
     conf = new Utility::Configuration(in, Utility::Configuration::Flag::ReadOnly);
     std::tie(data, size) = rs.getRaw("push-the-box.mesh");

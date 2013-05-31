@@ -14,8 +14,8 @@ namespace PushTheBox { namespace Game {
 
 Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables): Object3D(scene), _name(name), _remainingTargets(0), _moves(0) {
     /* Get level data */
-    Utility::Resource rs("PushTheBoxData");
-    std::istringstream in(rs.get("levels/" + name + ".txt"));
+    Utility::Resource rs("PushTheBoxLevels");
+    std::istringstream in(rs.get(name + ".txt"));
 
     /* Level size on first line */
     in >> _size.x() >> _size.y();

@@ -21,22 +21,8 @@ include_directories(${MAGNUM_INCLUDE_DIRS}
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configure.h.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/configure.h)
 
-corrade_add_resource(PushTheBox_RCS PushTheBoxData
-    ../resources/luckiest-guy.ttf ALIAS luckiest-guy.ttf
-    ../resources/push-the-box.mesh ALIAS push-the-box.mesh
-    ../resources/push-the-box.conf ALIAS push-the-box.conf
-    ../levels/easy1.txt ALIAS levels/easy1.txt
-    ../levels/easy2.txt ALIAS levels/easy2.txt
-    ../levels/easy3.txt ALIAS levels/easy3.txt
-    ../levels/easy4.txt ALIAS levels/easy4.txt
-    ../levels/easy5.txt ALIAS levels/easy5.txt
-    ../levels/medium1.txt ALIAS levels/medium1.txt
-    ../levels/medium2.txt ALIAS levels/medium2.txt
-    ../levels/medium3.txt ALIAS levels/medium3.txt
-    ../levels/medium4.txt ALIAS levels/medium4.txt
-    ../levels/medium5.txt ALIAS levels/medium5.txt
-    ../levels/hard1.txt ALIAS levels/hard1.txt
-    ../levels/winner.txt ALIAS levels/winner.txt)
+corrade_add_resource(PushTheBoxResources_RCS ../resources/resources.conf)
+corrade_add_resource(PushTheBoxLevels_RCS ../levels/resources.conf)
 
 set(PushTheBox_SRCS
     Application.cpp
@@ -57,7 +43,8 @@ set(PushTheBox_SRCS
 
     ResourceManagement/MeshResourceLoader.cpp
 
-    ${PushTheBox_RCS})
+    ${PushTheBoxResources_RCS}
+    ${PushTheBoxLevels_RCS})
 
 add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box

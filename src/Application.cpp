@@ -57,7 +57,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     }
 
     /* Load font and create glyph cache */
-    Utility::Resource rs("PushTheBoxData");
+    Utility::Resource rs("PushTheBoxResources");
     const unsigned char* fontData;
     std::size_t fontSize;
     std::tie(fontData, fontSize) = rs.getRaw("luckiest-guy.ttf");

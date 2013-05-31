@@ -71,7 +71,7 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
         std::size_t stride;
         std::tie(vertexCount, stride, data) = MeshTools::interleave(*mesh->positions(0), normals, 1);
 
-        group->addValue<std::string>("vertexArray", "3D interleaved position normal");
+        group->addValue("vertexArray", "3D interleaved position normal");
         group->addValue("vertexOffset", std::size_t(out.tellp()));
         group->addValue("vertexCount", vertexCount);
         group->addValue("vertexStride", stride);
