@@ -1,6 +1,7 @@
 #include "Level.h"
 
 #include <sstream>
+#include <Utility/Configuration.h>
 #include <Utility/Resource.h>
 #include <Math/Vector2.h>
 #include <Swizzle.h>
@@ -15,23 +16,22 @@ namespace PushTheBox { namespace Game {
 Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables): Object3D(scene), _name(name), _remainingTargets(0), _moves(0) {
     /* Get level data */
     Utility::Resource rs("PushTheBoxLevels");
-    std::istringstream in(rs.get(name + ".txt"));
+    std::istringstream confIn(rs.get(name + ".conf"));
+    Utility::Configuration conf(confIn);
 
-    /* Level size on first line */
-    in >> _size.x() >> _size.y();
+    /* Only classic levels are supported for now */
+    CORRADE_ASSERT(conf.value("type") == "classic", "Unsupported level type" << conf.value("type"), );
+
+    /* Next level name */
+    _nextName = conf.value("next");
+
+    /* Level size */
+    _size = conf.value<Vector2i>("size");
     level.resize(_size.product(), TileType::Empty);
     CORRADE_ASSERT((_size > Vector2i(3, 3)).all(), "Level" << name << "is too small:" << _size, );
 
-    if(in.peek() == '\r')
-        in.ignore();
-
-    CORRADE_INTERNAL_ASSERT(in.peek() == '\n');
-    in.ignore();
-
-    /* Next level name on second line */
-    std::getline(in, _nextName);
-    if(_nextName[_nextName.size()-1] == '\r')
-        _nextName = _nextName.substr(0, _nextName.size()-1);
+    /* Level data */
+    std::istringstream in(conf.value("data"));
 
     /* Sanity checks */
     std::size_t boxCount = 0;
@@ -83,11 +83,6 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<
                 ++boxCount;
                 ++targetCount;
                 break;
-
-            case '\r':
-                in.ignore();
-                CORRADE_INTERNAL_ASSERT(in.peek() == '\n');
-                /*no break*/
 
             /* New line */
             case '\n':
