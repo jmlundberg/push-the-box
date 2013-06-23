@@ -1,5 +1,6 @@
 #include "Application.h"
 
+#include <Containers/Array.h>
 #include <Utility/Resource.h>
 #include <AbstractShaderProgram.h>
 #include <DefaultFramebuffer.h>
@@ -58,10 +59,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
 
     /* Load font and create glyph cache */
     Utility::Resource rs("PushTheBoxResources");
-    const unsigned char* fontData;
-    std::size_t fontSize;
-    std::tie(fontData, fontSize) = rs.getRaw("luckiest-guy.ttf");
-    font->open(fontData, fontSize, 128.0f);
+    font->openSingleData(rs.getRaw("luckiest-guy.ttf"), 128.0f);
     Text::GlyphCache* cache = new Text::DistanceFieldGlyphCache(Vector2i(1536), Vector2i(256), 24);
     font->createGlyphCache(cache, "abcdefghijklmnopqrstuvwxyz0123456789 ");
 

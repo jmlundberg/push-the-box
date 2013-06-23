@@ -14,7 +14,7 @@ AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D<>
 void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) {
     shader->setTransformationProjectionMatrix(camera->projectionMatrix()*transformationMatrix)
         ->setColor(Color3<>(1.0f))
-        ->setOutlineRange(0.5f, 0.0f)
+        ->setOutlineRange(0.5f, 1.0f)
         ->use();
 
     glyphCache->texture()->bind(Shaders::DistanceFieldVector2D::VectorTextureLayer);

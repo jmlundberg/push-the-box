@@ -46,7 +46,7 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Shapes::Shape<S
         Resource<Text::GlyphCache> glyphCache;
         Buffer vertexBuffer, indexBuffer;
         Mesh mesh;
-        Color3<> color, outlineColor;
+        Color3<> color;
 };
 
 }}

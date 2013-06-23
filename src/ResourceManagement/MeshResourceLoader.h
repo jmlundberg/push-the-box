@@ -1,6 +1,7 @@
 #ifndef PushTheBox_ResourceManagement_MeshResourceLoader_h
 #define PushTheBox_ResourceManagement_MeshResourceLoader_h
 
+#include <Containers/Array.h>
 #include <Utility/Configuration.h>
 #include <AbstractResourceLoader.h>
 
@@ -30,8 +31,7 @@ class MeshResourceLoader: public AbstractResourceLoader<Mesh> {
         std::unordered_map<ResourceKey, std::uint32_t, Implementation::ResourceKeyHash> nameMap;
 
         Utility::Configuration* conf;
-        const unsigned char* data;
-        std::size_t size;
+        Containers::ArrayReference<const unsigned char> data;
 };
 
 }}

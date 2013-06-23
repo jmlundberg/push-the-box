@@ -1,6 +1,7 @@
-#include "ResourceCompiler.h"
-
 #include <fstream>
+#include <Utility/Debug.h>
+
+#include "ResourceCompiler.h"
 
 using namespace PushTheBox;
 
