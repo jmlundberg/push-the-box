@@ -72,6 +72,7 @@ class Game: public AbstractScreen, public Interconnect::Receiver {
         SceneGraph::AnimableGroup<2> hudAnimables;
         Object2D* hudCameraObject;
         SceneGraph::Camera2D<>* hudCamera;
+        bool paused;
 
         RemainingTargets* remainingTargets;
         Moves* moves;

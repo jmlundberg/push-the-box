@@ -23,7 +23,7 @@ Game* Game::instance() {
     return _instance;
 }
 
-Game::Game(): level(nullptr) {
+Game::Game(): level(nullptr), paused(true) {
     CORRADE_INTERNAL_ASSERT(!_instance);
     _instance = this;
 
@@ -31,8 +31,8 @@ Game::Game(): level(nullptr) {
     setPropagatedEvents(PropagatedEvent::Draw);
 
     /* Add shader to resource manager */
-    SceneResourceManager::instance()->set<AbstractShaderProgram>("phong", new Shaders::Phong);
-    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::Phong>("phong");
+    SceneResourceManager::instance()->set<AbstractShaderProgram>("phong", new Magnum::Shaders::Phong);
+    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Magnum::Shaders::Phong>("phong");
 
     /* Add player */
     player = new Player(&scene, &drawables);
@@ -110,12 +110,17 @@ void Game::focusEvent() {
     Application::instance()->setFullscreen(true);
     #endif
     Application::instance()->setMouseLocked(true);
+
+    paused = false;
+    camera->setBlurred(false);
     setPropagatedEvents(PropagatedEvent::Draw|PropagatedEvent::Input);
 }
 
 void Game::blurEvent() {
     /* Draw the game in the background */
     setPropagatedEvents(PropagatedEvent::Draw);
+    camera->setBlurred(true);
+    paused = true;
 
     Application::instance()->setMouseLocked(false);
     #ifdef CORRADE_TARGET_NACL
@@ -146,12 +151,14 @@ void Game::drawEvent() {
     camera->draw(drawables);
 
     /* Draw HUD */
-    Renderer::setFeature(Renderer::Feature::Blending, true);
-    Renderer::setBlendFunction(Renderer::BlendFunction::One, Renderer::BlendFunction::OneMinusSourceAlpha);
-    Renderer::setFeature(Renderer::Feature::DepthTest, false);
-    hudCamera->draw(hudDrawables);
-    Renderer::setFeature(Renderer::Feature::DepthTest, true);
-    Renderer::setFeature(Renderer::Feature::Blending, false);
+    if(!paused) {
+        Renderer::setFeature(Renderer::Feature::Blending, true);
+        Renderer::setBlendFunction(Renderer::BlendFunction::One, Renderer::BlendFunction::OneMinusSourceAlpha);
+        Renderer::setFeature(Renderer::Feature::DepthTest, false);
+        hudCamera->draw(hudDrawables);
+        Renderer::setFeature(Renderer::Feature::DepthTest, true);
+        Renderer::setFeature(Renderer::Feature::Blending, false);
+    }
 
     /** @todo properly schedule redraw only if there is something to animate */
     redraw();

@@ -23,6 +23,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configure.h.cmake
 
 corrade_add_resource(PushTheBoxResources_RCS ../resources/resources.conf)
 corrade_add_resource(PushTheBoxLevels_RCS ../levels/resources.conf)
+corrade_add_resource(PushTheBoxShaders_RCS Shaders/resources.conf)
 
 set(PushTheBox_SRCS
     Application.cpp
@@ -42,9 +43,11 @@ set(PushTheBox_SRCS
     Menu/MenuItem.cpp
 
     ResourceManagement/MeshResourceLoader.cpp
+    Shaders/Blur.cpp
 
     ${PushTheBoxResources_RCS}
-    ${PushTheBoxLevels_RCS})
+    ${PushTheBoxLevels_RCS}
+    ${PushTheBoxShaders_RCS})
 
 add_executable(push-the-box ${PushTheBox_SRCS})
 target_link_libraries(push-the-box
