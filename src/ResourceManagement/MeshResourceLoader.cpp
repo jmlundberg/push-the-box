@@ -42,7 +42,7 @@ void MeshResourceLoader::load(ResourceKey key) {
 
     /* Indexed mesh */
     Mesh* mesh = new Mesh;
-    if(group->keyExists("indexOffset")) {
+    if(group->hasValue("indexOffset")) {
 
         /* Add index buffer to the manager */
         Buffer* indexBuffer = new Buffer(Buffer::Target::ElementArray);
