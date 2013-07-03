@@ -19,7 +19,7 @@ namespace PushTheBox { namespace Game {
 
 Tile at -Y side of unit cube.
 */
-class FloorTile: public Object3D, SceneGraph::Drawable<3> {
+class FloorTile: public Object3D, SceneGraph::Drawable3D {
     public:
         enum class Type {
             Floor, Target
@@ -32,10 +32,10 @@ class FloorTile: public Object3D, SceneGraph::Drawable<3> {
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        FloorTile(const Vector2i& position, Type type, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        FloorTile(const Vector2i& position, Type type, Object3D* parent = nullptr, SceneGraph::DrawableGroup3D* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
-        void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
+        void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D* camera) override;
 
     private:
         Resource<AbstractShaderProgram, Shaders::Phong> shader;

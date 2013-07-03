@@ -48,7 +48,7 @@ Game::Game(): level(nullptr), paused(true) {
 
     /* Hud camera */
     hudCameraObject = new Object2D(&hudScene);
-    (hudCamera = new SceneGraph::Camera2D<>(&hudScene))
+    (hudCamera = new SceneGraph::Camera2D(&hudScene))
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
         ->setProjection({2.667f, 2.0f});
 
@@ -146,8 +146,8 @@ void Game::drawEvent() {
     /* Shader settings commn for all objects */
     shader->setLightPosition(camera->cameraMatrix().transformPoint(lightPosition))
           ->setProjectionMatrix(camera->projectionMatrix())
-          ->setAmbientColor(Color3<>::fromHSV(Deg(15.0f), 0.5f, 0.06f))
-          ->setSpecularColor(Color3<>::fromHSV(Deg(50.0f), 0.5f, 1.0f));
+          ->setAmbientColor(Color3::fromHSV(Deg(15.0f), 0.5f, 0.06f))
+          ->setSpecularColor(Color3::fromHSV(Deg(50.0f), 0.5f, 1.0f));
     camera->draw(drawables);
 
     /* Draw HUD */

@@ -13,13 +13,13 @@
 
 namespace PushTheBox { namespace Game {
 
-class Camera: public Object3D, public SceneGraph::Camera3D<> {
+class Camera: public Object3D, public SceneGraph::Camera3D {
     public:
         Camera(Object3D* parent = nullptr);
 
         void setViewport(const Vector2i& size) override;
 
-        void draw(SceneGraph::DrawableGroup<3>& group) override;
+        void draw(SceneGraph::DrawableGroup3D& group) override;
 
         inline void setBlurred(bool blurred) { _blurred = blurred; }
 

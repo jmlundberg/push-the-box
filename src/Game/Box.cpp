@@ -9,11 +9,11 @@
 namespace PushTheBox { namespace Game {
 
 namespace {
-    static const Color3<> on = Color3<>::fromHSV(Deg(120.0f), 1.0f, 0.6f);
-    static const Color3<> off = Color3<>::fromHSV(Deg(0.0f), 1.0f, 0.6f);
+    static const Color3 on = Color3::fromHSV(Deg(120.0f), 1.0f, 0.6f);
+    static const Color3 off = Color3::fromHSV(Deg(0.0f), 1.0f, 0.6f);
 }
 
-Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables): Object3D(parent), SceneGraph::Drawable<3>(this, drawables), SceneGraph::Animable<3>(this, animables), position(position), type(type), color(type == Type::OnFloor ? off : on) {
+Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::DrawableGroup3D* drawables, SceneGraph::AnimableGroup3D* animables): Object3D(parent), SceneGraph::Drawable3D(this, drawables), SceneGraph::Animable3D(this, animables), position(position), type(type), color(type == Type::OnFloor ? off : on) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::Phong>("phong");
     mesh = SceneResourceManager::instance()->get<Mesh>("box-mesh");
 
@@ -24,7 +24,7 @@ Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::Draw
     connect(this, &Box::movedFromTarget, this, &Box::animateMoveFromToTarget);
 }
 
-void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>*) {
+void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D*) {
     shader->setTransformationMatrix(transformationMatrix)
           ->setDiffuseColor(color)
           ->use();

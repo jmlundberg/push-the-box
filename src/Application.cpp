@@ -41,7 +41,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
 
     Renderer::setFeature(Renderer::Feature::FaceCulling, true);
     Renderer::setFeature(Renderer::Feature::DepthTest, true);
-    Renderer::setClearColor(Color3<>(0.0f));
+    Renderer::setClearColor(Color3(0.0f));
 
     /* Add resource loader and fallback meshes */
     sceneResourceManager.setLoader(&meshResourceLoader);

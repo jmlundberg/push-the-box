@@ -8,7 +8,7 @@
 
 namespace PushTheBox { namespace Game {
 
-Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D<>(this), _blurred(true), multisampleFramebuffer({{}, defaultFramebuffer.viewport().size()/8}), framebuffer(multisampleFramebuffer.viewport()), blurShaderHorizontal(Shaders::Blur::Direction::Horizontal), blurShaderVertical(Shaders::Blur::Direction::Vertical) {
+Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), _blurred(true), multisampleFramebuffer({{}, defaultFramebuffer.viewport().size()/8}), framebuffer(multisampleFramebuffer.viewport()), blurShaderHorizontal(Shaders::Blur::Direction::Horizontal), blurShaderVertical(Shaders::Blur::Direction::Vertical) {
     setPerspective(Deg(35.0f), 1.0f, 0.001f, 100.0f);
     setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 
@@ -39,23 +39,23 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D<>(this)
 }
 
 void Camera::setViewport(const Vector2i& size) {
-    SceneGraph::Camera3D<>::setViewport(size/8);
+    SceneGraph::Camera3D::setViewport(size/8);
 
     multisampleFramebuffer.setViewport({{}, size/8});
     framebuffer.setViewport({{}, size/8});
     /** @todo resize also texture */
 }
 
-void Camera::draw(SceneGraph::DrawableGroup<3>& group) {
+void Camera::draw(SceneGraph::DrawableGroup3D& group) {
     if(!_blurred) {
-        SceneGraph::Camera3D<>::draw(group);
+        SceneGraph::Camera3D::draw(group);
         return;
     }
 
     /* Draw scene to (multisampled) default framebuffer */
     multisampleFramebuffer.bind(FramebufferTarget::Draw);
     multisampleFramebuffer.clear(FramebufferClear::Color|FramebufferClear::Depth);
-    SceneGraph::Camera3D<>::draw(group);
+    SceneGraph::Camera3D::draw(group);
 
     /* Resolve to first texture */
     framebuffer.mapForDraw(Framebuffer::ColorAttachment(0));

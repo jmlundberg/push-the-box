@@ -15,7 +15,7 @@
 namespace PushTheBox { namespace Game {
 
 /** @brief Wall brick */
-class WallBrick: public Object3D, SceneGraph::Drawable<3> {
+class WallBrick: public Object3D, SceneGraph::Drawable3D {
     public:
         /**
          * @brief Constructor
@@ -23,10 +23,10 @@ class WallBrick: public Object3D, SceneGraph::Drawable<3> {
          * @param parent    Parent object
          * @param group     Drawable group
          */
-        WallBrick(const Vector2i& position, Object3D* parent = nullptr, SceneGraph::DrawableGroup<3>* group = nullptr);
+        WallBrick(const Vector2i& position, Object3D* parent = nullptr, SceneGraph::DrawableGroup3D* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
-        void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera<3>* camera) override;
+        void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D* camera) override;
 
     private:
         Resource<AbstractShaderProgram, Shaders::Phong> shader;

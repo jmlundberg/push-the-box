@@ -26,7 +26,7 @@ class Level: public Object3D, public Interconnect::Emitter {
          * @param drawables     Drawable group
          * @param animables     Animable group
          */
-        Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables);
+        Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup3D* drawables, SceneGraph::AnimableGroup3D* animables);
 
         /** @brief Level name */
         inline std::string name() const { return _name; }
@@ -63,7 +63,7 @@ class Level: public Object3D, public Interconnect::Emitter {
         bool movePlayer(const Vector2i& direction);
 
     private:
-        void set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables);
+        void set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup3D* drawables, SceneGraph::AnimableGroup3D* animables);
 
         inline TileType& at(const Vector2i& position) {
             return level[position.y()*_size.x()+position.x()];

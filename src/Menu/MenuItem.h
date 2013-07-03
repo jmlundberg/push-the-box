@@ -21,7 +21,7 @@
 namespace PushTheBox { namespace Menu {
 
 /** @brief %Menu item */
-class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Shapes::Shape<Shapes::AxisAlignedBox2D>, public Interconnect::Emitter {
+class MenuItem: public Object2D, SceneGraph::Drawable2D, public Shapes::Shape<Shapes::AxisAlignedBox2D>, public Interconnect::Emitter {
     public:
         /**
          * @brief Constructor
@@ -30,7 +30,7 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Shapes::Shape<S
          * @param drawables     Drawable group
          * @param shapes        Shape group
          */
-        MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup<2>* drawableGroup, Shapes::ShapeGroup2D* shapes);
+        MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup2D* drawableGroup, Shapes::ShapeGroup2D* shapes);
 
         void hoverChanged(bool hovered);
 
@@ -39,14 +39,14 @@ class MenuItem: public Object2D, SceneGraph::Drawable<2>, public Shapes::Shape<S
         }
 
     protected:
-        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;
+        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D* camera) override;
 
     private:
         Resource<AbstractShaderProgram, Shaders::DistanceFieldVector2D> shader;
         Resource<Text::GlyphCache> glyphCache;
         Buffer vertexBuffer, indexBuffer;
         Mesh mesh;
-        Color3<> color;
+        Color3 color;
 };
 
 }}

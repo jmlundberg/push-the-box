@@ -59,8 +59,8 @@ class Game: public AbstractScreen, public Interconnect::Receiver {
         static Game* _instance;
 
         Scene3D scene;
-        SceneGraph::DrawableGroup<3> drawables;
-        SceneGraph::AnimableGroup<3> animables;
+        SceneGraph::DrawableGroup3D drawables;
+        SceneGraph::AnimableGroup3D animables;
 
         Resource<AbstractShaderProgram, Shaders::Phong> shader;
         Camera* camera;
@@ -68,10 +68,10 @@ class Game: public AbstractScreen, public Interconnect::Receiver {
         Player* player;
 
         Scene2D hudScene;
-        SceneGraph::DrawableGroup<2> hudDrawables;
-        SceneGraph::AnimableGroup<2> hudAnimables;
+        SceneGraph::DrawableGroup2D hudDrawables;
+        SceneGraph::AnimableGroup2D hudAnimables;
         Object2D* hudCameraObject;
-        SceneGraph::Camera2D<>* hudCamera;
+        SceneGraph::Camera2D* hudCamera;
         bool paused;
 
         RemainingTargets* remainingTargets;

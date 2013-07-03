@@ -13,7 +13,7 @@
 
 namespace PushTheBox { namespace Game {
 
-Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables): Object3D(scene), _name(name), _remainingTargets(0), _moves(0) {
+Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup3D* drawables, SceneGraph::AnimableGroup3D* animables): Object3D(scene), _name(name), _remainingTargets(0), _moves(0) {
     /* Get level data */
     Utility::Resource rs("PushTheBoxLevels");
     std::istringstream confIn(rs.get(name + ".conf"));
@@ -172,7 +172,7 @@ bool Level::movePlayer(const Vector2i& direction) {
     return true;
 }
 
-void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup<3>* drawables, SceneGraph::AnimableGroup<3>* animables) {
+void Level::set(const Vector2i& position, TileType type, SceneGraph::DrawableGroup3D* drawables, SceneGraph::AnimableGroup3D* animables) {
     at(position) = type;
 
     switch(type) {

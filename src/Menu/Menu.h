@@ -32,11 +32,11 @@ class Menu: public AbstractScreen, public Interconnect::Receiver {
 
     private:
         Scene2D scene;
-        SceneGraph::DrawableGroup<2> drawables;
+        SceneGraph::DrawableGroup2D drawables;
         Shapes::ShapeGroup2D shapes;
 
         Object2D* cameraObject;
-        SceneGraph::Camera2D<>* camera;
+        SceneGraph::Camera2D* camera;
         Cursor* cursor;
 };
 

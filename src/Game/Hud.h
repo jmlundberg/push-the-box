@@ -13,12 +13,12 @@
 
 namespace PushTheBox { namespace Game {
 
-class AbstractHudText: public Object2D, SceneGraph::Drawable2D<>, public Interconnect::Receiver {
+class AbstractHudText: public Object2D, SceneGraph::Drawable2D, public Interconnect::Receiver {
     public:
-        AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables);
+        AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* drawables);
 
     protected:
-        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;
+        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D* camera) override;
 
         Text::TextRenderer2D* text;
 
@@ -28,14 +28,14 @@ class AbstractHudText: public Object2D, SceneGraph::Drawable2D<>, public Interco
         Resource<Text::GlyphCache> glyphCache;
 };
 
-class RemainingTargets: public AbstractHudText, SceneGraph::Animable2D<> {
+class RemainingTargets: public AbstractHudText, SceneGraph::Animable2D {
     public:
-        RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables, SceneGraph::AnimableGroup2D<>* animables);
+        RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D* drawables, SceneGraph::AnimableGroup2D* animables);
 
         void update(std::uint32_t count);
 
     protected:
-        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera<2>* camera) override;
+        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D* camera) override;
         void animationStep(Float time, Float delta) override;
         void animationStopped() override;
 
@@ -45,7 +45,7 @@ class RemainingTargets: public AbstractHudText, SceneGraph::Animable2D<> {
 
 class Moves: public AbstractHudText {
     public:
-        Moves(Object2D* parent, SceneGraph::DrawableGroup2D<>* drawables);
+        Moves(Object2D* parent, SceneGraph::DrawableGroup2D* drawables);
 
         void update(std::uint32_t count);
 };
