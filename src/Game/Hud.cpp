@@ -5,6 +5,10 @@
 #include <Text/GlyphCache.h>
 #include <Text/TextRenderer.h>
 
+#ifdef CORRADE_TARGET_NACL_NEWLIB
+#include <sstream>
+#endif
+
 namespace PushTheBox { namespace Game {
 
 AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): Object2D(parent), SceneGraph::Drawable2D(this, drawables), shader(SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVector2D>("text2d")), font(SceneResourceManager::instance()->get<Text::AbstractFont>("font")), glyphCache(SceneResourceManager::instance()->get<Text::GlyphCache>("cache")) {
@@ -33,7 +37,13 @@ RemainingTargets::RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D
 }
 
 void RemainingTargets::update(UnsignedInt count) {
+    #ifndef CORRADE_TARGET_NACL_NEWLIB
     text->render(std::to_string(count) + " remaining targets");
+    #else
+    std::ostringstream out;
+    out << count << " remaining targets";
+    text->render(out.str());
+    #endif
 
     setState(SceneGraph::AnimationState::Running);
 }
@@ -55,7 +65,13 @@ Moves::Moves(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): Abstract
 }
 
 void Moves::update(UnsignedInt count) {
+    #ifndef CORRADE_TARGET_NACL_NEWLIB
     text->render(std::to_string(count) + " moves");
+    #else
+    std::ostringstream out;
+    out << count << " moves";
+    text->render(out.str());
+    #endif
 
     resetTransformation();
     translate({1.303f - text->rectangle().width(), 0.97f - text->rectangle().top()});
