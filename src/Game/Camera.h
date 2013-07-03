@@ -9,7 +9,7 @@
 #include <SceneGraph/DualQuaternionTransformation.h>
 
 #include "PushTheBox.h"
-#include <Shaders/Blur.h>
+#include "Shaders/Blur.h"
 
 namespace PushTheBox { namespace Game {
 
