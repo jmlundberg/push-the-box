@@ -63,8 +63,9 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
 
     /* Load font and create glyph cache */
     Utility::Resource rs("PushTheBoxResources");
-    font->openData({{"luckiest-guy.conf", rs.getRaw("luckiest-guy.conf")},
-                    {"luckiest-guy.tga",  rs.getRaw("luckiest-guy.tga")}}, 0.0f);
+    font->openData(std::vector<std::pair<std::string, Containers::ArrayReference<const unsigned char>>>{
+        {"luckiest-guy.conf", rs.getRaw("luckiest-guy.conf")},
+        {"luckiest-guy.tga",  rs.getRaw("luckiest-guy.tga")}}, 0.0f);
     Text::GlyphCache* cache = font->createGlyphCache();
 
     /* Save font resources to resource manager */

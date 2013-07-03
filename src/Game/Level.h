@@ -45,7 +45,7 @@ class Level: public Object3D, public Interconnect::Emitter {
 
         /** @brief Remaining targets changed */
         inline Signal remainingTargetsChanged(UnsignedInt count) {
-            return emit(&Level::remainingTargetsChanged, count);
+            return emit<Level, UnsignedInt>(&Level::remainingTargetsChanged, count);
         }
 
         /** @brief Player moves */
@@ -53,7 +53,7 @@ class Level: public Object3D, public Interconnect::Emitter {
 
         /** @brief Player moves changed */
         inline Signal movesChanged(UnsignedInt count) {
-            return emit(&Level::movesChanged, count);
+            return emit<Level, UnsignedInt>(&Level::movesChanged, count);
         }
 
         /**
