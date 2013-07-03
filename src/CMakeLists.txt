@@ -66,10 +66,13 @@ endif()
 
 # Installation for NaCl
 if(CORRADE_TARGET_NACL)
-    install(FILES index.html push-the-box.nmf DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(FILES index.html DESTINATION ${CMAKE_INSTALL_PREFIX})
     install(TARGETS push-the-box DESTINATION ${CMAKE_INSTALL_PREFIX})
 
-    if(CORRADE_TARGET_NACL_GLIBC)
+    if(CORRADE_TARGET_NACL_NEWLIB)
+        install(FILES push-the-box-newlib.nmf RENAME push-the-box.nmf DESTINATION ${CMAKE_INSTALL_PREFIX})
+    else()
+        install(FILES push-the-box-glibc.nmf RENAME push-the-box.nmf DESTINATION ${CMAKE_INSTALL_PREFIX})
         include(UseNaCl)
         nacl_bundle_libs(${CMAKE_INSTALL_PREFIX}
             libppapi_cpp.so
