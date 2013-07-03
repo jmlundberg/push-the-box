@@ -8,6 +8,7 @@
 #  MAGNUM_INCLUDE_DIRS          - Root include dir and include dirs of
 #   dependencies
 #  MAGNUM_PLUGINS_FONT_DIR      - Directory with font plugins
+#  MAGNUM_PLUGINS_FONTCONVERTER_DIR - Directory with font converter plugins
 #  MAGNUM_PLUGINS_IMAGECONVERTER_DIR - Directory with image converter plugins
 #  MAGNUM_PLUGINS_IMPORTER_DIR  - Directory with importer plugins
 # This command will try to find only the base library, not the optional
@@ -63,6 +64,8 @@
 #  MAGNUM_PLUGINS_INSTALL_DIR           - Plugin installation directory
 #  MAGNUM_PLUGINS_FONT_INSTALL_DIR      - Font plugin installation
 #   directory
+#  MAGNUM_PLUGINS_FONTCONVERTER_INSTALL_DIR - Font converter plugin
+#   installation directory
 #  MAGNUM_PLUGINS_IMAGECONVERTER_INSTALL_DIR - Image converter plugin
 #   installation directory
 #  MAGNUM_PLUGINS_IMPORTER_INSTALL_DIR  - Importer plugin installation
@@ -185,13 +188,13 @@ foreach(component ${Magnum_FIND_COMPONENTS})
             endif()
         endif()
 
-        # NaCl application dependencies
-        if(${component} STREQUAL NaClApplication)
+        # (Windowless) NaCl application dependencies
+        if(${component} STREQUAL NaClApplication OR ${component} STREQUAL WindowlessNaClApplication)
             set(_MAGNUM_${_COMPONENT}_LIBRARIES ppapi_cpp ppapi ${_WINDOWCONTEXT_MAGNUM_LIBRARIES_DEPENDENCY})
         endif()
 
         # GLX application dependencies
-        if(${component} STREQUAL GlxApplication)
+        if(${component} STREQUAL GlxApplication OR ${component} STREQUAL WindowlessGlxApplication)
             find_package(X11)
             if(X11_FOUND)
                 set(_MAGNUM_${_COMPONENT}_LIBRARIES ${X11_LIBRARIES} ${_WINDOWCONTEXT_MAGNUM_LIBRARIES_DEPENDENCY})
@@ -206,16 +209,6 @@ foreach(component ${Magnum_FIND_COMPONENTS})
             find_package(X11)
             if(EGL_FOUND AND X11_FOUND)
                 set(_MAGNUM_${_COMPONENT}_LIBRARIES ${EGL_LIBRARY} ${X11_LIBRARIES} ${_WINDOWCONTEXT_MAGNUM_LIBRARIES_DEPENDENCY})
-            else()
-                unset(MAGNUM_${_COMPONENT}_LIBRARY)
-            endif()
-        endif()
-
-        # Windowless GLX application dependencies
-        if(${component} STREQUAL WindowlessGlxApplication)
-            find_package(X11)
-            if(X11_FOUND)
-                set(_MAGNUM_${_COMPONENT}_LIBRARIES ${X11_LIBRARIES} ${_WINDOWCONTEXT_MAGNUM_LIBRARIES_DEPENDENCY})
             else()
                 unset(MAGNUM_${_COMPONENT}_LIBRARY)
             endif()
@@ -328,6 +321,7 @@ endif()
 set(MAGNUM_LIBRARY_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX})
 set(MAGNUM_PLUGINS_INSTALL_DIR ${MAGNUM_LIBRARY_INSTALL_DIR}/magnum)
 set(MAGNUM_PLUGINS_FONT_INSTALL_DIR ${MAGNUM_PLUGINS_INSTALL_DIR}/fonts)
+set(MAGNUM_PLUGINS_FONTCONVERTER_INSTALL_DIR ${MAGNUM_PLUGINS_INSTALL_DIR}/fontconverters)
 set(MAGNUM_PLUGINS_IMAGECONVERTER_INSTALL_DIR ${MAGNUM_PLUGINS_INSTALL_DIR}/imageconverters)
 set(MAGNUM_PLUGINS_IMPORTER_INSTALL_DIR ${MAGNUM_PLUGINS_INSTALL_DIR}/importers)
 set(MAGNUM_CMAKE_MODULE_INSTALL_DIR ${CMAKE_ROOT}/Modules)
@@ -339,6 +333,7 @@ mark_as_advanced(FORCE
     MAGNUM_LIBRARY_INSTALL_DIR
     MAGNUM_PLUGINS_INSTALL_DIR
     MAGNUM_PLUGINS_FONT_INSTALL_DIR
+    MAGNUM_PLUGINS_FONTCONVERTER_INSTALL_DIR
     MAGNUM_PLUGINS_IMAGECONVERTER_INSTALL_DIR
     MAGNUM_PLUGINS_IMPORTER_INSTALL_DIR
     MAGNUM_CMAKE_MODULE_INSTALL_DIR
@@ -348,10 +343,12 @@ mark_as_advanced(FORCE
 # Plugin directories
 if(NOT WIN32)
     set(MAGNUM_PLUGINS_FONT_DIR ${MAGNUM_PLUGINS_INSTALL_DIR}/fonts)
+    set(MAGNUM_PLUGINS_FONTCONVERTER_DIR ${MAGNUM_PLUGINS_INSTALL_DIR}/fontconverters)
     set(MAGNUM_PLUGINS_IMAGECONVERTER_DIR ${MAGNUM_PLUGINS_INSTALL_DIR}/imageconverters)
     set(MAGNUM_PLUGINS_IMPORTER_DIR ${MAGNUM_PLUGINS_INSTALL_DIR}/importers)
 else()
     set(MAGNUM_PLUGINS_FONT_DIR fonts)
+    set(MAGNUM_PLUGINS_FONTCONVERTER_DIR fontconverters)
     set(MAGNUM_PLUGINS_IMAGECONVERTER_DIR imageconverters)
     set(MAGNUM_PLUGINS_IMPORTER_DIR importers)
 endif()
