@@ -32,7 +32,7 @@ class RemainingTargets: public AbstractHudText, SceneGraph::Animable2D {
     public:
         RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D* drawables, SceneGraph::AnimableGroup2D* animables);
 
-        void update(std::uint32_t count);
+        void update(UnsignedInt count);
 
     protected:
         void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D* camera) override;
@@ -47,7 +47,7 @@ class Moves: public AbstractHudText {
     public:
         Moves(Object2D* parent, SceneGraph::DrawableGroup2D* drawables);
 
-        void update(std::uint32_t count);
+        void update(UnsignedInt count);
 };
 
 }}

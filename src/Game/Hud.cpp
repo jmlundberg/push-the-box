@@ -32,7 +32,7 @@ RemainingTargets::RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D
     translate({-1.303f, -0.97f});
 }
 
-void RemainingTargets::update(uint32_t count) {
+void RemainingTargets::update(UnsignedInt count) {
     text->render(std::to_string(count) + " remaining targets");
 
     setState(SceneGraph::AnimationState::Running);
@@ -54,7 +54,7 @@ Moves::Moves(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): Abstract
     text->reserve(32, Buffer::Usage::DynamicDraw, Buffer::Usage::StaticDraw);
 }
 
-void Moves::update(uint32_t count) {
+void Moves::update(UnsignedInt count) {
     text->render(std::to_string(count) + " moves");
 
     resetTransformation();

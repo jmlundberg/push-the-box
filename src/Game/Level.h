@@ -41,18 +41,18 @@ class Level: public Object3D, public Interconnect::Emitter {
         inline Vector2i playerPosition() { return _playerPosition; }
 
         /** @brief Remaining targets */
-        inline std::uint32_t remainingTargets() const { return _remainingTargets; }
+        inline UnsignedInt remainingTargets() const { return _remainingTargets; }
 
         /** @brief Remaining targets changed */
-        inline Signal remainingTargetsChanged(std::uint32_t count) {
+        inline Signal remainingTargetsChanged(UnsignedInt count) {
             return emit(&Level::remainingTargetsChanged, count);
         }
 
         /** @brief Player moves */
-        inline std::uint32_t moves() const { return _moves; }
+        inline UnsignedInt moves() const { return _moves; }
 
         /** @brief Player moves changed */
-        inline Signal movesChanged(std::uint32_t count) {
+        inline Signal movesChanged(UnsignedInt count) {
             return emit(&Level::movesChanged, count);
         }
 
@@ -71,7 +71,7 @@ class Level: public Object3D, public Interconnect::Emitter {
 
         std::string _name, _nextName;
         Vector2i _size, _playerPosition;
-        std::uint32_t _remainingTargets, _moves;
+        UnsignedInt _remainingTargets, _moves;
         std::vector<TileType> level;
         std::vector<Box*> boxes;
 };
