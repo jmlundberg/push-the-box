@@ -49,7 +49,12 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
 
     /* Font plugin -- try HarfBuzz or FreeType as fallback */
     Text::AbstractFont* font;
-    if(fontPluginManager.load("MagnumFont") & (PluginManager::LoadState::Loaded|PluginManager::LoadState::Static))
+    #ifndef CORRADE_TARGET_NACL_NEWLIB
+    const PluginManager::LoadStates loaded = (PluginManager::LoadState::Loaded|PluginManager::LoadState::Static);
+    #else
+    const PluginManager::LoadStates loaded = PluginManager::LoadState::Static;
+    #endif
+    if(fontPluginManager.load("MagnumFont") & loaded)
         CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("MagnumFont"));
     else {
         Error() << "Cannot open font plugin";
