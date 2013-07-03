@@ -17,6 +17,7 @@
 #include <PluginManager/Manager.h>
 #include <ResourceManager.h>
 #include <Timeline.h>
+#include <Trade/Trade.h>
 
 #include "AbstractScreenedApplication.h"
 #include "ResourceManagement/MeshResourceLoader.h"
@@ -57,6 +58,7 @@ class Application: public AbstractScreenedApplication, public Interconnect::Rece
     private:
         static Application* _instance;
 
+        PluginManager::Manager<Trade::AbstractImporter> importerPluginManager;
         PluginManager::Manager<Text::AbstractFont> fontPluginManager;
         SceneResourceManager sceneResourceManager;
         ResourceManagement::MeshResourceLoader meshResourceLoader;

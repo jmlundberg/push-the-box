@@ -9,6 +9,7 @@
 #include <Shaders/DistanceFieldVector.h>
 #include <Text/DistanceFieldGlyphCache.h>
 #include <Text/AbstractFont.h>
+#include <Trade/AbstractImporter.h>
 
 #ifdef MAGNUM_BUILD_STATIC
 #include <Shaders/magnumShadersResourceImport.hpp>
@@ -33,7 +34,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     ->setTitle("Push The Box")
     ->setSampleCount(16)
     #endif
-    ), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
+    ), importerPluginManager(MAGNUM_PLUGINS_IMPORTER_DIR), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
 {
     CORRADE_INTERNAL_ASSERT(!_instance);
     _instance = this;
@@ -48,25 +49,22 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
 
     /* Font plugin -- try HarfBuzz or FreeType as fallback */
     Text::AbstractFont* font;
-    if(fontPluginManager.load("HarfBuzzFont") & (PluginManager::LoadState::Loaded|PluginManager::LoadState::Static))
-        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("HarfBuzzFont"));
-    else if(fontPluginManager.load("FreeTypeFont") & (PluginManager::LoadState::Loaded|PluginManager::LoadState::Static))
-        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("FreeTypeFont"));
+    if(fontPluginManager.load("MagnumFont") & (PluginManager::LoadState::Loaded|PluginManager::LoadState::Static))
+        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("MagnumFont"));
     else {
-        Error() << "Cannot open any font plugin";
+        Error() << "Cannot open font plugin";
         std::exit(1);
     }
 
     /* Load font and create glyph cache */
     Utility::Resource rs("PushTheBoxResources");
-    font->openSingleData(rs.getRaw("luckiest-guy.ttf"), 128.0f);
-    Text::GlyphCache* cache = new Text::DistanceFieldGlyphCache(Vector2i(1536), Vector2i(256), 24);
-    font->createGlyphCache(cache, "abcdefghijklmnopqrstuvwxyz0123456789 ");
+    font->openData({{"luckiest-guy.conf", rs.getRaw("luckiest-guy.conf")},
+                    {"luckiest-guy.tga",  rs.getRaw("luckiest-guy.tga")}}, 0.0f);
+    Text::GlyphCache* cache = font->createGlyphCache();
 
     /* Save font resources to resource manager */
     SceneResourceManager::instance()->set<AbstractShaderProgram>("text2d", new Shaders::DistanceFieldVector2D);
-    /** @todo No need to have manual policy when plugin is unloaded automatically */
-    SceneResourceManager::instance()->set("font", font, ResourceDataState::Final, ResourcePolicy::Manual);
+    SceneResourceManager::instance()->set("font", font);
     SceneResourceManager::instance()->set("cache", cache);
 
     /* Add the screens */
@@ -84,10 +82,6 @@ Application::~Application() {
     /* Remove all screens before deleting the resource manager, so the
        resources can be properly freed */
     while(backScreen()) removeScreen(backScreen());
-
-    /** @todo fix this in PluginManager */
-    sceneResourceManager.free<Text::AbstractFont>();
-    fontPluginManager.unload("HarfBuzzFont");
 }
 
 void Application::viewportEvent(const Vector2i& size) {
