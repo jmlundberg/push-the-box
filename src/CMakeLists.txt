@@ -69,25 +69,27 @@ if(CORRADE_TARGET_NACL)
     install(FILES index.html push-the-box.nmf DESTINATION ${CMAKE_INSTALL_PREFIX})
     install(TARGETS push-the-box DESTINATION ${CMAKE_INSTALL_PREFIX})
 
-    include(NaClMacros)
-    nacl_bundle_libs(${CMAKE_INSTALL_PREFIX}
-        libppapi_cpp.so
-        libpthread.so.a9de5678
-        libstdc++.so.6
-        libm.so.a9de5678
-        libgcc_s.so.1
-        libc.so.a9de5678
-        libCorradeUtility.so.0 # just symlink
-        libCorradeUtility.so.0.2
-        libCorradePluginManager.so.0
-        libCorradePluginManager.so.0.2 # just symlink
-        libMagnum.so
-        libMagnumMeshTools.so
-        libMagnumPhysics.so
-        libMagnumSceneGraph.so
-        libMagnumShaders.so
-        libdl.so.a9de5678
-        libppapi_gles2.so
-        runnable-ld.so
-        PATHS "${NACL_TOOLCHAIN_PATH}/x86_64-nacl/lib" "${NACL_PREFIX}/lib")
+    if(CORRADE_TARGET_NACL_GLIBC)
+        include(UseNaCl)
+        nacl_bundle_libs(${CMAKE_INSTALL_PREFIX}
+            libppapi_cpp.so
+            libpthread.so.a9de5678
+            libstdc++.so.6
+            libm.so.a9de5678
+            libgcc_s.so.1
+            libc.so.a9de5678
+            libCorradeUtility.so.0 # just symlink
+            libCorradeUtility.so.0.2
+            libCorradePluginManager.so.0
+            libCorradePluginManager.so.0.2 # just symlink
+            libMagnum.so
+            libMagnumMeshTools.so
+            libMagnumPhysics.so
+            libMagnumSceneGraph.so
+            libMagnumShaders.so
+            libdl.so.a9de5678
+            libppapi_gles2.so
+            runnable-ld.so
+            PATHS "${NACL_TOOLCHAIN_PATH}/x86_64-nacl/lib" "${NACL_PREFIX}/lib")
+    endif()
 endif()
