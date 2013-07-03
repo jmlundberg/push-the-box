@@ -29,7 +29,10 @@ Menu::Menu() {
 
     (i = new MenuItem("exit", &scene, &drawables, &shapes))
         ->translate(Vector2::yAxis(-0.3f));
+    /** @todo What about this? */
+    #ifndef CORRADE_TARGET_NACL
     MenuItem::connect(i, &MenuItem::clicked, Application::instance(), &Application::exit);
+    #endif
 
     /* Add cursor */
     (cursor = new Cursor(&scene, &shapes))
