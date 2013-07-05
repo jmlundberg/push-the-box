@@ -13,7 +13,7 @@ know :-)
 Browser requirements
 --------------------
 
-You need Google Chrome 22 or higher with working Native Client and OpenGL.
+You need Google Chrome 25 or higher with working Native Client and OpenGL.
 Native Client is disabled by default and only apps from Chrome Web Store are
 allowed to run. This can be solved either by enabling Native Client in
 [chrome://flags](chrome://flags) or running chrome from terminal with
@@ -47,7 +47,7 @@ NaCl itself (if everything needed by current version is ported there). In case
 of NaCl you need these things:
 
  - [Native Client SDK](https://developers.google.com/native-client/beta/sdk/download).
-   Version used here is `pepper_22`, i.e. unzip it and run `./naclsdk update pepper_22`.
+   Version used here is `pepper_25`, i.e. unzip it and run `./naclsdk update pepper_25`.
  - [CMake](http://www.cmake.org) 2.8.8 or newer
  - [Corrade](https://github.com/mosra/corrade) and
    [Magnum](https://github.com/mosra/magnum) libraries compiled for NaCl. You
@@ -68,7 +68,7 @@ Get the toolchains submodule, if you don't have it already:
 
 Don't forget to adapt `NACL_PREFIX` variable in `generic/NaCl-glibc-x86-32.cmake`
 and `generic/NaCl-glibc-x86-64.cmake` to path where your SDK is installed,
-e.g. `/home/johndoe/nacl_sdk/pepper_22`. You may need to adapt also
+e.g. `/home/johndoe/nacl_sdk/pepper_25`. You may need to adapt also
 `NACL_TOOLCHAIN_PATH` so CMake is able to find the compiler.
 
 Next create build directory for desired architecture (e.g. x86-64) and run
