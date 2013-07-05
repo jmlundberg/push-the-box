@@ -106,9 +106,6 @@ void Game::resume() {
 }
 
 void Game::focusEvent() {
-    #ifdef CORRADE_TARGET_NACL
-    Application::instance()->setFullscreen(true);
-    #endif
     Application::instance()->setMouseLocked(true);
 
     paused = false;
@@ -123,9 +120,6 @@ void Game::blurEvent() {
     paused = true;
 
     Application::instance()->setMouseLocked(false);
-    #ifdef CORRADE_TARGET_NACL
-    Application::instance()->setFullscreen(false);
-    #endif
 }
 
 void Game::viewportEvent(const Vector2i& size) {
