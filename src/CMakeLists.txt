@@ -12,6 +12,11 @@ else()
     find_package(Magnum REQUIRED Sdl2Application)
 endif()
 
+# For newlib we need to link static plugins
+if(CORRADE_TARGET_NACL_NEWLIB)
+    find_package(MagnumPlugins REQUIRED MagnumFont TgaImporter)
+endif()
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CORRADE_CXX_FLAGS}")
 include_directories(${MAGNUM_INCLUDE_DIRS}
     ${MAGNUM_APPLICATION_INCLUDE_DIRS}
@@ -50,6 +55,13 @@ set(PushTheBox_SRCS
     ${PushTheBoxShaders_RCS})
 
 add_executable(push-the-box ${PushTheBox_SRCS})
+
+if(CORRADE_TARGET_NACL_NEWLIB)
+    target_link_libraries(push-the-box
+        ${MAGNUMPLUGINS_MAGNUMFONT_LIBRARIES}
+        ${MAGNUMPLUGINS_TGAIMPORTER_LIBRARIES})
+endif()
+
 target_link_libraries(push-the-box
     ${CORRADE_INTERCONNECT_LIBRARIES}
     ${MAGNUM_LIBRARIES}

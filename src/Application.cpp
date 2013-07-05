@@ -20,6 +20,14 @@
 #include "Menu/Menu.h"
 #include "configure.h"
 
+#ifdef CORRADE_TARGET_NACL_NEWLIB
+static int importStaticPlugins() {
+    CORRADE_PLUGIN_IMPORT(MagnumFont)
+    CORRADE_PLUGIN_IMPORT(TgaImporter)
+    return 0;
+} CORRADE_AUTOMATIC_INITIALIZER(importStaticPlugins)
+#endif
+
 namespace PushTheBox {
 
 Application* Application::_instance = nullptr;
