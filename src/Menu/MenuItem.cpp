@@ -17,7 +17,7 @@ namespace {
     const Color3 on = Color3::fromHSV(Deg(210.0f), 0.85f, 0.9f);
 }
 
-MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup2D* drawables, Shapes::ShapeGroup2D* shapes): Object2D(parent), SceneGraph::Drawable2D(this, drawables), Shapes::Shape<Shapes::AxisAlignedBox2D>(this, shapes), color(off) {
+MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::DrawableGroup2D* drawables, Shapes::ShapeGroup2D* shapes): Object2D(parent), SceneGraph::Drawable2D(this, drawables), Shapes::Shape<Shapes::AxisAlignedBox2D>(this, shapes), vertexBuffer(Buffer::Target::Array), indexBuffer(Buffer::Target::ElementArray), color(off) {
     shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVector2D>("text2d");
     auto font = SceneResourceManager::instance()->get<Text::AbstractFont>("font");
     glyphCache = SceneResourceManager::instance()->get<Text::GlyphCache>("cache");
