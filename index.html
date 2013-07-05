@@ -1,53 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Push The Box [unknown]</title>
-<style type="text/css">
-html {
-    height: 100%;
-}
-body {
-    display: table;
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    background-color: #000000;
-    color: #333333;
-}
-#listener {
-    display: table-cell;
-    vertical-align: middle;
-}
-#module {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-</style>
-<script type="text/javascript">
-var module = null;
-
-function pageLoaded() {
-    if(!module) setStatus('loading...');
-}
-
-function moduleLoaded() {
-    module = document.getElementById('module');
-    setStatus('loaded');
-}
-
-function setStatus(message) {
-    document.title = 'Push the Box [' + message + ']';
-}
-</script>
+<title>Push the Box</title>
+<link rel="stylesheet" href="NaClApplication.css" />
 </head>
-<body onload="pageLoaded();">
+<body>
+<h1>Push the Box</h1>
 <div id="listener">
-<script type="text/javascript">
-var listener = document.getElementById('listener');
-listener.addEventListener('load', moduleLoaded, true);
-</script>
-<embed name="nacl" id="module" style="width: 640px; height: 480px;" type="application/x-nacl" src="push-the-box.nmf" />
+<script type="text/javascript" src="NaClApplication.js"></script>
+<embed name="nacl" id="module" type="application/x-nacl" src="push-the-box.nmf" />
+<div id="status">Initialization...</div>
+<div id="statusDescription"></div>
 </div>
 </body>
 </html>
