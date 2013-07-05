@@ -78,7 +78,7 @@ endif()
 
 # Installation for NaCl
 if(CORRADE_TARGET_NACL)
-    install(FILES index.html DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(FILES index.html NaClApplication.css NaClApplication.js DESTINATION ${CMAKE_INSTALL_PREFIX})
     install(TARGETS push-the-box DESTINATION ${CMAKE_INSTALL_PREFIX})
 
     if(CORRADE_TARGET_NACL_NEWLIB)
