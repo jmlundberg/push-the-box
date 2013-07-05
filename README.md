@@ -5,10 +5,9 @@ is to **push** all the boxes to their destination places.
 
 ![Screenshot](https://github.com/nuclearwhales/push-the-box/raw/master/screenshot.png)
 
-(Slightly outdated) **playable version is available** on http://nuclearwhales.github.io/push-the-box.
-Please be patient, it will took a while before it loads -- the dependency
-libraries have ~10 MB in total. If you encounter any problems, please let us
-know :-)
+**Playable version is available** on http://nuclearwhales.github.io/push-the-box.
+Please be patient, it will took a while before it loads -- the executable has
+around 4 MB. If you encounter any problems, please let us know :-)
 
 Browser requirements
 --------------------
@@ -26,12 +25,11 @@ blacklisted, you can try to bypass it with `--disable-gpu-blacklist` option.
 How to play
 -----------
 
-Click on the image and the game will start in fullscreen. Clicking again will
-pause the game and leave the fullscreen. Use your **mouse to look around**
-and press **up arrow** or **W key** to move forward or push any box. If you
-screw something up, you can restart the level with **R key**. When you
-successfully complete the level, next level will be loaded. There are
-currently 11 playable levels.
+Resume the game from menu. The cursor will be locked and you can use your
+**mouse to look around** and press **up arrow** or **W key** to move forward or
+push any box. If you screw something up, you can restart the level from the
+menu. When you successfully complete the level, next level will be loaded.
+There are currently 11 playable levels.
 
 Why there is no...
 ------------------
@@ -43,22 +41,14 @@ Compiling and running the game
 
 You can play the game online on the link provided above, but you can also
 compile and run it on your own. You can run it either natively using SDL2 or in
-NaCl itself (if everything needed by current version is ported there). In case
-of NaCl you need these things:
+NaCl itself. In case of NaCl you need these things:
 
  - [Native Client SDK](https://developers.google.com/native-client/beta/sdk/download).
    Version used here is `pepper_25`, i.e. unzip it and run `./naclsdk update pepper_25`.
  - [CMake](http://www.cmake.org) 2.8.8 or newer
- - [Corrade](https://github.com/mosra/corrade) and
-   [Magnum](https://github.com/mosra/magnum) libraries compiled for NaCl. You
-   can get the binaries [here](https://github.com/downloads/mosra/corrade/corrade-nacl-20121129-4577467.zip)
-   and [here](https://github.com/downloads/mosra/magnum/magnum-nacl-20121129-029a480.zip).
-   Unzip them and put the files in root of
-   your NaCl SDK, e.g. `/home/johndoe/nacl_sdk/pepper_22`.
- - Corrade compiled for your system (needed for resource compiler). You can
-   either compile it manually from https://github.com/mosra/corrade or use
-   packages from [here](http://mosra.cz/blog/corrade.php) (outdated, but
-   should be sufficient).
+ - [Corrade](https://github.com/mosra/corrade), [Magnum](https://github.com/mosra/magnum)
+   and [Magnum Plugins](https://github.com/mosra/magnum-plugins) compiled for
+   NaCl and Corrade also compiled for your system (needed for resource compiler).
 
 Get the toolchains submodule, if you don't have it already:
 
@@ -66,8 +56,8 @@ Get the toolchains submodule, if you don't have it already:
     git submodule init
     git sumbodule update
 
-Don't forget to adapt `NACL_PREFIX` variable in `generic/NaCl-glibc-x86-32.cmake`
-and `generic/NaCl-glibc-x86-64.cmake` to path where your SDK is installed,
+Don't forget to adapt `NACL_PREFIX` variable in `generic/NaCl-newlib-x86-32.cmake`
+and `generic/NaCl-newlib-x86-64.cmake` to path where your SDK is installed,
 e.g. `/home/johndoe/nacl_sdk/pepper_25`. You may need to adapt also
 `NACL_TOOLCHAIN_PATH` so CMake is able to find the compiler.
 
@@ -80,7 +70,7 @@ containing `Platform/NaCl.cmake`.
     cd build-nacl-x86-64
     cmake .. \
         -DCMAKE_MODULE_PATH="/path/to/push-the-box/toolchains/modules" \
-        -DCMAKE_TOOLCHAIN_FILE="../toolchains/generic/NaCl-glibc-x86-64.cmake" \
+        -DCMAKE_TOOLCHAIN_FILE="../toolchains/generic/NaCl-newlib-x86-64.cmake" \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=/path/to/webserver/directory
     make
