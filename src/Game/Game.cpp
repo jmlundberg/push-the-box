@@ -130,6 +130,7 @@ void Game::blurEvent() {
 
 void Game::viewportEvent(const Vector2i& size) {
     camera->setViewport(size);
+    hudCamera->setViewport(size);
 }
 
 void Game::drawEvent() {
