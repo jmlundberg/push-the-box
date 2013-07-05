@@ -9,6 +9,8 @@ namespace PushTheBox { namespace Shaders {
 
 class Blur: public AbstractShaderProgram {
     public:
+        typedef Attribute<0, Vector2> Position;
+
         enum class Direction: UnsignedByte {
             Horizontal,
             Vertical
@@ -19,6 +21,11 @@ class Blur: public AbstractShaderProgram {
         };
 
         explicit Blur(Direction direction);
+
+        Blur* setImageSizeInverted(const Vector2& size);
+
+    private:
+        Int imageSizeInvertedUniform;
 };
 
 }}

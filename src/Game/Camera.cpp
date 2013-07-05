@@ -1,74 +1,141 @@
 #include "Camera.h"
 
+#include <Context.h>
 #include <DefaultFramebuffer.h>
 #include <Renderbuffer.h>
 #include <RenderbufferFormat.h>
 #include <Renderer.h>
 #include <TextureFormat.h>
+#include <Extensions.h>
 
 namespace PushTheBox { namespace Game {
 
-Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), _blurred(true), multisampleFramebuffer({{}, defaultFramebuffer.viewport().size()/8}), framebuffer(multisampleFramebuffer.viewport()), blurShaderHorizontal(Shaders::Blur::Direction::Horizontal), blurShaderVertical(Shaders::Blur::Direction::Vertical) {
+Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), _blurred(true), multisampleFramebuffer({{}, defaultFramebuffer.viewport().size()/8}), framebuffer1(multisampleFramebuffer.viewport()), framebuffer2(multisampleFramebuffer.viewport()), blurShaderHorizontal(Shaders::Blur::Direction::Horizontal), blurShaderVertical(Shaders::Blur::Direction::Vertical) {
     setPerspective(Deg(35.0f), 1.0f, 0.001f, 100.0f);
     setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 
-    /** @todo some option to disable this */
-    if(1) {
-        color.setStorageMultisample(16, RenderbufferFormat::RGBA8, multisampleFramebuffer.viewport().size());
-        depth.setStorageMultisample(16, RenderbufferFormat::DepthComponent24, multisampleFramebuffer.viewport().size());
+    /* Decide about multisampling on ES2 */
+    #ifdef MAGNUM_TARGET_GLES2
+    if(Context::current()->isExtensionSupported<Extensions::GL::ANGLE::framebuffer_multisample>() ||
+       Context::current()->isExtensionSupported<Extensions::GL::NV::framebuffer_multisample>()) {
+        _multisample = true;
     } else {
-        color.setStorage(RenderbufferFormat::RGBA8, multisampleFramebuffer.viewport().size());
-        depth.setStorage(RenderbufferFormat::DepthComponent24, multisampleFramebuffer.viewport().size());
+        Debug() << "Neither" << Extensions::GL::ANGLE::framebuffer_multisample::string()
+                << "nor" << Extensions::GL::NV::framebuffer_multisample::string()
+                << "is supported, expect ugly blur :-)";
+        _multisample = false;
     }
-    multisampleFramebuffer.attachRenderbuffer(Framebuffer::ColorAttachment(0), &color);
-    multisampleFramebuffer.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &depth);
+    #else
+    _multisample = true;
+    #endif
 
-    texture1.setStorage(1, TextureFormat::RGB8, multisampleFramebuffer.viewport().size())
+    /* Configure depth buffer */
+    #ifdef MAGNUM_TARGET_GLES
+    MAGNUM_ASSERT_EXTENSION_SUPPORTED(Extensions::GL::OES::depth24);
+    #endif
+    depth.setStorage(RenderbufferFormat::DepthComponent24, multisampleFramebuffer.viewport().size());
+    framebuffer1.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &depth);
+    framebuffer2.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &depth);
+
+    /* Configure multisample framebuffer */
+    if(_multisample) {
+        #ifdef MAGNUM_TARGET_GLES
+        MAGNUM_ASSERT_EXTENSION_SUPPORTED(Extensions::GL::OES::rgb8_rgba8);
+        #endif
+        multisampleColor.setStorageMultisample(16, RenderbufferFormat::RGBA8, multisampleFramebuffer.viewport().size());
+        multsampleDepth.setStorageMultisample(16, RenderbufferFormat::DepthComponent24, multisampleFramebuffer.viewport().size());
+        multisampleFramebuffer.attachRenderbuffer(Framebuffer::ColorAttachment(0), &multisampleColor);
+        multisampleFramebuffer.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &multsampleDepth);
+        CORRADE_INTERNAL_ASSERT(multisampleFramebuffer.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
+    }
+
+    /* Configure textures */
+    TextureFormat internalFormat = TextureFormat::RGB8;
+    #ifdef MAGNUM_TARGET_GLES
+    if(!Context::current()->isExtensionSupported<Extensions::GL::OES::required_internalformat>())
+        internalFormat = TextureFormat::RGB;
+    #endif
+    texture1.setStorage(1, internalFormat, multisampleFramebuffer.viewport().size())
         ->setMagnificationFilter(Sampler::Filter::Linear)
         ->setMinificationFilter(Sampler::Filter::Nearest)
         ->setWrapping(Sampler::Wrapping::ClampToEdge);
-    texture2.setStorage(1, TextureFormat::RGB8, multisampleFramebuffer.viewport().size())
+    texture2.setStorage(1, internalFormat, multisampleFramebuffer.viewport().size())
         ->setMagnificationFilter(Sampler::Filter::Linear)
         ->setMinificationFilter(Sampler::Filter::Nearest)
         ->setWrapping(Sampler::Wrapping::ClampToEdge);
-    framebuffer.attachTexture2D(Framebuffer::ColorAttachment(0), &texture1, 0);
-    framebuffer.attachTexture2D(Framebuffer::ColorAttachment(1), &texture2, 0);
+    framebuffer1.attachTexture2D(Framebuffer::ColorAttachment(0), &texture1, 0);
+    framebuffer2.attachTexture2D(Framebuffer::ColorAttachment(0), &texture2, 0);
 
-    fullScreenTriangle.setPrimitive(Mesh::Primitive::TriangleStrip)
-        ->setVertexCount(4);
+    /* Verify that everything is sane */
+    CORRADE_INTERNAL_ASSERT(framebuffer1.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
+    CORRADE_INTERNAL_ASSERT(framebuffer2.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
+
+    /* Full screen triangle */
+    fullScreenTriangle.setPrimitive(Mesh::Primitive::Triangles)
+        ->setVertexCount(3);
+
+    /* Older GLSL doesn't have gl_VertexID, vertices must be supplied explicitly */
+    #ifndef MAGNUM_TARGET_GLES
+    if(!Context::current()->isVersionSupported(Version::GL300))
+    #else
+    if(!Context::current()->isVersionSupported(Version::GLES300))
+    #endif
+    {
+        constexpr Vector2 triangle[] = {
+            Vector2(-1.0,  1.0),
+            Vector2(-1.0, -3.0),
+            Vector2( 3.0,  1.0)
+        };
+        fullScreenTriangleBuffer.setData(triangle, Buffer::Usage::StaticDraw);
+        fullScreenTriangle.addVertexBuffer(&fullScreenTriangleBuffer, 0, Shaders::Blur::Position());
+    }
 }
 
 void Camera::setViewport(const Vector2i& size) {
-    SceneGraph::Camera3D::setViewport(size/8);
+    SceneGraph::Camera3D::setViewport(size);
 
     multisampleFramebuffer.setViewport({{}, size/8});
-    framebuffer.setViewport({{}, size/8});
+    framebuffer1.setViewport({{}, size/8});
+    framebuffer2.setViewport({{}, size/8});
     /** @todo resize also texture */
+
+    blurShaderHorizontal.setImageSizeInverted(8.0f/Vector2(size));
+    blurShaderVertical.setImageSizeInverted(8.0f/Vector2(size));
 }
 
 void Camera::draw(SceneGraph::DrawableGroup3D& group) {
+    /* Render the scene normally */
     if(!_blurred) {
+        defaultFramebuffer.bind(FramebufferTarget::ReadDraw);
         SceneGraph::Camera3D::draw(group);
         return;
     }
 
-    /* Draw scene to (multisampled) default framebuffer */
-    multisampleFramebuffer.bind(FramebufferTarget::Draw);
-    multisampleFramebuffer.clear(FramebufferClear::Color|FramebufferClear::Depth);
-    SceneGraph::Camera3D::draw(group);
+    /* Draw scene to multisampled framebuffer */
+    if(_multisample) {
+        multisampleFramebuffer.bind(FramebufferTarget::Draw);
+        multisampleFramebuffer.clear(FramebufferClear::Color|FramebufferClear::Depth);
+        SceneGraph::Camera3D::draw(group);
 
-    /* Resolve to first texture */
-    framebuffer.mapForDraw(Framebuffer::ColorAttachment(0));
-    Framebuffer::blit(multisampleFramebuffer, framebuffer, multisampleFramebuffer.viewport(), FramebufferBlit::ColorBuffer);
+        /* Resolve to first texture */
+        Framebuffer::blit(multisampleFramebuffer, framebuffer1, multisampleFramebuffer.viewport(), FramebufferBlit::ColorBuffer);
+
+    /* Single sample fallback */
+    } else {
+        framebuffer1.bind(FramebufferTarget::ReadDraw);
+        framebuffer1.clear(FramebufferClear::Color|FramebufferClear::Depth);
+        SceneGraph::Camera3D::draw(group);
+    }
 
     /* Blur first texture horizontally to second one */
-    framebuffer.mapForDraw(Framebuffer::ColorAttachment(1));
+    framebuffer2.bind(FramebufferTarget::ReadDraw);
+    framebuffer2.clear(FramebufferClear::Depth);
     blurShaderHorizontal.use();
     texture1.bind(Shaders::Blur::TextureLayer);
     fullScreenTriangle.draw();
 
     /* Blur second texture vertically to screen FB */
-    defaultFramebuffer.bind(FramebufferTarget::Draw);
+    defaultFramebuffer.bind(FramebufferTarget::ReadDraw);
     defaultFramebuffer.clear(FramebufferClear::Depth);
     blurShaderVertical.use();
     texture2.bind(Shaders::Blur::TextureLayer);

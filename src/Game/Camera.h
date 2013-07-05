@@ -24,17 +24,19 @@ class Camera: public Object3D, public SceneGraph::Camera3D {
         inline void setBlurred(bool blurred) { _blurred = blurred; }
 
     private:
-        bool _blurred;
+        bool _multisample, _blurred;
 
-        Renderbuffer color, depth;
+        Renderbuffer multisampleColor, multsampleDepth;
         Framebuffer multisampleFramebuffer;
 
         Texture2D texture1, texture2;
-        Framebuffer framebuffer;
+        Renderbuffer depth;
+        Framebuffer framebuffer1, framebuffer2;
 
         Shaders::Blur blurShaderHorizontal;
         Shaders::Blur blurShaderVertical;
         Mesh fullScreenTriangle;
+        Buffer fullScreenTriangleBuffer;
 };
 
 }}
