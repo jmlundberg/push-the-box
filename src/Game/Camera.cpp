@@ -30,10 +30,14 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), 
     #endif
 
     /* Configure depth buffer */
-    #ifdef MAGNUM_TARGET_GLES
-    MAGNUM_ASSERT_EXTENSION_SUPPORTED(Extensions::GL::OES::depth24);
+    RenderbufferFormat depthFormat = RenderbufferFormat::DepthComponent24;
+    #ifdef MAGNUM_TARGET_GLES2
+    if(!Context::current()->isExtensionSupported<Extensions::GL::OES::depth24>()) {
+        Debug() << Extensions::GL::OES::depth24::string() << "not supported, fallback to 16bit depth buffer";
+        depthFormat = RenderbufferFormat::DepthComponent16;
+    }
     #endif
-    depth.setStorage(RenderbufferFormat::DepthComponent24, multisampleFramebuffer.viewport().size());
+    depth.setStorage(depthFormat, multisampleFramebuffer.viewport().size());
     framebuffer1.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &depth);
     framebuffer2.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &depth);
 
@@ -43,7 +47,7 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), 
         MAGNUM_ASSERT_EXTENSION_SUPPORTED(Extensions::GL::OES::rgb8_rgba8);
         #endif
         multisampleColor.setStorageMultisample(16, RenderbufferFormat::RGBA8, multisampleFramebuffer.viewport().size());
-        multsampleDepth.setStorageMultisample(16, RenderbufferFormat::DepthComponent24, multisampleFramebuffer.viewport().size());
+        multsampleDepth.setStorageMultisample(16, depthFormat, multisampleFramebuffer.viewport().size());
         multisampleFramebuffer.attachRenderbuffer(Framebuffer::ColorAttachment(0), &multisampleColor);
         multisampleFramebuffer.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &multsampleDepth);
         CORRADE_INTERNAL_ASSERT(multisampleFramebuffer.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
