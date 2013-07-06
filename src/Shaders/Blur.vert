@@ -13,7 +13,8 @@ uniform sampler2D textureData;
 uniform vec2 imageSizeInverted;
 #endif
 
-out vec2 blurTextureCoords[14];
+out mediump vec2 textureCoords;
+out mediump vec4 blurTextureCoords[7];
 
 mediump vec2 coordinate(mediump float value) {
     #ifdef DIRECTION_HORIZONTAL
@@ -26,7 +27,7 @@ mediump vec2 coordinate(mediump float value) {
 void main() {
     fullScreenTriangle();
 
-    mediump vec2 textureCoords = gl_Position.xy*0.5 + vec2(0.5);
+    textureCoords = gl_Position.xy*0.5 + vec2(0.5);
 
     #ifdef DIRECTION_HORIZONTAL
     #ifdef NEW_GLSL
@@ -42,9 +43,8 @@ void main() {
     #endif
     #endif
 
-    for(int i = 0; i != 7; ++i)
-        blurTextureCoords[6-i] = textureCoords + coordinate(increment*float(i+1));
-
-    for(int i = 0; i != 7; ++i)
-        blurTextureCoords[7+i] = textureCoords + coordinate(increment*float(i+1));
+    for(int i = 0; i != 7; ++i) {
+        blurTextureCoords[i].xy = textureCoords - coordinate(increment*float(i+1));
+        blurTextureCoords[i].zw = textureCoords + coordinate(increment*float(i+1));
+    }
 }
