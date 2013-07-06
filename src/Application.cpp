@@ -37,15 +37,21 @@ Application* Application::instance() {
     return _instance;
 }
 
-Application::Application(const Arguments& arguments): AbstractScreenedApplication(arguments, Configuration()
-    #ifndef CORRADE_TARGET_NACL
-    .setTitle("Push The Box")
-    .setSampleCount(16)
-    #endif
-    ), importerPluginManager(MAGNUM_PLUGINS_IMPORTER_DIR), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
+Application::Application(const Arguments& arguments): AbstractScreenedApplication(arguments, nullptr), importerPluginManager(MAGNUM_PLUGINS_IMPORTER_DIR), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
 {
     CORRADE_INTERNAL_ASSERT(!_instance);
     _instance = this;
+
+    /* Try to create MSAA context, fall back to no-AA */
+    Configuration conf;
+    conf.setSampleCount(16);
+    #ifndef CORRADE_TARGET_NACL
+    conf.setTitle("Push The Box");
+    #endif
+    if(!tryCreateContext(conf)) {
+        Debug() << "Cannot create 16x MSAA context, fallback to no antialiasing";
+        createContext(conf.setSampleCount(0));
+    }
 
     Renderer::setFeature(Renderer::Feature::FaceCulling, true);
     Renderer::setFeature(Renderer::Feature::DepthTest, true);
