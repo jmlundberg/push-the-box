@@ -37,10 +37,10 @@ Application* Application::instance() {
     return _instance;
 }
 
-Application::Application(const Arguments& arguments): AbstractScreenedApplication(arguments, (new Configuration)
+Application::Application(const Arguments& arguments): AbstractScreenedApplication(arguments, Configuration()
     #ifndef CORRADE_TARGET_NACL
-    ->setTitle("Push The Box")
-    ->setSampleCount(16)
+    .setTitle("Push The Box")
+    .setSampleCount(16)
     #endif
     ), importerPluginManager(MAGNUM_PLUGINS_IMPORTER_DIR), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
 {

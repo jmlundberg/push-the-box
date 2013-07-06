@@ -67,8 +67,16 @@ class AbstractScreenedApplication: public Platform::Application, private Contain
     friend class AbstractScreen;
 
     public:
-        /** @seemagnum{Platform::Sdl2Application::Sdl2Application()} */
-        inline AbstractScreenedApplication(const Arguments& arguments, Configuration* configuration): Platform::Application(arguments, configuration) {}
+        /** @seemagnum{Platform::Sdl2Application::Sdl2Application(const Arguments&, const Configuration&)} */
+        inline AbstractScreenedApplication(const Arguments& arguments, const Configuration& configuration = Configuration()): Platform::Application(arguments, configuration) {}
+
+        /** @seemagnum{Platform::Sdl2Application::Sdl2Application(const Arguments&, std::nullptr_t)} */
+        #ifndef CORRADE_GCC45_COMPATIBILITY
+        inline AbstractScreenedApplication(const Arguments& arguments, std::nullptr_t)
+        #else
+        inline AbstractScreenedApplication(const Arguments& arguments, void*)
+        #endif
+            : Platform::Application(arguments, nullptr) {}
 
         /**
          * @brief Add screen to application

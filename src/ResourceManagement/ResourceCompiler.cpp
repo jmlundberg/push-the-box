@@ -27,22 +27,21 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
 
         /* Import mesh */
         Trade::MeshData3D* mesh = importer->mesh3D(i);
-        CORRADE_ASSERT(mesh->positions(0), "Mesh" << importer->mesh3DName(i) << "has no position array", );
-        CORRADE_ASSERT(mesh->normals(0), "Mesh" << importer->mesh3DName(i) << "has no normal array", );
+        CORRADE_ASSERT(mesh->normalArrayCount() == 1, "Mesh" << importer->mesh3DName(i) << "has no normal array", );
 
         group->addValue("name", importer->mesh3DName(i));
         group->addValue("primitive", mesh->primitive());
 
         /* Compile index array, if present */
-        if(mesh->indices()) {
+        if(mesh->isIndexed()) {
             /* Optimize indices */
-            MeshTools::tipsify(*mesh->indices(), mesh->positions(0)->size(), 24);
+            MeshTools::tipsify(mesh->indices(), mesh->positions(0).size(), 24);
 
             std::size_t indexCount;
             Mesh::IndexType indexType;
             char* data;
-            std::tie(indexCount, indexType, data) = MeshTools::compressIndices(*mesh->indices());
-            auto minmax = std::minmax_element(mesh->indices()->begin(), mesh->indices()->end());
+            std::tie(indexCount, indexType, data) = MeshTools::compressIndices(mesh->indices());
+            auto minmax = std::minmax_element(mesh->indices().begin(), mesh->indices().end());
 
             group->addValue("indexOffset", std::size_t(out.tellp()));
             group->addValue("indexCount", indexCount);
@@ -57,19 +56,19 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
         /* Rotate to have Y up */
         /** @todo Fix this in Collada importer itself */
         auto rotation = Quaternion::rotation(-90.0_degf, Vector3::xAxis());
-        MeshTools::transformVectorsInPlace(rotation, *mesh->normals(0));
-        MeshTools::transformVectorsInPlace(rotation, *mesh->positions(0));
+        MeshTools::transformVectorsInPlace(rotation, mesh->normals(0));
+        MeshTools::transformVectorsInPlace(rotation, mesh->positions(0));
 
         /* Compress normals */
-        std::vector<Math::Vector3<Byte>> normals(mesh->normals(0)->size());
-        std::transform(mesh->normals(0)->begin(), mesh->normals(0)->end(), normals.begin(),
+        std::vector<Math::Vector3<Byte>> normals(mesh->normals(0).size());
+        std::transform(mesh->normals(0).begin(), mesh->normals(0).end(), normals.begin(),
                        [](const Vector3& vec) { return Math::denormalize<Math::Vector3<Byte>>(vec); });
 
         /* Compile vertex array */
         char* data;
         std::size_t vertexCount;
         std::size_t stride;
-        std::tie(vertexCount, stride, data) = MeshTools::interleave(*mesh->positions(0), normals, 1);
+        std::tie(vertexCount, stride, data) = MeshTools::interleave(mesh->positions(0), normals, 1);
 
         group->addValue("vertexArray", "3D interleaved position normal");
         group->addValue("vertexOffset", std::size_t(out.tellp()));
