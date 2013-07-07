@@ -26,6 +26,17 @@ void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::Abst
     text->mesh()->draw();
 }
 
+LevelTitle::LevelTitle(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): AbstractHudText(parent, drawables) {
+    text->reserve(32, Buffer::Usage::StaticDraw, Buffer::Usage::StaticDraw);
+}
+
+void LevelTitle::update(const std::string& name) {
+    text->render(name);
+
+    resetTransformation();
+    translate({-1.303f, 0.97f - text->rectangle().top()});
+}
+
 RemainingTargets::RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D* drawables, SceneGraph::AnimableGroup2D* animables): AbstractHudText(parent, drawables), SceneGraph::Animable2D(this, animables) {
     text->reserve(32, Buffer::Usage::DynamicDraw, Buffer::Usage::StaticDraw);
 

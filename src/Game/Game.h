@@ -21,6 +21,7 @@ namespace PushTheBox { namespace Game {
 
 class Camera;
 class Level;
+class LevelTitle;
 class Moves;
 class Player;
 class RemainingTargets;
@@ -74,6 +75,7 @@ class Game: public AbstractScreen, public Interconnect::Receiver {
         SceneGraph::Camera2D* hudCamera;
         bool paused;
 
+        LevelTitle* levelTitle;
         RemainingTargets* remainingTargets;
         Moves* moves;
 };

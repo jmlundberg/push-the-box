@@ -34,6 +34,9 @@ class Level: public Object3D, public Interconnect::Emitter {
         /** @brief Next level name */
         inline std::string nextName() const { return _nextName; }
 
+        /** @brief Human-readable level title */
+        std::string title() const { return _title; }
+
         /** @brief Level size */
         inline Vector2i size() const { return _size; }
 
@@ -69,7 +72,7 @@ class Level: public Object3D, public Interconnect::Emitter {
             return level[position.y()*_size.x()+position.x()];
         }
 
-        std::string _name, _nextName;
+        std::string _name, _nextName, _title;
         Vector2i _size, _playerPosition;
         UnsignedInt _remainingTargets, _moves;
         std::vector<TileType> level;

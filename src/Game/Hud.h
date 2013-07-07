@@ -28,6 +28,13 @@ class AbstractHudText: public Object2D, SceneGraph::Drawable2D, public Interconn
         Resource<Text::GlyphCache> glyphCache;
 };
 
+class LevelTitle: public AbstractHudText {
+    public:
+        LevelTitle(Object2D* parent, SceneGraph::DrawableGroup2D* drawables);
+
+        void update(const std::string& name);
+};
+
 class RemainingTargets: public AbstractHudText, SceneGraph::Animable2D {
     public:
         RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D* drawables, SceneGraph::AnimableGroup2D* animables);

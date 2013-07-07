@@ -24,6 +24,7 @@ Level::Level(const std::string& name, Scene3D* scene, SceneGraph::DrawableGroup3
 
     /* Next level name */
     _nextName = conf.value("next");
+    _title = conf.value("title");
 
     /* Level size */
     _size = conf.value<Vector2i>("size");

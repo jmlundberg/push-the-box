@@ -43,6 +43,7 @@ Game::Game(): level(nullptr), paused(true) {
         ->rotateX(Deg(-35.0f));
 
     /* Hud */
+    levelTitle = new LevelTitle(&hudScene, &hudDrawables);
     remainingTargets = new RemainingTargets(&hudScene, &hudDrawables, &hudAnimables);
     moves = new Moves(&hudScene, &hudDrawables);
 
@@ -67,6 +68,7 @@ void Game::loadLevel(const std::string& name) {
           ->translate(Vector3(swizzle<'x', '0', 'y'>(level->playerPosition())));
 
     /* Connect HUD to level state changes */
+    levelTitle->update(level->title());
     remainingTargets->update(level->remainingTargets());
     moves->update(level->moves());
     Level::connect(level, &Level::remainingTargetsChanged, remainingTargets, &RemainingTargets::update);
