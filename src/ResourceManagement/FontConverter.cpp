@@ -55,15 +55,19 @@ int FontConverter::exec() {
 
     Debug() << "Populating glyph cache...";
 
+    constexpr const char characters[] = "abcdefghijklmnopqrstuvwxyz"
+                                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                        "0123456789?!:,. ";
+
     /* Open font and fill distance field glyph cache */
     font->openFile(ttfFilename, 128.0f);
-    Text::DistanceFieldGlyphCache cache(Vector2i(1536), Vector2i(256), 24);
-    font->fillGlyphCache(&cache, "abcdefghijklmnopqrstuvwxyz0123456789 ");
+    Text::DistanceFieldGlyphCache cache(Vector2i(2048), Vector2i(256), 24);
+    font->fillGlyphCache(&cache, characters);
 
     Debug() << "Converting font...";
 
     /* Convert the font */
-    converter->exportFontToFile(font, &cache, outputFilename, "abcdefghijklmnopqrstuvwxyz0123456789 ");
+    converter->exportFontToFile(font, &cache, outputFilename, characters);
 
     Debug() << "Done.";
 
