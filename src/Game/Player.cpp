@@ -14,6 +14,8 @@ Player::Player(Object3D* parent, SceneGraph::DrawableGroup3D* drawables): Object
 
 void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D*) {
     shader->setTransformationMatrix(transformationMatrix)
+          /** @todo rotationNormalized() when precision problems are fixed */
+          ->setNormalMatrix(transformationMatrix.rotationScaling())
           ->use();
 
     shader->setDiffuseColor(Color3::fromHSV(Deg(210.0f), 0.85f, 0.8f));

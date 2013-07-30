@@ -15,6 +15,8 @@ WallBrick::WallBrick(const Vector2i& position, Object3D* parent, SceneGraph::Dra
 
 void WallBrick::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D*) {
     shader->setTransformationMatrix(transformationMatrix)
+          /** @todo rotationNormalized() when precision problems are fixed */
+          ->setNormalMatrix(transformationMatrix.rotationScaling())
           ->setDiffuseColor(Color3::fromHSV(Deg(30.0f), 0.2f, 1.0f))
           ->use();
 

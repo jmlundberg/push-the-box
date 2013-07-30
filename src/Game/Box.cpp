@@ -26,6 +26,8 @@ Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::Draw
 
 void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D*) {
     shader->setTransformationMatrix(transformationMatrix)
+          /** @todo rotationNormalized() when precision problems are fixed */
+          ->setNormalMatrix(transformationMatrix.rotationScaling())
           ->setDiffuseColor(color)
           ->use();
 
