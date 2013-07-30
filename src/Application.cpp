@@ -61,7 +61,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     sceneResourceManager.setLoader(&meshResourceLoader);
     sceneResourceManager.setFallback<Mesh>(new Mesh);
 
-    /* Font plugin -- try HarfBuzz or FreeType as fallback */
+    /* Font plugin */
     Text::AbstractFont* font;
     #ifndef CORRADE_TARGET_NACL_NEWLIB
     const PluginManager::LoadStates loaded = (PluginManager::LoadState::Loaded|PluginManager::LoadState::Static);
