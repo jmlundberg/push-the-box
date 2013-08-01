@@ -48,7 +48,6 @@ Game::Game(): level(nullptr), paused(true) {
     moves = new Moves(&hudScene, &hudDrawables);
 
     /* Hud camera */
-    hudCameraObject = new Object2D(&hudScene);
     (hudCamera = new SceneGraph::Camera2D(hudScene))
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
         .setProjection({2.667f, 2.0f});

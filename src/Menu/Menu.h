@@ -35,7 +35,6 @@ class Menu: public AbstractScreen, public Interconnect::Receiver {
         SceneGraph::DrawableGroup2D drawables;
         Shapes::ShapeGroup2D shapes;
 
-        Object2D* cameraObject;
         SceneGraph::Camera2D* camera;
         Cursor* cursor;
 };

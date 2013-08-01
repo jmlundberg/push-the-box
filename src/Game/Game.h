@@ -71,7 +71,6 @@ class Game: public AbstractScreen, public Interconnect::Receiver {
         Scene2D hudScene;
         SceneGraph::DrawableGroup2D hudDrawables;
         SceneGraph::AnimableGroup2D hudAnimables;
-        Object2D* hudCameraObject;
         SceneGraph::Camera2D* hudCamera;
         bool paused;
 
