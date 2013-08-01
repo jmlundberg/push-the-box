@@ -14,29 +14,29 @@ namespace PushTheBox { namespace Menu {
 Menu::Menu() {
     /* Configure camera */
     (cameraObject = new Object2D(&scene));
-    (camera = new SceneGraph::Camera2D(cameraObject))
-        ->setProjection({8.0f/3.0f, 2.0f})
-        ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
+    camera = new SceneGraph::Camera2D(*cameraObject);
+    camera->setProjection({8.0f/3.0f, 2.0f})
+        .setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 
     /* Add menu items */
     MenuItem* i;
-    (i = new MenuItem("resume", &scene, &drawables, &shapes))
-        ->translate(Vector2::yAxis(0.3f));
+    i = new MenuItem("resume", &scene, &drawables, &shapes);
+    i->translate(Vector2::yAxis(0.3f));
     MenuItem::connect(i, &MenuItem::clicked, Game::Game::instance(), &Game::Game::resume);
 
-    (i = new MenuItem("restart level", &scene, &drawables, &shapes));
+    i = new MenuItem("restart level", &scene, &drawables, &shapes);
     MenuItem::connect(i, &MenuItem::clicked, Game::Game::instance(), &Game::Game::restartLevel);
 
-    (i = new MenuItem("exit", &scene, &drawables, &shapes))
-        ->translate(Vector2::yAxis(-0.3f));
+    i = new MenuItem("exit", &scene, &drawables, &shapes);
+    i->translate(Vector2::yAxis(-0.3f));
     /** @todo What about this? */
     #ifndef CORRADE_TARGET_NACL
     MenuItem::connect(i, &MenuItem::clicked, Application::instance(), &Application::exit);
     #endif
 
     /* Add cursor */
-    (cursor = new Cursor(&scene, &shapes))
-        ->translate({-10.0f, -10.0f});
+    cursor = new Cursor(&scene, &shapes);
+    cursor->translate({-10.0f, -10.0f});
 }
 
 void Menu::focusEvent() {
@@ -64,10 +64,10 @@ void Menu::drawEvent() {
 
 void Menu::mousePressEvent(MouseEvent& event) {
     if(event.button() == MouseEvent::Button::Left) {
-        cursor->resetTransformation()->translate(
+        cursor->resetTransformation().translate(
         Vector2::yScale(-1.0f)*(Vector2(event.position())/defaultFramebuffer.viewport().size()-Vector2(0.5f))*camera->projectionSize());
 
-        MenuItem* item = static_cast<MenuItem*>(shapes.firstCollision(cursor));
+        MenuItem* item = static_cast<MenuItem*>(shapes.firstCollision(*cursor));
         if(item) item->clicked();
 
     } else return;
@@ -80,9 +80,9 @@ void Menu::mouseMoveEvent(MouseMoveEvent& event) {
     Vector2 cursorPosition =
         Vector2::yScale(-1.0f)*(Vector2(event.position())/defaultFramebuffer.viewport().size()-Vector2(0.5f))*camera->projectionSize();
 
-    MenuItem* collisionBefore = static_cast<MenuItem*>(shapes.firstCollision(cursor));
-    cursor->resetTransformation()->translate(cursorPosition);
-    MenuItem* collisionAfter = static_cast<MenuItem*>(shapes.firstCollision(cursor));
+    MenuItem* collisionBefore = static_cast<MenuItem*>(shapes.firstCollision(*cursor));
+    cursor->resetTransformation().translate(cursorPosition);
+    MenuItem* collisionAfter = static_cast<MenuItem*>(shapes.firstCollision(*cursor));
 
     if(collisionBefore != collisionAfter) {
         if(collisionBefore) collisionBefore->hoverChanged(false);

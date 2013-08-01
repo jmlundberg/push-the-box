@@ -66,7 +66,7 @@ Blur::Blur(Direction direction) {
     }
 }
 
-Blur* Blur::setImageSizeInverted(const Vector2& size) {
+Blur& Blur::setImageSizeInverted(const Vector2& size) {
     #ifndef MAGNUM_TARGET_GLES
     if(!Context::current()->isVersionSupported(Version::GL300))
     #else
@@ -76,7 +76,7 @@ Blur* Blur::setImageSizeInverted(const Vector2& size) {
         setUniform(imageSizeInvertedUniform, size);
     }
 
-    return this;
+    return *this;
 }
 
 }}

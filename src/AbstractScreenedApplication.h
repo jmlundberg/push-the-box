@@ -80,34 +80,34 @@ class AbstractScreenedApplication: public Platform::Application, private Contain
 
         /**
          * @brief Add screen to application
-         * @return Pointer to self (for method chaining)
+         * @return Reference to self (for method chaining)
          *
          * The new screen is added as backmost. If this is the first screen
          * added, AbstractScreen::focus() is called. If not, neither
          * AbstractScreen::blur() nor AbstractScreen::focus() is called (i.e.
          * the screen default state is used).
          */
-        AbstractScreenedApplication* addScreen(AbstractScreen* screen);
+        AbstractScreenedApplication& addScreen(AbstractScreen* screen);
 
         /**
          * @brief Remove screen from application
-         * @return Pointer to self (for method chaining)
+         * @return Reference to self (for method chaining)
          *
          * The screen is blurred before removing. Deleting the object is left
          * up to the user.
          * @see AbstractScreen::blur()
          */
-        AbstractScreenedApplication* removeScreen(AbstractScreen* screen);
+        AbstractScreenedApplication& removeScreen(AbstractScreen* screen);
 
         /**
          * @brief Focus screen
-         * @return Pointer to self (for method chaining)
+         * @return Reference to self (for method chaining)
          *
          * Moves the screen to front. Previously focused screen is blurred and
          * this screen is focused.
          * @see AbstractScreen::blur(), AbstractScreen::focus()
          */
-        AbstractScreenedApplication* focusScreen(AbstractScreen* screen);
+        AbstractScreenedApplication& focusScreen(AbstractScreen* screen);
 
         /**
          * @brief Front screen

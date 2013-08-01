@@ -39,7 +39,7 @@ class MenuItem: public Object2D, SceneGraph::Drawable2D, public Shapes::Shape<Sh
         }
 
     protected:
-        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D* camera) override;
+        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) override;
 
     private:
         Resource<AbstractShaderProgram, Shaders::DistanceFieldVector2D> shader;

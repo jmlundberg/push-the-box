@@ -35,7 +35,7 @@ class FloorTile: public Object3D, SceneGraph::Drawable3D {
         FloorTile(const Vector2i& position, Type type, Object3D* parent = nullptr, SceneGraph::DrawableGroup3D* group = nullptr);
 
         /** @seemagnum{SceneGraph::Drawable::draw()} */
-        void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D* camera) override;
+        void draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D& camera) override;
 
     private:
         Resource<AbstractShaderProgram, Shaders::Phong> shader;

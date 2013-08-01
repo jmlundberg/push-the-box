@@ -22,7 +22,7 @@ class Blur: public AbstractShaderProgram {
 
         explicit Blur(Direction direction);
 
-        Blur* setImageSizeInverted(const Vector2& size);
+        Blur& setImageSizeInverted(const Vector2& size);
 
     private:
         Int imageSizeInvertedUniform;

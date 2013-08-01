@@ -29,9 +29,7 @@ std::string MeshResourceLoader::name(ResourceKey key) const {
     return conf->group("mesh", it->second)->value("name");
 }
 
-void MeshResourceLoader::load(ResourceKey key) {
-    AbstractResourceLoader<Mesh>::load(key);
-
+void MeshResourceLoader::doLoad(ResourceKey key) {
     auto it = nameMap.find(key);
     Utility::ConfigurationGroup* group;
     if(it == nameMap.end() || !(group = conf->group("mesh", it->second))) {
@@ -46,13 +44,13 @@ void MeshResourceLoader::load(ResourceKey key) {
 
         /* Add index buffer to the manager */
         Buffer* indexBuffer = new Buffer(Buffer::Target::ElementArray);
-        SceneResourceManager::instance()->set(group->value("name") + "-index", indexBuffer, ResourceDataState::Final, ResourcePolicy::Resident);
+        SceneResourceManager::instance().set(group->value("name") + "-index", indexBuffer, ResourceDataState::Final, ResourcePolicy::Resident);
 
         /* Configure indices */
         Int indexCount = group->value<Int>("indexCount");
         Mesh::IndexType indexType = group->value<Mesh::IndexType>("indexType");
         mesh->setIndexCount(indexCount)
-            ->setIndexBuffer(indexBuffer, 0, indexType,
+            .setIndexBuffer(*indexBuffer, 0, indexType,
                 group->value<UnsignedInt>("indexStart"), group->value<UnsignedInt>("indexEnd"));
         indexBuffer->setData(indexCount*Mesh::indexSize(indexType),
             data.begin()+group->value<std::size_t>("indexOffset"),
@@ -63,12 +61,12 @@ void MeshResourceLoader::load(ResourceKey key) {
 
     /* Add vertex buffer to the manager */
     Buffer* vertexBuffer = new Buffer;
-    SceneResourceManager::instance()->set(group->value("name") + "-vertex", vertexBuffer, ResourceDataState::Final, ResourcePolicy::Resident);
+    SceneResourceManager::instance().set(group->value("name") + "-vertex", vertexBuffer, ResourceDataState::Final, ResourcePolicy::Resident);
 
     /* Configure vertices */
     mesh->setPrimitive(group->value<Mesh::Primitive>("primitive"))
-        ->setVertexCount(group->value<Int>("vertexCount"))
-        ->addInterleavedVertexBuffer(vertexBuffer, 0,
+        .setVertexCount(group->value<Int>("vertexCount"))
+        .addInterleavedVertexBuffer(*vertexBuffer, 0,
             Shaders::Phong::Position(),
             Shaders::Phong::Normal(Shaders::Phong::Normal::DataType::Byte, Shaders::Phong::Normal::DataOption::Normalized),
             1);

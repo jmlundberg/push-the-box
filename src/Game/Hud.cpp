@@ -11,19 +11,19 @@
 
 namespace PushTheBox { namespace Game {
 
-AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): Object2D(parent), SceneGraph::Drawable2D(this, drawables), shader(SceneResourceManager::instance()->get<AbstractShaderProgram, Shaders::DistanceFieldVector2D>("text2d")), font(SceneResourceManager::instance()->get<Text::AbstractFont>("font")), glyphCache(SceneResourceManager::instance()->get<Text::GlyphCache>("cache")) {
-    text = new Text::TextRenderer2D(font, glyphCache, 0.06f);
+AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): Object2D(parent), SceneGraph::Drawable2D(*this, drawables), shader(SceneResourceManager::instance().get<AbstractShaderProgram, Shaders::DistanceFieldVector2D>("text2d")), font(SceneResourceManager::instance().get<Text::AbstractFont>("font")), glyphCache(SceneResourceManager::instance().get<Text::GlyphCache>("cache")) {
+    text = new Text::TextRenderer2D(*font, *glyphCache, 0.06f);
 }
 
-void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D* camera) {
-    shader->setTransformationProjectionMatrix(camera->projectionMatrix()*transformationMatrix)
-        ->setColor(Color3(1.0f))
-        ->setOutlineRange(0.5f, 1.0f)
-        ->use();
+void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) {
+    shader->setTransformationProjectionMatrix(camera.projectionMatrix()*transformationMatrix)
+        .setColor(Color3(1.0f))
+        .setOutlineRange(0.5f, 1.0f)
+        .use();
 
-    glyphCache->texture()->bind(Shaders::DistanceFieldVector2D::VectorTextureLayer);
+    glyphCache->texture().bind(Shaders::DistanceFieldVector2D::VectorTextureLayer);
 
-    text->mesh()->draw();
+    text->mesh().draw();
 }
 
 LevelTitle::LevelTitle(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): AbstractHudText(parent, drawables) {
@@ -37,7 +37,7 @@ void LevelTitle::update(const std::string& name) {
     translate({-1.303f, 0.97f - text->rectangle().top()});
 }
 
-RemainingTargets::RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D* drawables, SceneGraph::AnimableGroup2D* animables): AbstractHudText(parent, drawables), SceneGraph::Animable2D(this, animables) {
+RemainingTargets::RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D* drawables, SceneGraph::AnimableGroup2D* animables): AbstractHudText(parent, drawables), SceneGraph::Animable2D(*this, animables) {
     text->reserve(32, Buffer::Usage::DynamicDraw, Buffer::Usage::StaticDraw);
 
     setDuration(0.4f);
@@ -59,7 +59,7 @@ void RemainingTargets::update(UnsignedInt count) {
     setState(SceneGraph::AnimationState::Running);
 }
 
-void RemainingTargets::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D* camera) {
+void RemainingTargets::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) {
     AbstractHudText::draw(transformationMatrix*Matrix3::scaling(Vector2(scale)), camera);
 }
 

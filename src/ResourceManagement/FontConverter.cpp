@@ -62,12 +62,12 @@ int FontConverter::exec() {
     /* Open font and fill distance field glyph cache */
     font->openFile(ttfFilename, 128.0f);
     Text::DistanceFieldGlyphCache cache(Vector2i(2048), Vector2i(256), 24);
-    font->fillGlyphCache(&cache, characters);
+    font->fillGlyphCache(cache, characters);
 
     Debug() << "Converting font...";
 
     /* Convert the font */
-    converter->exportFontToFile(font, &cache, outputFilename, characters);
+    converter->exportFontToFile(*font, cache, outputFilename, characters);
 
     Debug() << "Done.";
 

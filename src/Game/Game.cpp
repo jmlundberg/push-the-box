@@ -31,8 +31,8 @@ Game::Game(): level(nullptr), paused(true) {
     setPropagatedEvents(PropagatedEvent::Draw);
 
     /* Add shader to resource manager */
-    SceneResourceManager::instance()->set<AbstractShaderProgram>("phong", new Magnum::Shaders::Phong);
-    shader = SceneResourceManager::instance()->get<AbstractShaderProgram, Magnum::Shaders::Phong>("phong");
+    SceneResourceManager::instance().set<AbstractShaderProgram>("phong", new Magnum::Shaders::Phong);
+    shader = SceneResourceManager::instance().get<AbstractShaderProgram, Magnum::Shaders::Phong>("phong");
 
     /* Add player */
     player = new Player(&scene, &drawables);
@@ -40,7 +40,7 @@ Game::Game(): level(nullptr), paused(true) {
     /* Add camera */
     (camera = new Camera(player))
         ->translate({0.0f, 1.0f, 7.5f})
-        ->rotateX(Deg(-35.0f));
+        .rotateX(Deg(-35.0f));
 
     /* Hud */
     levelTitle = new LevelTitle(&hudScene, &hudDrawables);
@@ -49,9 +49,9 @@ Game::Game(): level(nullptr), paused(true) {
 
     /* Hud camera */
     hudCameraObject = new Object2D(&hudScene);
-    (hudCamera = new SceneGraph::Camera2D(&hudScene))
+    (hudCamera = new SceneGraph::Camera2D(hudScene))
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
-        ->setProjection({2.667f, 2.0f});
+        .setProjection({2.667f, 2.0f});
 
     loadLevel("easy1");
 }
@@ -65,7 +65,7 @@ void Game::loadLevel(const std::string& name) {
     delete level;
     level = new Level(name, &scene, &drawables, &animables);
     player->resetTransformation()
-          ->translate(Vector3(swizzle<'x', '0', 'y'>(level->playerPosition())));
+          .translate(Vector3(swizzle<'x', '0', 'y'>(level->playerPosition())));
 
     /* Connect HUD to level state changes */
     levelTitle->update(level->title());
@@ -142,9 +142,9 @@ void Game::drawEvent() {
 
     /* Shader settings commn for all objects */
     shader->setLightPosition(camera->cameraMatrix().transformPoint(lightPosition))
-          ->setProjectionMatrix(camera->projectionMatrix())
-          ->setAmbientColor(Color3::fromHSV(Deg(15.0f), 0.5f, 0.06f))
-          ->setSpecularColor(Color3::fromHSV(Deg(50.0f), 0.5f, 1.0f));
+          .setProjectionMatrix(camera->projectionMatrix())
+          .setAmbientColor(Color3::fromHSV(Deg(15.0f), 0.5f, 0.06f))
+          .setSpecularColor(Color3::fromHSV(Deg(50.0f), 0.5f, 1.0f));
     camera->draw(drawables);
 
     /* Draw HUD */
@@ -201,7 +201,7 @@ void Game::mousePressEvent(MouseEvent& event) {
 
 void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
     /** @todo mouse sensitivity */
-    player->normalizeRotation()->rotateY(-Rad(Constants::pi())*event.relativePosition().x()/500.0f,
+    player->normalizeRotation().rotateY(-Rad(Constants::pi())*event.relativePosition().x()/500.0f,
         SceneGraph::TransformationType::Local);
 
     Rad angle(-Constants::pi()*event.relativePosition().y()/500.0f);

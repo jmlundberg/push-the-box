@@ -6,26 +6,26 @@
 
 namespace PushTheBox {
 
-AbstractScreenedApplication* AbstractScreenedApplication::addScreen(AbstractScreen* screen) {
+AbstractScreenedApplication& AbstractScreenedApplication::addScreen(AbstractScreen* screen) {
     insert(screen);
     if(frontScreen() == screen) screen->focusEvent();
-    return this;
+    return *this;
 }
 
-AbstractScreenedApplication* AbstractScreenedApplication::removeScreen(AbstractScreen* screen) {
+AbstractScreenedApplication& AbstractScreenedApplication::removeScreen(AbstractScreen* screen) {
     screen->blurEvent();
     erase(screen);
-    return this;
+    return *this;
 }
 
-AbstractScreenedApplication* AbstractScreenedApplication::focusScreen(AbstractScreen* screen) {
+AbstractScreenedApplication& AbstractScreenedApplication::focusScreen(AbstractScreen* screen) {
     /* Already focused, nothing to do */
-    if(frontScreen() == screen) return this;
+    if(frontScreen() == screen) return *this;
 
     frontScreen()->blurEvent();
     move(screen, frontScreen());
     screen->focusEvent();
-    return this;
+    return *this;
 }
 
 void AbstractScreenedApplication::viewportEvent(const Vector2i& size) {

@@ -10,7 +10,7 @@
 
 namespace PushTheBox { namespace Game {
 
-Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), _blurred(true), multisampleFramebuffer({{}, defaultFramebuffer.viewport().size()/8}), framebuffer1(multisampleFramebuffer.viewport()), framebuffer2(multisampleFramebuffer.viewport()), blurShaderHorizontal(Shaders::Blur::Direction::Horizontal), blurShaderVertical(Shaders::Blur::Direction::Vertical) {
+Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this), _blurred(true), multisampleFramebuffer({{}, defaultFramebuffer.viewport().size()/8}), framebuffer1(multisampleFramebuffer.viewport()), framebuffer2(multisampleFramebuffer.viewport()), blurShaderHorizontal(Shaders::Blur::Direction::Horizontal), blurShaderVertical(Shaders::Blur::Direction::Vertical) {
     setPerspective(Deg(35.0f), 1.0f, 0.001f, 100.0f);
     setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 
@@ -38,8 +38,8 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), 
     }
     #endif
     depth.setStorage(depthFormat, multisampleFramebuffer.viewport().size());
-    framebuffer1.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &depth);
-    framebuffer2.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &depth);
+    framebuffer1.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, depth);
+    framebuffer2.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, depth);
 
     /* Configure multisample framebuffer */
     if(_multisample) {
@@ -48,8 +48,8 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), 
         #endif
         multisampleColor.setStorageMultisample(16, RenderbufferFormat::RGBA8, multisampleFramebuffer.viewport().size());
         multsampleDepth.setStorageMultisample(16, depthFormat, multisampleFramebuffer.viewport().size());
-        multisampleFramebuffer.attachRenderbuffer(Framebuffer::ColorAttachment(0), &multisampleColor);
-        multisampleFramebuffer.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, &multsampleDepth);
+        multisampleFramebuffer.attachRenderbuffer(Framebuffer::ColorAttachment(0), multisampleColor);
+        multisampleFramebuffer.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, multsampleDepth);
         CORRADE_INTERNAL_ASSERT(multisampleFramebuffer.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
     }
 
@@ -60,15 +60,15 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), 
         internalFormat = TextureFormat::RGB;
     #endif
     texture1.setStorage(1, internalFormat, multisampleFramebuffer.viewport().size())
-        ->setMagnificationFilter(Sampler::Filter::Linear)
-        ->setMinificationFilter(Sampler::Filter::Nearest)
-        ->setWrapping(Sampler::Wrapping::ClampToEdge);
+        .setMagnificationFilter(Sampler::Filter::Linear)
+        .setMinificationFilter(Sampler::Filter::Nearest)
+        .setWrapping(Sampler::Wrapping::ClampToEdge);
     texture2.setStorage(1, internalFormat, multisampleFramebuffer.viewport().size())
-        ->setMagnificationFilter(Sampler::Filter::Linear)
-        ->setMinificationFilter(Sampler::Filter::Nearest)
-        ->setWrapping(Sampler::Wrapping::ClampToEdge);
-    framebuffer1.attachTexture2D(Framebuffer::ColorAttachment(0), &texture1, 0);
-    framebuffer2.attachTexture2D(Framebuffer::ColorAttachment(0), &texture2, 0);
+        .setMagnificationFilter(Sampler::Filter::Linear)
+        .setMinificationFilter(Sampler::Filter::Nearest)
+        .setWrapping(Sampler::Wrapping::ClampToEdge);
+    framebuffer1.attachTexture2D(Framebuffer::ColorAttachment(0), texture1, 0);
+    framebuffer2.attachTexture2D(Framebuffer::ColorAttachment(0), texture2, 0);
 
     /* Verify that everything is sane */
     CORRADE_INTERNAL_ASSERT(framebuffer1.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
@@ -76,7 +76,7 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), 
 
     /* Full screen triangle */
     fullScreenTriangle.setPrimitive(Mesh::Primitive::Triangles)
-        ->setVertexCount(3);
+        .setVertexCount(3);
 
     /* Older GLSL doesn't have gl_VertexID, vertices must be supplied explicitly */
     #ifndef MAGNUM_TARGET_GLES
@@ -91,7 +91,7 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(this), 
             Vector2( 3.0,  1.0)
         };
         fullScreenTriangleBuffer.setData(triangle, Buffer::Usage::StaticDraw);
-        fullScreenTriangle.addVertexBuffer(&fullScreenTriangleBuffer, 0, Shaders::Blur::Position());
+        fullScreenTriangle.addVertexBuffer(fullScreenTriangleBuffer, 0, Shaders::Blur::Position());
     }
 }
 

@@ -4,6 +4,6 @@
 
 namespace PushTheBox { namespace Menu {
 
-Cursor::Cursor(Object2D* parent, Shapes::ShapeGroup2D* shapes): Object2D(parent), Shapes::Shape<Shapes::Point2D>(this, {}, shapes) {}
+Cursor::Cursor(Object2D* parent, Shapes::ShapeGroup2D* shapes): Object2D(parent), Shapes::Shape<Shapes::Point2D>(*this, {}, shapes) {}
 
 }}

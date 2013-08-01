@@ -83,9 +83,8 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     Text::GlyphCache* cache = font->createGlyphCache();
 
     /* Save font resources to resource manager */
-    SceneResourceManager::instance()->set<AbstractShaderProgram>("text2d", new Shaders::DistanceFieldVector2D);
-    SceneResourceManager::instance()->set("font", font);
-    SceneResourceManager::instance()->set("cache", cache);
+    SceneResourceManager::instance().set<AbstractShaderProgram>("text2d", new Shaders::DistanceFieldVector2D)
+        .set("font", font).set("cache", cache);
 
     /* Add the screens */
     _gameScreen = new Game::Game;

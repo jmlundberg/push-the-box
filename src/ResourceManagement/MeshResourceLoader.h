@@ -25,9 +25,10 @@ class MeshResourceLoader: public AbstractResourceLoader<Mesh> {
 
         std::string name(ResourceKey key) const;
 
-        void load(ResourceKey key) override;
 
     private:
+        void doLoad(ResourceKey key) override;
+
         std::unordered_map<ResourceKey, std::uint32_t, Implementation::ResourceKeyHash> nameMap;
 
         Utility::Configuration* conf;
