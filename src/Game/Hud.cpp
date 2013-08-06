@@ -5,7 +5,7 @@
 #include <Text/GlyphCache.h>
 #include <Text/TextRenderer.h>
 
-#ifdef CORRADE_TARGET_NACL_NEWLIB
+#if defined(CORRADE_TARGET_NACL_NEWLIB) || defined(_WIN32)
 #include <sstream>
 #endif
 
@@ -48,7 +48,7 @@ RemainingTargets::RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D
 }
 
 void RemainingTargets::update(UnsignedInt count) {
-    #ifndef CORRADE_TARGET_NACL_NEWLIB
+    #if !defined(CORRADE_TARGET_NACL_NEWLIB) && !defined(_WIN32)
     text->render(std::to_string(count) + " remaining targets");
     #else
     std::ostringstream out;
@@ -76,7 +76,7 @@ Moves::Moves(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): Abstract
 }
 
 void Moves::update(UnsignedInt count) {
-    #ifndef CORRADE_TARGET_NACL_NEWLIB
+    #if !defined(CORRADE_TARGET_NACL_NEWLIB) && !defined(_WIN32)
     text->render(std::to_string(count) + " moves");
     #else
     std::ostringstream out;
