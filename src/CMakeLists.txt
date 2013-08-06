@@ -72,7 +72,7 @@ target_link_libraries(push-the-box
     ${MAGNUM_TEXTURETOOLS_LIBRARIES}
     ${MAGNUM_APPLICATION_LIBRARIES})
 
-if(NOT CORRADE_TARGET_NACL)
+if(NOT CORRADE_TARGET_NACL AND NOT WIN32)
     add_subdirectory(ResourceManagement)
 endif()
 
