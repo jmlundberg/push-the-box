@@ -71,7 +71,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     if(fontPluginManager.load("MagnumFont") & loaded)
         CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("MagnumFont"));
     else {
-        Error() << "Cannot open font plugin";
+        Error() << "Cannot open font plugin from" << fontPluginManager.pluginDirectory();
         std::exit(1);
     }
 
