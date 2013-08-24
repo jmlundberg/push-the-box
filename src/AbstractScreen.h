@@ -129,10 +129,9 @@ class AbstractScreen: private Containers::LinkedListItem<AbstractScreen, Abstrac
         /**
          * @brief Draw event
          *
-         * Called when @ref PropagatedEvent "PropagatedEvent::Draw" is enabled.
-         * Here implement your drawing functions, such as calling
-         * SceneGraph::AbstractCamera::draw(). If you want to draw immediately
-         * again, call also redraw().
+         * Called when @ref PropagatedEvent::Draw is enabled. Here implement
+         * your drawing functions, such as calling @ref SceneGraph::AbstractCamera::draw().
+         * If you want to draw immediately again, call also @ref redraw().
          *
          * Buffer swapping and clearing of default framebufer should be done
          * by the application.
@@ -142,40 +141,40 @@ class AbstractScreen: private Containers::LinkedListItem<AbstractScreen, Abstrac
         /**
          * @brief Key press event
          *
-         * Called when @ref PropagatedEvent "PropagatedEvent::Input" is enabled
-         * and an key is pressed. Default implementation does nothing.
+         * Called when @ref PropagatedEvent::Input is enabled and an key is
+         * pressed. Default implementation does nothing.
          */
         virtual void keyPressEvent(KeyEvent& event);
 
         /**
          * @brief Key release event
          *
-         * Called when @ref PropagatedEvent "PropagatedEvent::Input" is enabled
-         * and an key is released. Default implementation does nothing.
+         * Called when @ref PropagatedEvent::Input is enabled and an key is
+         * released. Default implementation does nothing.
          */
         virtual void keyReleaseEvent(KeyEvent& event);
 
         /**
          * @brief Mouse press event
          *
-         * Called when @ref PropagatedEvent "PropagatedEvent::Input" is enabled
-         * and mouse button is pressed. Default implementation does nothing.
+         * Called when @ref PropagatedEvent::Input is enabled and mouse button
+         * is pressed. Default implementation does nothing.
          */
         virtual void mousePressEvent(MouseEvent& event);
 
         /**
          * @brief Mouse release event
          *
-         * Called when @ref PropagatedEvent "PropagatedEvent::Input" is enabled
-         * and mouse button is released. Default implementation does nothing.
+         * Called when @ref PropagatedEvent::Input is enabled and mouse button
+         * is released. Default implementation does nothing.
          */
         virtual void mouseReleaseEvent(MouseEvent& event);
 
         /**
          * @brief Mouse move event
          *
-         * Called when @ref PropagatedEvent "PropagatedEvent::Input" is enabled
-         * and mouse is moved. Default implementation does nothing.
+         * Called when @ref PropagatedEvent::Input is enabled and mouse is
+         * moved. Default implementation does nothing.
          */
         virtual void mouseMoveEvent(MouseMoveEvent& event);
 

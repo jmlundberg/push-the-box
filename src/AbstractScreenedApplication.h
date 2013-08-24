@@ -48,17 +48,15 @@ they are propagated to the screens:
    is propagated to all screens.
  - @ref Magnum::Platform::Sdl2Application::drawEvent() "drawEvent()" is
    propagated in back-to-front order to screens which have
-   @ref AbstractScreen::PropagatedEvent "AbstractScreen::PropagatedEvent::Draw"
-   enabled.
+   @ref AbstractScreen::PropagatedEvent::Draw enabled.
  - Input events (@ref Magnum::Platform::Sdl2Application::keyPressEvent() "keyPressEvent()",
    @ref Magnum::Platform::Sdl2Application::keyReleaseEvent() "keyReleaseEvent()",
    @ref Magnum::Platform::Sdl2Application::mousePressEvent() "mousePressEvent()",
    @ref Magnum::Platform::Sdl2Application::mouseReleaseEvent() "mouseReleaseEvent()"
    and @ref Magnum::Platform::Sdl2Application::mouseMoveEvent() "mouseMoveEvent()")
    are propagated in front-to-back order to screens which have
-   @ref AbstractScreen::PropagatedEvent "AbstractScreen::PropagatedEvent::Input"
-   enabled. If any screen sets the event as accepted, it is not propagated
-   further.
+   @ref AbstractScreen::PropagatedEvent::Input enabled. If any screen sets the
+   event as accepted, it is not propagated further.
 
 */
 class AbstractScreenedApplication: public Platform::Application, private Containers::LinkedList<AbstractScreen> {
