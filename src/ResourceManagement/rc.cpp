@@ -1,19 +1,21 @@
 #include <fstream>
-#include <Utility/Debug.h>
+#include <Utility/Arguments.h>
 
 #include "ResourceCompiler.h"
 
 using namespace PushTheBox;
 
 int main(int argc, char** argv) {
-    if(argc != 4) {
-        Debug() << "Usage:" << argv[0] << "file.dae file.conf file.mesh";
-        return 1;
-    }
+    Utility::Arguments args;
+    args.addArgument("dae").setHelpKey("dae", "file.dae").setHelp("dae", "Input COLLADA file")
+        .addArgument("conf").setHelpKey("conf", "file.conf").setHelp("conf", "Output mesh configuration file")
+        .addArgument("mesh").setHelpKey("mesh", "file.mesh").setHelp("mesh", "Output mesh file")
+        .setHelp("PushTheBox mesh compiler.")
+        .parse(argc, argv);
 
-    ResourceManagement::ResourceCompiler c(argv[1]);
-    Utility::Configuration conf(argv[2], Utility::Configuration::Flag::Truncate);
-    std::ofstream out(argv[3]);
+    ResourceManagement::ResourceCompiler c(args.value("dae"));
+    Utility::Configuration conf(args.value("conf"), Utility::Configuration::Flag::Truncate);
+    std::ofstream out(args.value("mesh"));
 
     c.compileMeshes(&conf, out);
 

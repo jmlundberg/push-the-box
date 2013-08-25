@@ -1,4 +1,5 @@
 #include <PluginManager/Manager.h>
+#include <Utility/Arguments.h>
 #include <Platform/WindowlessGlxApplication.h>
 #include <Text/AbstractFont.h>
 #include <Text/AbstractFontConverter.h>
@@ -19,18 +20,23 @@ class FontConverter: public Platform::WindowlessApplication {
         int exec() override;
 
     private:
-        std::string ttfFilename,
-            outputFilename;
+        Utility::Arguments args;
 };
 
-FontConverter::FontConverter(const Arguments& arguments): Platform::WindowlessApplication(arguments) {
-    if(arguments.argc != 3) {
-        Debug() << "Usage:" << arguments.argv[0] << "font.ttf outputPrefix";
-        std::exit(1);
-    }
+FontConverter::FontConverter(const Arguments& arguments): Platform::WindowlessApplication(arguments, nullptr) {
+    args.addArgument("ttf").setHelpKey("ttf", "font.ttf").setHelp("ttf", "input font")
+        .addArgument("output").setHelp("output", "output filename prefix")
+        .addOption("characters", "abcdefghijklmnopqrstuvwxyz"
+                                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                 "0123456789?!:,. ").setHelp("characters", "characters to include in output")
+        .addOption("font-size", "128").setHelpKey("font-size", "\"X Y\"").setHelp("font-size", "TTF font size")
+        .addOption("atlas-size", "2048 2048").setHelpKey("atlas-size", "\"X Y\"").setHelp("atlas-size", "glyph atlas size")
+        .addOption("output-size", "256 256").setHelpKey("output-size", "\"X Y\"").setHelp("output-size", "output atlas size")
+        .addOption("radius", "24").setHelpKey("radius", "N").setHelp("radius", "distance field computation radius")
+        .setHelp("Converts TTF font to distance-field Magnum raster font of given atlas size.\nOutput is saved to files output.tga and output.conf.")
+        .parse(arguments.argc, arguments.argv);
 
-    ttfFilename = arguments.argv[1];
-    outputFilename = arguments.argv[2];
+    createContext({});
 }
 
 int FontConverter::exec() {
@@ -55,19 +61,15 @@ int FontConverter::exec() {
 
     Debug() << "Populating glyph cache...";
 
-    constexpr const char characters[] = "abcdefghijklmnopqrstuvwxyz"
-                                        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                        "0123456789?!:,. ";
-
     /* Open font and fill distance field glyph cache */
-    font->openFile(ttfFilename, 128.0f);
-    Text::DistanceFieldGlyphCache cache(Vector2i(2048), Vector2i(256), 24);
-    font->fillGlyphCache(cache, characters);
+    font->openFile(args.value("ttf"), args.value<Float>("font-size"));
+    Text::DistanceFieldGlyphCache cache(args.value<Vector2i>("atlas-size"), args.value<Vector2i>("output-size"), args.value<Int>("radius"));
+    font->fillGlyphCache(cache, args.value("characters"));
 
     Debug() << "Converting font...";
 
     /* Convert the font */
-    converter->exportFontToFile(*font, cache, outputFilename, characters);
+    converter->exportFontToFile(*font, cache, args.value("output"), args.value("characters"));
 
     Debug() << "Done.";
 
