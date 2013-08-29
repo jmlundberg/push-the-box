@@ -40,7 +40,7 @@ Game::Game(): level(nullptr), paused(true) {
     /* Add camera */
     (camera = new Camera(player))
         ->translate({0.0f, 1.0f, 7.5f})
-        .rotateX(Deg(-35.0f));
+        .rotateX(Deg(-25.0f));
 
     /* Hud */
     levelTitle = new LevelTitle(&hudScene, &hudDrawables);
@@ -52,6 +52,10 @@ Game::Game(): level(nullptr), paused(true) {
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
         .setProjection({2.667f, 2.0f});
 
+    /* Initialize random generator for random initial player rotation */
+    std::srand(std::time(nullptr));
+
+    /* Load first level */
     loadLevel("easy1");
 }
 
@@ -64,6 +68,7 @@ void Game::loadLevel(const std::string& name) {
     delete level;
     level = new Level(name, &scene, &drawables, &animables);
     player->resetTransformation()
+          .rotateY(Math::lerp(Deg(-30.0f), Deg(30.0f), Float(std::rand())/Float(RAND_MAX)))
           .translate(Vector3(swizzle<'x', '0', 'y'>(level->playerPosition())));
 
     /* Connect HUD to level state changes */
