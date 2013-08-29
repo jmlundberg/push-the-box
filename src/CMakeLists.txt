@@ -1,5 +1,6 @@
 find_package(Magnum REQUIRED
     MeshTools
+    Primitives
     SceneGraph
     Shaders
     Shapes
@@ -47,6 +48,8 @@ set(PushTheBox_SRCS
     Menu/Menu.cpp
     Menu/MenuItem.cpp
 
+    Splash/Splash.cpp
+
     ResourceManagement/MeshResourceLoader.cpp
     Shaders/Blur.cpp
 
@@ -65,6 +68,7 @@ endif()
 target_link_libraries(push-the-box
     ${CORRADE_INTERCONNECT_LIBRARIES}
     ${MAGNUM_LIBRARIES}
+    ${MAGNUM_MESHTOOLS_LIBRARIES}
     ${MAGNUM_SCENEGRAPH_LIBRARIES}
     ${MAGNUM_SHADERS_LIBRARIES}
     ${MAGNUM_SHAPES_LIBRARIES}

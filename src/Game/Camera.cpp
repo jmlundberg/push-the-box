@@ -7,10 +7,16 @@
 #include <Renderer.h>
 #include <TextureFormat.h>
 #include <Extensions.h>
+#include <ResourceManager.h>
+#include <Mesh.h>
 
 namespace PushTheBox { namespace Game {
 
 Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this), _blurred(true), multisampleFramebuffer({{}, defaultFramebuffer.viewport().size()/8}), framebuffer1(multisampleFramebuffer.viewport()), framebuffer2(multisampleFramebuffer.viewport()), blurShaderHorizontal(Shaders::Blur::Direction::Horizontal), blurShaderVertical(Shaders::Blur::Direction::Vertical) {
+    /* Get full screen triangle */
+    fullScreenTriangleBuffer = SceneResourceManager::instance().get<Buffer>("fullscreentriangle");
+    fullScreenTriangle = SceneResourceManager::instance().get<Mesh>("fullscreentriangle");
+
     setPerspective(Deg(35.0f), 1.0f, 0.001f, 100.0f);
     setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
 
@@ -73,26 +79,6 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this),
     /* Verify that everything is sane */
     CORRADE_INTERNAL_ASSERT(framebuffer1.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
     CORRADE_INTERNAL_ASSERT(framebuffer2.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
-
-    /* Full screen triangle */
-    fullScreenTriangle.setPrimitive(Mesh::Primitive::Triangles)
-        .setVertexCount(3);
-
-    /* Older GLSL doesn't have gl_VertexID, vertices must be supplied explicitly */
-    #ifndef MAGNUM_TARGET_GLES
-    if(!Context::current()->isVersionSupported(Version::GL300))
-    #else
-    if(!Context::current()->isVersionSupported(Version::GLES300))
-    #endif
-    {
-        constexpr Vector2 triangle[] = {
-            Vector2(-1.0,  1.0),
-            Vector2(-1.0, -3.0),
-            Vector2( 3.0,  1.0)
-        };
-        fullScreenTriangleBuffer.setData(triangle, Buffer::Usage::StaticDraw);
-        fullScreenTriangle.addVertexBuffer(fullScreenTriangleBuffer, 0, Shaders::Blur::Position());
-    }
 }
 
 void Camera::setViewport(const Vector2i& size) {
@@ -136,14 +122,14 @@ void Camera::draw(SceneGraph::DrawableGroup3D& group) {
     framebuffer2.clear(FramebufferClear::Depth);
     blurShaderHorizontal.use();
     texture1.bind(Shaders::Blur::TextureLayer);
-    fullScreenTriangle.draw();
+    fullScreenTriangle->draw();
 
     /* Blur second texture vertically to screen FB */
     defaultFramebuffer.bind(FramebufferTarget::ReadDraw);
     defaultFramebuffer.clear(FramebufferClear::Depth);
     blurShaderVertical.use();
     texture2.bind(Shaders::Blur::TextureLayer);
-    fullScreenTriangle.draw();
+    fullScreenTriangle->draw();
 }
 
 }}

@@ -2,8 +2,8 @@
 #define PushTheBox_Game_Camera_h
 
 #include <Framebuffer.h>
-#include <Mesh.h>
 #include <Renderbuffer.h>
+#include <Resource.h>
 #include <Texture.h>
 #include <SceneGraph/Camera3D.h>
 #include <SceneGraph/DualQuaternionTransformation.h>
@@ -35,8 +35,8 @@ class Camera: public Object3D, public SceneGraph::Camera3D {
 
         Shaders::Blur blurShaderHorizontal;
         Shaders::Blur blurShaderVertical;
-        Mesh fullScreenTriangle;
-        Buffer fullScreenTriangleBuffer;
+        Resource<Mesh> fullScreenTriangle;
+        Resource<Buffer> fullScreenTriangleBuffer;
 };
 
 }}

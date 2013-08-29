@@ -6,6 +6,7 @@
 #include <DefaultFramebuffer.h>
 #include <Renderer.h>
 #include <Mesh.h>
+#include <MeshTools/FullScreenTriangle.h>
 #include <Shaders/DistanceFieldVector.h>
 #include <Text/DistanceFieldGlyphCache.h>
 #include <Text/AbstractFont.h>
@@ -60,6 +61,12 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     /* Add resource loader and fallback meshes */
     sceneResourceManager.setLoader(&meshResourceLoader);
     sceneResourceManager.setFallback<Mesh>(new Mesh);
+
+    /* Save full screen triangle to resource manager */
+    std::pair<Buffer*, Mesh> triangle = MeshTools::fullScreenTriangle();
+    SceneResourceManager::instance()
+        .set("fullscreentriangle", std::move(triangle.first))
+        .set("fullscreentriangle", std::move(triangle.second));
 
     /* Font plugin */
     Text::AbstractFont* font;
