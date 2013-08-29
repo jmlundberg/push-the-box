@@ -8,6 +8,7 @@
 #include <Magnum.h>
 #include <SceneGraph/SceneGraph.h>
 #include <Text/Text.h>
+#include <Trade/Trade.h>
 
 namespace PushTheBox {
 
@@ -26,7 +27,7 @@ typedef SceneGraph::Object<SceneGraph::DualComplexTransformation> Object2D;
 typedef SceneGraph::Scene<SceneGraph::DualComplexTransformation> Scene2D;
 
 /** @brief Resource manager */
-typedef ResourceManager<AbstractShaderProgram, Buffer, Mesh, Text::AbstractFont, Text::GlyphCache> SceneResourceManager;
+typedef ResourceManager<AbstractShaderProgram, Buffer, Mesh, Trade::AbstractImporter, Text::AbstractFont, Text::GlyphCache> SceneResourceManager;
 
 }
 

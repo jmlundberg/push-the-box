@@ -32,6 +32,10 @@ namespace Menu {
     class Menu;
 }
 
+namespace Splash {
+    class Splash;
+}
+
 /** @brief Main application class */
 class Application: public AbstractScreenedApplication, public Interconnect::Receiver {
     public:
@@ -66,6 +70,7 @@ class Application: public AbstractScreenedApplication, public Interconnect::Rece
 
         Game::Game* _gameScreen;
         Menu::Menu* _menuScreen;
+        Splash::Splash* _splashScreen;
 };
 
 }

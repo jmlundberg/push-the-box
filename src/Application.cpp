@@ -19,6 +19,7 @@
 
 #include "Game/Game.h"
 #include "Menu/Menu.h"
+#include "Splash/Splash.h"
 #include "configure.h"
 
 #ifdef CORRADE_TARGET_NACL_NEWLIB
@@ -62,11 +63,21 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     sceneResourceManager.setLoader(&meshResourceLoader);
     sceneResourceManager.setFallback<Mesh>(new Mesh);
 
-    /* Save full screen triangle to resource manager */
+    /* TGA importer */
+    Trade::AbstractImporter* tgaImporter;
+    if(importerPluginManager.load("TgaImporter") & PluginManager::LoadState::Loaded)
+        CORRADE_INTERNAL_ASSERT_OUTPUT(tgaImporter = importerPluginManager.instance("TgaImporter"));
+    else {
+        Error() << "Cannot open TGA importer plugin from" << fontPluginManager.pluginDirectory();
+        std::exit(1);
+    }
+
+    /* Save full screen triangle and TGA importer to resource manager */
     std::pair<Buffer*, Mesh> triangle = MeshTools::fullScreenTriangle();
     SceneResourceManager::instance()
         .set("fullscreentriangle", std::move(triangle.first))
-        .set("fullscreentriangle", std::move(triangle.second));
+        .set("fullscreentriangle", std::move(triangle.second))
+        .set("tga-importer", tgaImporter);
 
     /* Font plugin */
     Text::AbstractFont* font;
@@ -91,8 +102,10 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     /* Add the screens */
     _gameScreen = new Game::Game;
     _menuScreen = new Menu::Menu;
-    addScreen(_menuScreen);
+    _splashScreen = new Splash::Splash;
+    addScreen(_splashScreen);
     addScreen(_gameScreen);
+    addScreen(_menuScreen);
 
     _timeline.start();
 }
