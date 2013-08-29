@@ -63,12 +63,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
 
     /* Font plugin */
     Text::AbstractFont* font;
-    #ifndef CORRADE_TARGET_NACL_NEWLIB
-    const PluginManager::LoadStates loaded = (PluginManager::LoadState::Loaded|PluginManager::LoadState::Static);
-    #else
-    const PluginManager::LoadStates loaded = PluginManager::LoadState::Static;
-    #endif
-    if(fontPluginManager.load("MagnumFont") & loaded)
+    if(fontPluginManager.load("MagnumFont") & PluginManager::LoadState::Loaded)
         CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("MagnumFont"));
     else {
         Error() << "Cannot open font plugin from" << fontPluginManager.pluginDirectory();
