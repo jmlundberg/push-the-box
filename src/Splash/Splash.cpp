@@ -38,7 +38,7 @@ Splash::Splash() {
                 MeshTools::transformVectorsInPlace(Matrix3::scaling(Vector2::xScale(4.0f/3.0f)), data.positions(0));
                 MeshTools::interleave(mesh, vertices, Buffer::Usage::StaticDraw, data.positions(0), data.textureCoords2D(0));
                 mesh.setPrimitive(data.primitive())
-                    .addInterleavedVertexBuffer(vertices, 0, Shaders::DistanceFieldVector2D::Position(), Shaders::DistanceFieldVector2D::TextureCoordinates());
+                    .addVertexBuffer(vertices, 0, Shaders::DistanceFieldVector2D::Position(), Shaders::DistanceFieldVector2D::TextureCoordinates());
 
                 /* Texture image */
                 Utility::Resource rs("PushTheBoxResources");

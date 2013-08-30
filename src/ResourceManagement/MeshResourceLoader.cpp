@@ -66,7 +66,7 @@ void MeshResourceLoader::doLoad(ResourceKey key) {
     /* Configure vertices */
     mesh->setPrimitive(group->value<Mesh::Primitive>("primitive"))
         .setVertexCount(group->value<Int>("vertexCount"))
-        .addInterleavedVertexBuffer(*vertexBuffer, 0,
+        .addVertexBuffer(*vertexBuffer, 0,
             Shaders::Phong::Position(),
             Shaders::Phong::Normal(Shaders::Phong::Normal::DataType::Byte, Shaders::Phong::Normal::DataOption::Normalized),
             1);
