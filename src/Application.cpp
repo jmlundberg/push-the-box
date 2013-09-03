@@ -74,8 +74,8 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
 
     /* Save full screen triangle and TGA importer to resource manager */
     std::pair<Buffer*, Mesh> triangle = MeshTools::fullScreenTriangle();
+    if(triangle.first) SceneResourceManager::instance().set("fullscreentriangle", std::move(triangle.first));
     SceneResourceManager::instance()
-        .set("fullscreentriangle", std::move(triangle.first))
         .set("fullscreentriangle", std::move(triangle.second))
         .set("tga-importer", tgaImporter);
 
