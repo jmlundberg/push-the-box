@@ -64,7 +64,7 @@ void Menu::drawEvent() {
 void Menu::mousePressEvent(MouseEvent& event) {
     if(event.button() == MouseEvent::Button::Left) {
         cursor->resetTransformation().translate(
-        Vector2::yScale(-1.0f)*(Vector2(event.position())/defaultFramebuffer.viewport().size()-Vector2(0.5f))*camera->projectionSize());
+        Vector2::yScale(-1.0f)*(Vector2(event.position())/Vector2(defaultFramebuffer.viewport().size())-Vector2(0.5f))*camera->projectionSize());
 
         MenuItem* item = static_cast<MenuItem*>(shapes.firstCollision(*cursor));
         if(item) item->clicked();
@@ -77,7 +77,7 @@ void Menu::mousePressEvent(MouseEvent& event) {
 
 void Menu::mouseMoveEvent(MouseMoveEvent& event) {
     Vector2 cursorPosition =
-        Vector2::yScale(-1.0f)*(Vector2(event.position())/defaultFramebuffer.viewport().size()-Vector2(0.5f))*camera->projectionSize();
+        Vector2::yScale(-1.0f)*(Vector2(event.position())/Vector2(defaultFramebuffer.viewport().size())-Vector2(0.5f))*camera->projectionSize();
 
     MenuItem* collisionBefore = static_cast<MenuItem*>(shapes.firstCollision(*cursor));
     cursor->resetTransformation().translate(cursorPosition);
