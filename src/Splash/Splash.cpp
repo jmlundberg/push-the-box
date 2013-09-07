@@ -44,7 +44,7 @@ Splash::Splash() {
                 Utility::Resource rs("PushTheBoxResources");
                 auto importer = SceneResourceManager::instance().get<Trade::AbstractImporter>("tga-importer");
                 CORRADE_INTERNAL_ASSERT_OUTPUT(importer->openData(rs.getRaw("splash.tga")));
-                Trade::ImageData2D* image = importer->image2D(0);
+                std::optional<Trade::ImageData2D> image = importer->image2D(0);
                 CORRADE_INTERNAL_ASSERT(image);
 
                 /* Decide about the format */

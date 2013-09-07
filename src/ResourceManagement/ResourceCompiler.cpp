@@ -26,7 +26,7 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
         Utility::ConfigurationGroup* group = configuration->addGroup("mesh");
 
         /* Import mesh */
-        Trade::MeshData3D* mesh = importer->mesh3D(i);
+        std::optional<Trade::MeshData3D> mesh = importer->mesh3D(i);
         CORRADE_ASSERT(mesh->normalArrayCount() == 1, "Mesh" << importer->mesh3DName(i) << "has no normal array", );
 
         group->addValue("name", importer->mesh3DName(i));
@@ -77,7 +77,6 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
 
         out.write(data, vertexCount*stride);
         delete[] data;
-        delete mesh;
     }
 }
 
