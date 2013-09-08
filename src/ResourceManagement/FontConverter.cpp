@@ -48,7 +48,7 @@ int FontConverter::exec() {
     Debug() << "Loading font plugin from" << MAGNUM_PLUGINS_FONT_DIR;
     Debug() << "    status:" << fontManager.load("FreeTypeFont");
 
-    Text::AbstractFont* font = fontManager.instance("FreeTypeFont");
+    std::unique_ptr<Text::AbstractFont> font = fontManager.instance("FreeTypeFont");
     CORRADE_INTERNAL_ASSERT(font);
 
     /* Load font converter */
@@ -56,7 +56,7 @@ int FontConverter::exec() {
     Debug() << "Loading converter plugin from" << MAGNUM_PLUGINS_FONTCONVERTER_DIR;
     Debug() << "    status:" << converterManager.load("MagnumFontConverter");
 
-    Text::AbstractFontConverter* converter = converterManager.instance("MagnumFontConverter");
+    std::unique_ptr<Text::AbstractFontConverter> converter = converterManager.instance("MagnumFontConverter");
     CORRADE_INTERNAL_ASSERT(converter);
 
     Debug() << "Populating glyph cache...";
@@ -73,8 +73,6 @@ int FontConverter::exec() {
 
     Debug() << "Done.";
 
-    delete font;
-    delete converter;
     return 0;
 }
 

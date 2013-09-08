@@ -66,7 +66,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     /* TGA importer */
     Trade::AbstractImporter* tgaImporter;
     if(importerPluginManager.load("TgaImporter") & PluginManager::LoadState::Loaded)
-        CORRADE_INTERNAL_ASSERT_OUTPUT(tgaImporter = importerPluginManager.instance("TgaImporter"));
+        CORRADE_INTERNAL_ASSERT_OUTPUT(tgaImporter = importerPluginManager.instance("TgaImporter").release());
     else {
         Error() << "Cannot open TGA importer plugin";
         std::exit(1);
@@ -82,7 +82,7 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     /* Font plugin */
     Text::AbstractFont* font;
     if(fontPluginManager.load("MagnumFont") & PluginManager::LoadState::Loaded)
-        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("MagnumFont"));
+        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("MagnumFont").release());
     else {
         Error() << "Cannot open font plugin";
         std::exit(1);

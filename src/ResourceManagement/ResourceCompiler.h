@@ -21,7 +21,7 @@ class ResourceCompiler {
 
     private:
         PluginManager::Manager<Trade::AbstractImporter> manager;
-        Trade::AbstractImporter* importer;
+        std::unique_ptr<Trade::AbstractImporter> importer;
 };
 
 }}
