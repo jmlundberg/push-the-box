@@ -1,7 +1,7 @@
 #ifndef PushTheBox_Menu_Cursor_h
 #define PushTheBox_Menu_Cursor_h
 
-#include <SceneGraph/DualComplexTransformation.h>
+#include <SceneGraph/TranslationTransformation.h>
 #include <Shapes/Point.h>
 #include <Shapes/Shape.h>
 

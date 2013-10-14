@@ -10,7 +10,7 @@
 #include <Timeline.h>
 #include <SceneGraph/AnimableGroup.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/DualComplexTransformation.h>
+#include <SceneGraph/TranslationTransformation.h>
 #include <SceneGraph/DualQuaternionTransformation.h>
 #include <SceneGraph/Scene.h>
 #include <Shaders/Shaders.h>

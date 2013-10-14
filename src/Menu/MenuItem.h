@@ -10,7 +10,7 @@
 #include <Mesh.h>
 #include <Resource.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/DualComplexTransformation.h>
+#include <SceneGraph/TranslationTransformation.h>
 #include <Shaders/Shaders.h>
 #include <Shapes/AxisAlignedBox.h>
 #include <Shapes/Shape.h>

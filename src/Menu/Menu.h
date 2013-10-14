@@ -8,7 +8,7 @@
 #include <Interconnect/Receiver.h>
 #include <Shapes/ShapeGroup.h>
 #include <SceneGraph/Drawable.h>
-#include <SceneGraph/DualComplexTransformation.h>
+#include <SceneGraph/TranslationTransformation.h>
 #include <SceneGraph/Scene.h>
 
 #include "AbstractScreen.h"
