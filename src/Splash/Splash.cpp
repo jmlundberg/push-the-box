@@ -24,7 +24,8 @@ Splash::Splash() {
     /* Configure camera */
     camera = new SceneGraph::Camera2D(scene);
     camera->setProjection({8.0f/3.0f, 2.0f})
-        .setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
+        .setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
+        .setViewport(defaultFramebuffer.viewport().size());
 
     /* Add splash image */
     class Image: public Object2D, SceneGraph::Drawable2D {

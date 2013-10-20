@@ -19,6 +19,7 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this),
 
     setPerspective(Deg(35.0f), 1.0f, 0.001f, 100.0f);
     setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
+    SceneGraph::Camera3D::setViewport(defaultFramebuffer.viewport().size());
 
     /* Decide about multisampling on ES2 */
     #ifdef MAGNUM_TARGET_GLES2
