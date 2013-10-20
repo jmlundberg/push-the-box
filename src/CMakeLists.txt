@@ -14,7 +14,7 @@ else()
 endif()
 
 # For newlib we need to link static plugins
-if(CORRADE_TARGET_NACL_NEWLIB)
+if(CORRADE_TARGET_NACL_NEWLIB OR CORRADE_TARGET_EMSCRIPTEN)
     find_package(MagnumPlugins REQUIRED MagnumFont TgaImporter)
 endif()
 
@@ -59,7 +59,7 @@ set(PushTheBox_SRCS
 
 add_executable(push-the-box ${PushTheBox_SRCS})
 
-if(CORRADE_TARGET_NACL_NEWLIB)
+if(CORRADE_TARGET_NACL_NEWLIB OR CORRADE_TARGET_EMSCRIPTEN)
     target_link_libraries(push-the-box
         ${MAGNUMPLUGINS_MAGNUMFONT_LIBRARIES}
         ${MAGNUMPLUGINS_TGAIMPORTER_LIBRARIES})
@@ -77,7 +77,7 @@ target_link_libraries(push-the-box
     ${MAGNUM_TEXTURETOOLS_LIBRARIES}
     ${MAGNUM_APPLICATION_LIBRARIES})
 
-if(NOT CORRADE_TARGET_NACL AND NOT WIN32)
+if(NOT CORRADE_TARGET_NACL AND NOT CORRADE_TARGET_EMSCRIPTEN AND NOT WIN32)
     add_subdirectory(ResourceManagement)
 endif()
 
@@ -112,4 +112,10 @@ if(CORRADE_TARGET_NACL)
             runnable-ld.so
             PATHS "${NACL_TOOLCHAIN_PATH}/x86_64-nacl/lib" "${NACL_PREFIX}/lib")
     endif()
+endif()
+
+# Installation for Emscripten
+if(CORRADE_TARGET_EMSCRIPTEN)
+    install(FILES push-the-box-emscripten.html WebApplication.css EmscriptenApplication.js DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(TARGETS push-the-box DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif()

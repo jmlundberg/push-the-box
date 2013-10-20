@@ -22,7 +22,7 @@
 #include "Splash/Splash.h"
 #include "configure.h"
 
-#ifdef CORRADE_TARGET_NACL_NEWLIB
+#if defined(CORRADE_TARGET_NACL_NEWLIB) || defined(CORRADE_TARGET_EMSCRIPTEN)
 static int importStaticPlugins() {
     CORRADE_PLUGIN_IMPORT(MagnumFont)
     CORRADE_PLUGIN_IMPORT(TgaImporter)
