@@ -17,6 +17,8 @@ class AbstractHudText: public Object2D, SceneGraph::Drawable2D, public Interconn
     public:
         AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* drawables);
 
+        ~AbstractHudText();
+
     protected:
         void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) override;
 

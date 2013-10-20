@@ -15,6 +15,8 @@ AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* 
     text = new Text::TextRenderer2D(*font, *glyphCache, 0.06f);
 }
 
+AbstractHudText::~AbstractHudText() = default;
+
 void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) {
     shader->setTransformationProjectionMatrix(camera.projectionMatrix()*transformationMatrix)
         .setColor(Color3(1.0f))
