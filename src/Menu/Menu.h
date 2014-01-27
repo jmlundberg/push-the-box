@@ -6,19 +6,20 @@
  */
 
 #include <Corrade/Interconnect/Receiver.h>
+#include <Magnum/Platform/Screen.h>
 #include <Magnum/Shapes/ShapeGroup.h>
 #include <Magnum/SceneGraph/Drawable.h>
 #include <Magnum/SceneGraph/TranslationTransformation.h>
 #include <Magnum/SceneGraph/Scene.h>
 
-#include "AbstractScreen.h"
+#include "PushTheBox.h"
 
 namespace PushTheBox { namespace Menu {
 
 class Cursor;
 
 /** @brief %Menu screen */
-class Menu: public AbstractScreen, public Interconnect::Receiver {
+class Menu: public Platform::Screen, public Interconnect::Receiver {
     public:
         Menu();
 

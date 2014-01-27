@@ -8,6 +8,7 @@
 #include <Corrade/Interconnect/Receiver.h>
 #include <Magnum/ResourceManager.h>
 #include <Magnum/Timeline.h>
+#include <Magnum/Platform/Screen.h>
 #include <Magnum/SceneGraph/AnimableGroup.h>
 #include <Magnum/SceneGraph/Drawable.h>
 #include <Magnum/SceneGraph/TranslationTransformation.h>
@@ -15,7 +16,7 @@
 #include <Magnum/SceneGraph/Scene.h>
 #include <Magnum/Shaders/Shaders.h>
 
-#include "AbstractScreen.h"
+#include "PushTheBox.h"
 
 namespace PushTheBox { namespace Game {
 
@@ -31,7 +32,7 @@ class RemainingTargets;
 
 Renders current state of the game.
 */
-class Game: public AbstractScreen, public Interconnect::Receiver {
+class Game: public Platform::Screen, public Interconnect::Receiver {
     public:
         static Game* instance();
 

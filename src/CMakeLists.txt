@@ -33,7 +33,6 @@ corrade_add_resource(PushTheBoxShaders_RCS Shaders/resources.conf)
 
 set(PushTheBox_SRCS
     Application.cpp
-    AbstractScreenedApplication.cpp
 
     Game/Box.cpp
     Game/Camera.cpp

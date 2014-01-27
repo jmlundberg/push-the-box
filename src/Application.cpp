@@ -40,7 +40,7 @@ Application* Application::instance() {
     return _instance;
 }
 
-Application::Application(const Arguments& arguments): AbstractScreenedApplication(arguments, nullptr), importerPluginManager(MAGNUM_PLUGINS_IMPORTER_DIR), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
+Application::Application(const Arguments& arguments): Platform::ScreenedApplication(arguments, nullptr), importerPluginManager(MAGNUM_PLUGINS_IMPORTER_DIR), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
 {
     CORRADE_INTERNAL_ASSERT(!_instance);
     _instance = this;
@@ -104,9 +104,9 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     _gameScreen = new Game::Game;
     _menuScreen = new Menu::Menu;
     _splashScreen = new Splash::Splash;
-    addScreen(_splashScreen);
-    addScreen(_gameScreen);
-    addScreen(_menuScreen);
+    addScreen(*_splashScreen);
+    addScreen(*_gameScreen);
+    addScreen(*_menuScreen);
 
     _timeline.start();
 }
@@ -116,20 +116,14 @@ Application::~Application() {
 
     /* Remove all screens before deleting the resource manager, so the
        resources can be properly freed */
-    while(backScreen()) removeScreen(backScreen());
+    while(backScreen()) removeScreen(*backScreen());
 }
 
-void Application::viewportEvent(const Vector2i& size) {
+void Application::globalViewportEvent(const Vector2i& size) {
     defaultFramebuffer.setViewport({{}, size});
-
-    AbstractScreenedApplication::viewportEvent(size);
 }
 
-void Application::drawEvent() {
-    defaultFramebuffer.clear(FramebufferClear::Color|FramebufferClear::Depth);
-
-    AbstractScreenedApplication::drawEvent();
-
+void Application::globalDrawEvent() {
     swapBuffers();
     _timeline.nextFrame();
 }

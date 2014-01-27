@@ -110,8 +110,8 @@ void Splash::drawEvent() {
     Renderer::setFeature(Renderer::Feature::Blending, false);
 }
 
-void Splash::mouseReleaseEvent(AbstractScreen::MouseEvent&) {
-    Application::instance()->focusScreen(Application::instance()->gameScreen());
+void Splash::mouseReleaseEvent(MouseEvent&) {
+    Application::instance()->focusScreen(*Application::instance()->gameScreen());
 }
 
 }}

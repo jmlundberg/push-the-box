@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#include <Magnum/DefaultFramebuffer.h>
 #include <Magnum/Renderer.h>
 #include <Magnum/SceneGraph/Animable.h>
 #include <Magnum/SceneGraph/AnimableGroup.h>
@@ -103,11 +104,11 @@ void Game::movePlayer(const Vector2i& direction) {
 }
 
 void Game::pause() {
-    Application::instance()->focusScreen(Application::instance()->menuScreen());
+    Application::instance()->focusScreen(*Application::instance()->menuScreen());
 }
 
 void Game::resume() {
-    Application::instance()->focusScreen(this);
+    Application::instance()->focusScreen(*this);
 }
 
 void Game::focusEvent() {
@@ -133,6 +134,8 @@ void Game::viewportEvent(const Vector2i& size) {
 }
 
 void Game::drawEvent() {
+    defaultFramebuffer.clear(FramebufferClear::Color|FramebufferClear::Depth);
+
     /* Animate */
     animables.step(Application::instance()->timeline().previousFrameTime(),
                    Application::instance()->timeline().previousFrameDuration());
@@ -202,7 +205,7 @@ void Game::mousePressEvent(MouseEvent& event) {
     redraw();
 }
 
-void Game::mouseMoveEvent(AbstractScreen::MouseMoveEvent& event) {
+void Game::mouseMoveEvent(MouseMoveEvent& event) {
     /** @todo mouse sensitivity */
     player->normalizeRotation().rotateY(-Rad(Constants::pi())*event.relativePosition().x()/500.0f,
         SceneGraph::TransformationType::Local);

@@ -5,21 +5,14 @@
  * @brief Class PushTheBox::Application
  */
 
-#include "PushTheBox.h"
-
-#ifndef CORRADE_TARGET_NACL
-#include <Magnum/Platform/Sdl2Application.h>
-#else
-#include <Magnum/Platform/NaClApplication.h>
-#endif
-
 #include <Corrade/Interconnect/Receiver.h>
 #include <Corrade/PluginManager/Manager.h>
 #include <Magnum/ResourceManager.h>
 #include <Magnum/Timeline.h>
 #include <Magnum/Trade/Trade.h>
+#include <Magnum/Platform/ScreenedApplication.h>
 
-#include "AbstractScreenedApplication.h"
+#include "PushTheBox.h"
 #include "ResourceManagement/MeshResourceLoader.h"
 
 namespace PushTheBox {
@@ -37,7 +30,7 @@ namespace Splash {
 }
 
 /** @brief Main application class */
-class Application: public AbstractScreenedApplication, public Interconnect::Receiver {
+class Application: public Platform::ScreenedApplication, public Interconnect::Receiver {
     public:
         static Application* instance();
 
@@ -56,8 +49,8 @@ class Application: public AbstractScreenedApplication, public Interconnect::Rece
         inline Timeline& timeline() { return _timeline; }
 
     private:
-        void drawEvent() override;
-        void viewportEvent(const Vector2i& size) override;
+        void globalDrawEvent() override;
+        void globalViewportEvent(const Vector2i& size) override;
 
         static Application* _instance;
 

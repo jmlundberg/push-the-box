@@ -10,6 +10,12 @@
 #include <Magnum/Text/Text.h>
 #include <Magnum/Trade/Trade.h>
 
+#ifndef CORRADE_TARGET_NACL
+#include <Magnum/Platform/Sdl2Application.h>
+#else
+#include <Magnum/Platform/NaClApplication.h>
+#endif
+
 namespace PushTheBox {
 
 using namespace Magnum;

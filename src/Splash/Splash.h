@@ -5,16 +5,17 @@
  * @brief Class PushTheBox::Splash::Splash
  */
 
+#include <Magnum/Platform/Screen.h>
 #include <Magnum/SceneGraph/Drawable.h>
-#include <Magnum/SceneGraph/TranslationTransformation.h>
 #include <Magnum/SceneGraph/Scene.h>
+#include <Magnum/SceneGraph/TranslationTransformation.h>
 
-#include "AbstractScreen.h"
+#include "PushTheBox.h"
 
 namespace PushTheBox { namespace Splash {
 
 /** @brief %Splash screen */
-class Splash: public AbstractScreen {
+class Splash: public Platform::Screen {
     public:
         Splash();
 
