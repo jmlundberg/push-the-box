@@ -14,12 +14,11 @@ current working directory:
 Compiling font
 --------------
 
-You need to have `FreeTypeFont` and `MagnumFontConverter` plugins installed and
-`push-the-box-font-converter` executable compiled. See
-`./push-the-box-font-converter --help` for more information. Run the utility in
-current working directory:
+You need to have `magnum-fontconverter` utility, `FreeTypeFont` and
+`MagnumFontConverter` plugins installed. See `magnum-fontconverter --help` for
+more information. Run the utility in current working directory:
 
-    ../build/src/ResourceManagement/push-the-box-font-converter ../artwork/luckiest-guy.ttf luckiest-guy
+    magnum-font-converter --font FreeTypeFont --converter MagnumFontConverter --characters "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?!:,. " --font-size 128 --atlas-size "2048 2048" --output-size "256 256" --radius 24 ../artwork/luckiest-guy.ttf luckiest-guy
 
 Converting splash to distance-field
 -----------------------------------
