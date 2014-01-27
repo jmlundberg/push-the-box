@@ -2,8 +2,8 @@
 #define PushTheBox_ResourceManagement_ResourceCompiler_h
 
 #include <iosfwd>
-#include <PluginManager/Manager.h>
-#include <Trade/AbstractImporter.h>
+#include <Corrade/PluginManager/Manager.h>
+#include <Magnum/Trade/AbstractImporter.h>
 
 #include "PushTheBox.h"
 

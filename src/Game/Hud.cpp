@@ -1,18 +1,18 @@
 #include "Game/Hud.h"
 
-#include <SceneGraph/AbstractCamera.h>
-#include <Text/AbstractFont.h>
-#include <Text/GlyphCache.h>
-#include <Text/TextRenderer.h>
+#include <Magnum/SceneGraph/AbstractCamera.h>
+#include <Magnum/Text/AbstractFont.h>
+#include <Magnum/Text/GlyphCache.h>
+#include <Magnum/Text/Renderer.h>
 
-#if defined(CORRADE_TARGET_NACL_NEWLIB) || defined(_WIN32)
+#if defined(CORRADE_TARGET_NACL_NEWLIB) || defined(__MINGW32__)
 #include <sstream>
 #endif
 
 namespace PushTheBox { namespace Game {
 
 AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): Object2D(parent), SceneGraph::Drawable2D(*this, drawables), shader(SceneResourceManager::instance().get<AbstractShaderProgram, Shaders::DistanceFieldVector2D>("text2d")), font(SceneResourceManager::instance().get<Text::AbstractFont>("font")), glyphCache(SceneResourceManager::instance().get<Text::GlyphCache>("cache")) {
-    text = new Text::TextRenderer2D(*font, *glyphCache, 0.06f);
+    text = new Text::Renderer2D(*font, *glyphCache, 0.06f);
 }
 
 AbstractHudText::~AbstractHudText() = default;
@@ -29,7 +29,7 @@ void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::Abst
 }
 
 LevelTitle::LevelTitle(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): AbstractHudText(parent, drawables) {
-    text->reserve(32, Buffer::Usage::StaticDraw, Buffer::Usage::StaticDraw);
+    text->reserve(32, BufferUsage::StaticDraw, BufferUsage::StaticDraw);
 }
 
 void LevelTitle::update(const std::string& name) {
@@ -40,7 +40,7 @@ void LevelTitle::update(const std::string& name) {
 }
 
 RemainingTargets::RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D* drawables, SceneGraph::AnimableGroup2D* animables): AbstractHudText(parent, drawables), SceneGraph::Animable2D(*this, animables) {
-    text->reserve(32, Buffer::Usage::DynamicDraw, Buffer::Usage::StaticDraw);
+    text->reserve(32, BufferUsage::DynamicDraw, BufferUsage::StaticDraw);
 
     setDuration(0.4f);
     setRepeated(true);
@@ -50,7 +50,7 @@ RemainingTargets::RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D
 }
 
 void RemainingTargets::update(UnsignedInt count) {
-    #if !defined(CORRADE_TARGET_NACL_NEWLIB) && !defined(_WIN32)
+    #if !defined(CORRADE_TARGET_NACL_NEWLIB) && !defined(__MINGW32__)
     text->render(std::to_string(count) + " remaining targets");
     #else
     std::ostringstream out;
@@ -74,11 +74,11 @@ void RemainingTargets::animationStopped() {
 }
 
 Moves::Moves(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): AbstractHudText(parent, drawables) {
-    text->reserve(32, Buffer::Usage::DynamicDraw, Buffer::Usage::StaticDraw);
+    text->reserve(32, BufferUsage::DynamicDraw, BufferUsage::StaticDraw);
 }
 
 void Moves::update(UnsignedInt count) {
-    #if !defined(CORRADE_TARGET_NACL_NEWLIB) && !defined(_WIN32)
+    #if !defined(CORRADE_TARGET_NACL_NEWLIB) && !defined(__MINGW32__)
     text->render(std::to_string(count) + " moves");
     #else
     std::ostringstream out;
@@ -87,7 +87,7 @@ void Moves::update(UnsignedInt count) {
     #endif
 
     resetTransformation();
-    translate({1.303f - text->rectangle().width(), 0.97f - text->rectangle().top()});
+    translate({1.303f - text->rectangle().sizeX(), 0.97f - text->rectangle().top()});
 }
 
 }}

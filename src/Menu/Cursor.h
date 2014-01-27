@@ -1,9 +1,9 @@
 #ifndef PushTheBox_Menu_Cursor_h
 #define PushTheBox_Menu_Cursor_h
 
-#include <SceneGraph/TranslationTransformation.h>
-#include <Shapes/Point.h>
-#include <Shapes/Shape.h>
+#include <Magnum/SceneGraph/TranslationTransformation.h>
+#include <Magnum/Shapes/Point.h>
+#include <Magnum/Shapes/Shape.h>
 
 #include "PushTheBox.h"
 

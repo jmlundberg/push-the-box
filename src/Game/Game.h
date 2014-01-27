@@ -5,15 +5,15 @@
  * @brief Class PushTheBox::Game::Game
  */
 
-#include <Interconnect/Receiver.h>
-#include <ResourceManager.h>
-#include <Timeline.h>
-#include <SceneGraph/AnimableGroup.h>
-#include <SceneGraph/Drawable.h>
-#include <SceneGraph/TranslationTransformation.h>
-#include <SceneGraph/DualQuaternionTransformation.h>
-#include <SceneGraph/Scene.h>
-#include <Shaders/Shaders.h>
+#include <Corrade/Interconnect/Receiver.h>
+#include <Magnum/ResourceManager.h>
+#include <Magnum/Timeline.h>
+#include <Magnum/SceneGraph/AnimableGroup.h>
+#include <Magnum/SceneGraph/Drawable.h>
+#include <Magnum/SceneGraph/TranslationTransformation.h>
+#include <Magnum/SceneGraph/DualQuaternionTransformation.h>
+#include <Magnum/SceneGraph/Scene.h>
+#include <Magnum/Shaders/Shaders.h>
 
 #include "AbstractScreen.h"
 

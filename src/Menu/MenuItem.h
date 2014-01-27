@@ -5,16 +5,16 @@
  * @brief Class PushTheBox::Menu::MenuItem
  */
 
-#include <Buffer.h>
-#include <Color.h>
-#include <Mesh.h>
-#include <Resource.h>
-#include <SceneGraph/Drawable.h>
-#include <SceneGraph/TranslationTransformation.h>
-#include <Shaders/Shaders.h>
-#include <Shapes/AxisAlignedBox.h>
-#include <Shapes/Shape.h>
-#include <Interconnect/Emitter.h>
+#include <Corrade/Interconnect/Emitter.h>
+#include <Magnum/Buffer.h>
+#include <Magnum/Color.h>
+#include <Magnum/Mesh.h>
+#include <Magnum/Resource.h>
+#include <Magnum/SceneGraph/Drawable.h>
+#include <Magnum/SceneGraph/TranslationTransformation.h>
+#include <Magnum/Shaders/Shaders.h>
+#include <Magnum/Shapes/AxisAlignedBox.h>
+#include <Magnum/Shapes/Shape.h>
 
 #include "PushTheBox.h"
 

@@ -1,10 +1,10 @@
-#include <PluginManager/Manager.h>
-#include <Utility/Arguments.h>
-#include <Platform/WindowlessGlxApplication.h>
-#include <Text/AbstractFont.h>
-#include <Text/AbstractFontConverter.h>
-#include <Text/DistanceFieldGlyphCache.h>
-#include <Trade/AbstractImageConverter.h>
+#include <Corrade/PluginManager/Manager.h>
+#include <Corrade/Utility/Arguments.h>
+#include <Magnum/Platform/WindowlessGlxApplication.h>
+#include <Magnum/Text/AbstractFont.h>
+#include <Magnum/Text/AbstractFontConverter.h>
+#include <Magnum/Text/DistanceFieldGlyphCache.h>
+#include <Magnum/Trade/AbstractImageConverter.h>
 
 #include "PushTheBox.h"
 
@@ -36,7 +36,7 @@ FontConverter::FontConverter(const Arguments& arguments): Platform::WindowlessAp
         .setHelp("Converts TTF font to distance-field Magnum raster font of given atlas size.\nOutput is saved to files output.tga and output.conf.")
         .parse(arguments.argc, arguments.argv);
 
-    createContext({});
+    createContext();
 }
 
 int FontConverter::exec() {

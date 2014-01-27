@@ -5,10 +5,10 @@
  * @brief Basic definitions
  */
 
-#include <Magnum.h>
-#include <SceneGraph/SceneGraph.h>
-#include <Text/Text.h>
-#include <Trade/Trade.h>
+#include <Magnum/Magnum.h>
+#include <Magnum/SceneGraph/SceneGraph.h>
+#include <Magnum/Text/Text.h>
+#include <Magnum/Trade/Trade.h>
 
 namespace PushTheBox {
 

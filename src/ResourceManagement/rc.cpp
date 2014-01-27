@@ -1,5 +1,5 @@
 #include <fstream>
-#include <Utility/Arguments.h>
+#include <Corrade/Utility/Arguments.h>
 
 #include "ResourceCompiler.h"
 

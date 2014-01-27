@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <string>
-#include <Interconnect/Emitter.h>
-#include <SceneGraph/DualQuaternionTransformation.h>
+#include <Corrade/Interconnect/Emitter.h>
+#include <Magnum/SceneGraph/DualQuaternionTransformation.h>
 
 #include "PushTheBox.h"
 

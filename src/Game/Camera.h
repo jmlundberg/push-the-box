@@ -1,12 +1,12 @@
 #ifndef PushTheBox_Game_Camera_h
 #define PushTheBox_Game_Camera_h
 
-#include <Framebuffer.h>
-#include <Renderbuffer.h>
-#include <Resource.h>
-#include <Texture.h>
-#include <SceneGraph/Camera3D.h>
-#include <SceneGraph/DualQuaternionTransformation.h>
+#include <Magnum/Framebuffer.h>
+#include <Magnum/Renderbuffer.h>
+#include <Magnum/Resource.h>
+#include <Magnum/Texture.h>
+#include <Magnum/SceneGraph/Camera3D.h>
+#include <Magnum/SceneGraph/DualQuaternionTransformation.h>
 
 #include "PushTheBox.h"
 #include "Shaders/Blur.h"

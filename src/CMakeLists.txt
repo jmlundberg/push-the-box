@@ -15,7 +15,7 @@ endif()
 
 # For newlib we need to link static plugins
 if(CORRADE_TARGET_NACL_NEWLIB OR CORRADE_TARGET_EMSCRIPTEN)
-    find_package(MagnumPlugins REQUIRED MagnumFont TgaImporter)
+    find_package(Magnum REQUIRED MagnumFont TgaImporter)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CORRADE_CXX_FLAGS}")
@@ -61,8 +61,8 @@ add_executable(push-the-box ${PushTheBox_SRCS})
 
 if(CORRADE_TARGET_NACL_NEWLIB OR CORRADE_TARGET_EMSCRIPTEN)
     target_link_libraries(push-the-box
-        ${MAGNUMPLUGINS_MAGNUMFONT_LIBRARIES}
-        ${MAGNUMPLUGINS_TGAIMPORTER_LIBRARIES})
+        ${MAGNUM_MAGNUMFONT_LIBRARIES}
+        ${MAGNUM_TGAIMPORTER_LIBRARIES})
 endif()
 
 target_link_libraries(push-the-box

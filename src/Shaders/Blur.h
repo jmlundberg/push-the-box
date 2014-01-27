@@ -1,7 +1,7 @@
 #ifndef PushTheBox_Shaders_Blur_h
 #define PushTheBox_Shaders_Blur_h
 
-#include <AbstractShaderProgram.h>
+#include <Magnum/AbstractShaderProgram.h>
 
 #include "PushTheBox.h"
 

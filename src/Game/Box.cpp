@@ -1,10 +1,9 @@
 #include "Box.h"
 
-#include <Buffer.h>
-#include <Mesh.h>
-#include <Swizzle.h>
-#include <SceneGraph/AbstractCamera.h>
-#include <Shaders/Phong.h>
+#include <Magnum/Buffer.h>
+#include <Magnum/Mesh.h>
+#include <Magnum/SceneGraph/AbstractCamera.h>
+#include <Magnum/Shaders/Phong.h>
 
 namespace PushTheBox { namespace Game {
 
@@ -17,11 +16,11 @@ Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::Draw
     shader = SceneResourceManager::instance().get<AbstractShaderProgram, Shaders::Phong>("phong");
     mesh = SceneResourceManager::instance().get<Mesh>("box-mesh");
 
-    translate(Vector3(swizzle<'x', '0', 'y'>(position)));
+    translate(Math::swizzle<'x', '0', 'y'>(Vector2(position)));
     setDuration(0.375f);
 
-    connect(this, &Box::movedToTarget, this, &Box::animateMoveFromToTarget);
-    connect(this, &Box::movedFromTarget, this, &Box::animateMoveFromToTarget);
+    Interconnect::connect(*this, &Box::movedToTarget, *this, &Box::animateMoveFromToTarget);
+    Interconnect::connect(*this, &Box::movedFromTarget, *this, &Box::animateMoveFromToTarget);
 }
 
 void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D&) {

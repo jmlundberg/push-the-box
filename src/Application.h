@@ -8,16 +8,16 @@
 #include "PushTheBox.h"
 
 #ifndef CORRADE_TARGET_NACL
-#include <Platform/Sdl2Application.h>
+#include <Magnum/Platform/Sdl2Application.h>
 #else
-#include <Platform/NaClApplication.h>
+#include <Magnum/Platform/NaClApplication.h>
 #endif
 
-#include <Interconnect/Receiver.h>
-#include <PluginManager/Manager.h>
-#include <ResourceManager.h>
-#include <Timeline.h>
-#include <Trade/Trade.h>
+#include <Corrade/Interconnect/Receiver.h>
+#include <Corrade/PluginManager/Manager.h>
+#include <Magnum/ResourceManager.h>
+#include <Magnum/Timeline.h>
+#include <Magnum/Trade/Trade.h>
 
 #include "AbstractScreenedApplication.h"
 #include "ResourceManagement/MeshResourceLoader.h"
@@ -55,11 +55,10 @@ class Application: public AbstractScreenedApplication, public Interconnect::Rece
         /** @brief Timeline */
         inline Timeline& timeline() { return _timeline; }
 
-    protected:
+    private:
         void drawEvent() override;
         void viewportEvent(const Vector2i& size) override;
 
-    private:
         static Application* _instance;
 
         PluginManager::Manager<Trade::AbstractImporter> importerPluginManager;

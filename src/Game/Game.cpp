@@ -1,11 +1,10 @@
 #include "Game.h"
 
-#include <Swizzle.h>
-#include <SceneGraph/Animable.h>
-#include <SceneGraph/AnimableGroup.h>
-#include <SceneGraph/Camera2D.h>
-#include <Shaders/Phong.h>
-#include <Renderer.h>
+#include <Magnum/Renderer.h>
+#include <Magnum/SceneGraph/Animable.h>
+#include <Magnum/SceneGraph/AnimableGroup.h>
+#include <Magnum/SceneGraph/Camera2D.h>
+#include <Magnum/Shaders/Phong.h>
 
 #include "Application.h"
 #include "Game/Camera.h"
@@ -69,14 +68,14 @@ void Game::loadLevel(const std::string& name) {
     level = new Level(name, &scene, &drawables, &animables);
     player->resetTransformation()
           .rotateY(Math::lerp(Deg(-30.0f), Deg(30.0f), Float(std::rand())/Float(RAND_MAX)))
-          .translate(Vector3(swizzle<'x', '0', 'y'>(level->playerPosition())));
+          .translate(Math::swizzle<'x', '0', 'y'>(Vector2(level->playerPosition())));
 
     /* Connect HUD to level state changes */
     levelTitle->update(level->title());
     remainingTargets->update(level->remainingTargets());
     moves->update(level->moves());
-    Level::connect(level, &Level::remainingTargetsChanged, remainingTargets, &RemainingTargets::update);
-    Level::connect(level, &Level::movesChanged, moves, &Moves::update);
+    Interconnect::connect(*level, &Level::remainingTargetsChanged, *remainingTargets, &RemainingTargets::update);
+    Interconnect::connect(*level, &Level::movesChanged, *moves, &Moves::update);
 }
 
 void Game::restartLevel() {
@@ -100,7 +99,7 @@ void Game::movePlayer(const Vector2i& direction) {
     CORRADE_ASSERT(level, "Game::Game::movePlayer(): no level loaded", );
 
     if(level->movePlayer(direction))
-        player->translate(Vector3(swizzle<'x', '0', 'y'>(direction)));
+        player->translate(Math::swizzle<'x', '0', 'y'>(Vector2(direction)));
 }
 
 void Game::pause() {
@@ -142,7 +141,7 @@ void Game::drawEvent() {
 
     /* Light is above the center of level */
     Vector3 lightPosition = Vector3(1.0f, 4.0f, 1.2f) +
-            Vector3(swizzle<'x', '0', 'y'>(level->size()/2));
+            Math::swizzle<'x', '0', 'y'>(Vector2(level->size()/2));
 
     /* Shader settings commn for all objects */
     shader->setLightPosition(camera->cameraMatrix().transformPoint(lightPosition))

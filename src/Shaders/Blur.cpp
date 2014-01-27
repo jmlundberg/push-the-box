@@ -1,10 +1,11 @@
 #include "Blur.h"
 
-#include <Utility/Assert.h>
-#include <Utility/Resource.h>
-#include <Math/Vector2.h>
-#include <Extensions.h>
-#include <Shader.h>
+#include <Corrade/Utility/Assert.h>
+#include <Corrade/Utility/Resource.h>
+#include <Magnum/Context.h>
+#include <Magnum/Extensions.h>
+#include <Magnum/Shader.h>
+#include <Magnum/Math/Vector2.h>
 
 namespace PushTheBox { namespace Shaders {
 

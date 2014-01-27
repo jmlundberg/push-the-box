@@ -1,8 +1,8 @@
 #include "Menu.h"
 
-#include <DefaultFramebuffer.h>
-#include <Renderer.h>
-#include <SceneGraph/Camera2D.h>
+#include <Magnum/DefaultFramebuffer.h>
+#include <Magnum/Renderer.h>
+#include <Magnum/SceneGraph/Camera2D.h>
 
 #include "Application.h"
 #include "Game/Game.h"
@@ -22,16 +22,16 @@ Menu::Menu() {
     MenuItem* i;
     i = new MenuItem("resume", &scene, &drawables, &shapes);
     i->translate(Vector2::yAxis(0.3f));
-    MenuItem::connect(i, &MenuItem::clicked, Game::Game::instance(), &Game::Game::resume);
+    Interconnect::connect(*i, &MenuItem::clicked, *Game::Game::instance(), &Game::Game::resume);
 
     i = new MenuItem("restart level", &scene, &drawables, &shapes);
-    MenuItem::connect(i, &MenuItem::clicked, Game::Game::instance(), &Game::Game::restartLevel);
+    Interconnect::connect(*i, &MenuItem::clicked, *Game::Game::instance(), &Game::Game::restartLevel);
 
     i = new MenuItem("exit", &scene, &drawables, &shapes);
     i->translate(Vector2::yAxis(-0.3f));
     /** @todo What about this? */
     #ifndef CORRADE_TARGET_NACL
-    MenuItem::connect(i, &MenuItem::clicked, Application::instance(), &Application::exit);
+    Interconnect::connect(*i, &MenuItem::clicked, *Application::instance(), &Application::exit);
     #endif
 
     /* Add cursor */

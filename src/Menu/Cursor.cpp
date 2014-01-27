@@ -1,6 +1,6 @@
 #include "Cursor.h"
 
-#include <Shapes/Point.h>
+#include <Magnum/Shapes/Point.h>
 
 namespace PushTheBox { namespace Menu {
 

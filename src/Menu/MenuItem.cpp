@@ -1,13 +1,13 @@
 #include "MenuItem.h"
 
-#include <ResourceManager.h>
-#include <SceneGraph/AbstractCamera.h>
-#include <SceneGraph/Drawable.h>
-#include <Shaders/DistanceFieldVector.h>
-#include <Shapes/AxisAlignedBox.h>
-#include <Text/AbstractFont.h>
-#include <Text/GlyphCache.h>
-#include <Text/TextRenderer.h>
+#include <Magnum/ResourceManager.h>
+#include <Magnum/SceneGraph/AbstractCamera.h>
+#include <Magnum/SceneGraph/Drawable.h>
+#include <Magnum/Shaders/DistanceFieldVector.h>
+#include <Magnum/Shapes/AxisAlignedBox.h>
+#include <Magnum/Text/AbstractFont.h>
+#include <Magnum/Text/GlyphCache.h>
+#include <Magnum/Text/Renderer.h>
 
 namespace PushTheBox { namespace Menu {
 
@@ -23,9 +23,9 @@ MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::Drawa
     glyphCache = SceneResourceManager::instance().get<Text::GlyphCache>("cache");
 
     /* Render text */
-    Magnum::Rectangle rect; /* Rectangle conflicts with WINAPI, damn */
-    std::tie(mesh, rect) = Text::TextRenderer2D::render(font, glyphCache, 0.15f, title, vertexBuffer, indexBuffer, Buffer::Usage::StaticDraw);
-    translate({-rect.width()/2, -0.075f});
+    Range2D rect;
+    std::tie(mesh, rect) = Text::Renderer2D::render(font, glyphCache, 0.15f, title, vertexBuffer, indexBuffer, BufferUsage::StaticDraw);
+    translate({-rect.centerX(), -0.075f});
 
     /* Shape for collision detection */
     setShape({rect.bottomLeft(), rect.topRight()});

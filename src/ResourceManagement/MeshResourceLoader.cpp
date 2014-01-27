@@ -1,12 +1,11 @@
 #include "MeshResourceLoader.h"
 
 #include <sstream>
-#include <Utility/Resource.h>
-#include <Buffer.h>
-#include <Mesh.h>
-#include <Shaders/Phong.h>
-
-#include <Resource.h>
+#include <Corrade/Utility/Resource.h>
+#include <Magnum/Buffer.h>
+#include <Magnum/Mesh.h>
+#include <Magnum/Resource.h>
+#include <Magnum/Shaders/Phong.h>
 
 namespace PushTheBox { namespace ResourceManagement {
 
@@ -52,9 +51,9 @@ void MeshResourceLoader::doLoad(ResourceKey key) {
         mesh->setIndexCount(indexCount)
             .setIndexBuffer(*indexBuffer, 0, indexType,
                 group->value<UnsignedInt>("indexStart"), group->value<UnsignedInt>("indexEnd"));
-        indexBuffer->setData(indexCount*Mesh::indexSize(indexType),
-            data.begin()+group->value<std::size_t>("indexOffset"),
-            Buffer::Usage::StaticDraw);
+        indexBuffer->setData({data.begin()+group->value<std::size_t>("indexOffset"),
+            indexCount*Mesh::indexSize(indexType)},
+            BufferUsage::StaticDraw);
 
     /* Non-indexed mesh */
     } else mesh = new Mesh;
@@ -64,15 +63,15 @@ void MeshResourceLoader::doLoad(ResourceKey key) {
     SceneResourceManager::instance().set(group->value("name") + "-vertex", vertexBuffer, ResourceDataState::Final, ResourcePolicy::Resident);
 
     /* Configure vertices */
-    mesh->setPrimitive(group->value<Mesh::Primitive>("primitive"))
+    mesh->setPrimitive(group->value<MeshPrimitive>("primitive"))
         .setVertexCount(group->value<Int>("vertexCount"))
         .addVertexBuffer(*vertexBuffer, 0,
             Shaders::Phong::Position(),
             Shaders::Phong::Normal(Shaders::Phong::Normal::DataType::Byte, Shaders::Phong::Normal::DataOption::Normalized),
             1);
-    vertexBuffer->setData(mesh->vertexCount()*group->value<std::size_t>("vertexStride"),
-                          data.begin()+group->value<std::size_t>("vertexOffset"),
-                          Buffer::Usage::StaticDraw);
+    vertexBuffer->setData({data.begin()+group->value<std::size_t>("vertexOffset"),
+                          mesh->vertexCount()*group->value<std::size_t>("vertexStride")},
+                          BufferUsage::StaticDraw);
 
     /* Finally add the mesh to the manager */
     set(key, mesh, ResourceDataState::Final, ResourcePolicy::Resident);

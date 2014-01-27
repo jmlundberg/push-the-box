@@ -1,14 +1,15 @@
 #include "Camera.h"
 
-#include <Context.h>
-#include <DefaultFramebuffer.h>
-#include <Renderbuffer.h>
-#include <RenderbufferFormat.h>
-#include <Renderer.h>
-#include <TextureFormat.h>
-#include <Extensions.h>
-#include <ResourceManager.h>
-#include <Mesh.h>
+#include <Magnum/Buffer.h>
+#include <Magnum/Context.h>
+#include <Magnum/DefaultFramebuffer.h>
+#include <Magnum/Extensions.h>
+#include <Magnum/Mesh.h>
+#include <Magnum/Renderbuffer.h>
+#include <Magnum/RenderbufferFormat.h>
+#include <Magnum/Renderer.h>
+#include <Magnum/ResourceManager.h>
+#include <Magnum/TextureFormat.h>
 
 namespace PushTheBox { namespace Game {
 
@@ -74,8 +75,8 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this),
         .setMagnificationFilter(Sampler::Filter::Linear)
         .setMinificationFilter(Sampler::Filter::Nearest)
         .setWrapping(Sampler::Wrapping::ClampToEdge);
-    framebuffer1.attachTexture2D(Framebuffer::ColorAttachment(0), texture1, 0);
-    framebuffer2.attachTexture2D(Framebuffer::ColorAttachment(0), texture2, 0);
+    framebuffer1.attachTexture(Framebuffer::ColorAttachment(0), texture1, 0);
+    framebuffer2.attachTexture(Framebuffer::ColorAttachment(0), texture2, 0);
 
     /* Verify that everything is sane */
     CORRADE_INTERNAL_ASSERT(framebuffer1.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);

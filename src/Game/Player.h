@@ -5,10 +5,10 @@
  * @brief Class PushTheBox::Game::Player
  */
 
-#include <ResourceManager.h>
-#include <SceneGraph/Drawable.h>
-#include <SceneGraph/DualQuaternionTransformation.h>
-#include <Shaders/Shaders.h>
+#include <Magnum/ResourceManager.h>
+#include <Magnum/SceneGraph/Drawable.h>
+#include <Magnum/SceneGraph/DualQuaternionTransformation.h>
+#include <Magnum/Shaders/Shaders.h>
 
 #include "PushTheBox.h"
 

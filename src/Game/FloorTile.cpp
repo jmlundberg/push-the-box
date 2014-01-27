@@ -1,8 +1,7 @@
 #include "FloorTile.h"
 
-#include <Mesh.h>
-#include <Swizzle.h>
-#include <Shaders/Phong.h>
+#include <Magnum/Mesh.h>
+#include <Magnum/Shaders/Phong.h>
 
 namespace PushTheBox { namespace Game {
 
@@ -10,7 +9,7 @@ FloorTile::FloorTile(const Vector2i& position, Type type, Object3D* parent, Scen
     shader = SceneResourceManager::instance().get<AbstractShaderProgram, Shaders::Phong>("phong");
     mesh = SceneResourceManager::instance().get<Mesh>(ResourceKey(type == Type::Floor ? "floor-mesh" : "floor-target-mesh"));
 
-    translate(Vector3(swizzle<'x', '0', 'y'>(position)));
+    translate(Math::swizzle<'x', '0', 'y'>(Vector2(position)));
 }
 
 void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D&) {

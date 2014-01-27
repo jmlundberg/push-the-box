@@ -1,19 +1,19 @@
 #include "Splash.h"
 
-#include <Context.h>
-#include <DefaultFramebuffer.h>
-#include <Extensions.h>
-#include <Renderer.h>
-#include <Texture.h>
-#include <TextureFormat.h>
-#include <MeshTools/Interleave.h>
-#include <MeshTools/Transform.h>
-#include <Primitives/Square.h>
-#include <SceneGraph/Camera2D.h>
-#include <Shaders/DistanceFieldVector.h>
-#include <Trade/AbstractImporter.h>
-#include <Trade/ImageData.h>
-#include <Trade/MeshData2D.h>
+#include <Magnum/Context.h>
+#include <Magnum/DefaultFramebuffer.h>
+#include <Magnum/Extensions.h>
+#include <Magnum/Renderer.h>
+#include <Magnum/Texture.h>
+#include <Magnum/TextureFormat.h>
+#include <Magnum/MeshTools/Interleave.h>
+#include <Magnum/MeshTools/Transform.h>
+#include <Magnum/Primitives/Square.h>
+#include <Magnum/SceneGraph/Camera2D.h>
+#include <Magnum/Shaders/DistanceFieldVector.h>
+#include <Magnum/Trade/AbstractImporter.h>
+#include <Magnum/Trade/ImageData.h>
+#include <Magnum/Trade/MeshData2D.h>
 
 #include "Application.h"
 #include "Game/Game.h"
@@ -37,7 +37,7 @@ Splash::Splash() {
                 /* Mesh */
                 Trade::MeshData2D data = Primitives::Square::solid(Primitives::Square::TextureCoords::Generate);
                 MeshTools::transformVectorsInPlace(Matrix3::scaling(Vector2::xScale(4.0f/3.0f)), data.positions(0));
-                MeshTools::interleave(mesh, vertices, Buffer::Usage::StaticDraw, data.positions(0), data.textureCoords2D(0));
+                MeshTools::interleave(mesh, vertices, BufferUsage::StaticDraw, data.positions(0), data.textureCoords2D(0));
                 mesh.setPrimitive(data.primitive())
                     .addVertexBuffer(vertices, 0, Shaders::DistanceFieldVector2D::Position(), Shaders::DistanceFieldVector2D::TextureCoordinates());
 

@@ -1,13 +1,13 @@
 #ifndef PushTheBox_Game_Hud_h
 #define PushTheBox_Game_Hud_h
 
-#include <Interconnect/Receiver.h>
-#include <ResourceManager.h>
-#include <SceneGraph/Animable.h>
-#include <SceneGraph/Drawable.h>
-#include <SceneGraph/TranslationTransformation.h>
-#include <Shaders/DistanceFieldVector.h>
-#include <Text/Text.h>
+#include <Corrade/Interconnect/Receiver.h>
+#include <Magnum/ResourceManager.h>
+#include <Magnum/SceneGraph/Animable.h>
+#include <Magnum/SceneGraph/Drawable.h>
+#include <Magnum/SceneGraph/TranslationTransformation.h>
+#include <Magnum/Shaders/DistanceFieldVector.h>
+#include <Magnum/Text/Text.h>
 
 #include "PushTheBox.h"
 
@@ -22,7 +22,7 @@ class AbstractHudText: public Object2D, SceneGraph::Drawable2D, public Interconn
     protected:
         void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) override;
 
-        Text::TextRenderer2D* text;
+        Text::Renderer2D* text;
 
     private:
         Resource<AbstractShaderProgram, Magnum::Shaders::DistanceFieldVector2D> shader;

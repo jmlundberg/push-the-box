@@ -1,6 +1,6 @@
 #include "AbstractScreenedApplication.h"
 
-#include <DefaultFramebuffer.h>
+#include <Magnum/DefaultFramebuffer.h>
 
 #include "AbstractScreen.h"
 

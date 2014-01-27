@@ -5,11 +5,11 @@
  * @brief Class PushTheBox::Menu::Menu
  */
 
-#include <Interconnect/Receiver.h>
-#include <Shapes/ShapeGroup.h>
-#include <SceneGraph/Drawable.h>
-#include <SceneGraph/TranslationTransformation.h>
-#include <SceneGraph/Scene.h>
+#include <Corrade/Interconnect/Receiver.h>
+#include <Magnum/Shapes/ShapeGroup.h>
+#include <Magnum/SceneGraph/Drawable.h>
+#include <Magnum/SceneGraph/TranslationTransformation.h>
+#include <Magnum/SceneGraph/Scene.h>
 
 #include "AbstractScreen.h"
 

@@ -1,8 +1,7 @@
 #include "WallBrick.h"
 
-#include <Mesh.h>
-#include <Swizzle.h>
-#include <Shaders/Phong.h>
+#include <Magnum/Mesh.h>
+#include <Magnum/Shaders/Phong.h>
 
 namespace PushTheBox { namespace Game {
 
@@ -10,7 +9,7 @@ WallBrick::WallBrick(const Vector2i& position, Object3D* parent, SceneGraph::Dra
     shader = SceneResourceManager::instance().get<AbstractShaderProgram, Shaders::Phong>("phong");
     mesh = SceneResourceManager::instance().get<Mesh>("wall-mesh");
 
-    translate(Vector3(swizzle<'x', '0', 'y'>(position)));
+    translate(Math::swizzle<'x', '0', 'y'>(Vector2(position)));
 }
 
 void WallBrick::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D&) {

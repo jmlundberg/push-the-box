@@ -5,13 +5,13 @@
  * @brief Class PushTheBox::AbstractScreenedApplication
  */
 
-#include <Containers/LinkedList.h>
-#include <Magnum.h>
+#include <Corrade/Containers/LinkedList.h>
+#include <Magnum/Magnum.h>
 
 #ifndef CORRADE_TARGET_NACL
-#include <Platform/Sdl2Application.h>
+#include <Magnum/Platform/Sdl2Application.h>
 #else
-#include <Platform/NaClApplication.h>
+#include <Magnum/Platform/NaClApplication.h>
 #endif
 
 #include "PushTheBox.h"

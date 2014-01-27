@@ -5,9 +5,9 @@
  * @brief Class PushTheBox::Splash::Splash
  */
 
-#include <SceneGraph/Drawable.h>
-#include <SceneGraph/TranslationTransformation.h>
-#include <SceneGraph/Scene.h>
+#include <Magnum/SceneGraph/Drawable.h>
+#include <Magnum/SceneGraph/TranslationTransformation.h>
+#include <Magnum/SceneGraph/Scene.h>
 
 #include "AbstractScreen.h"
 

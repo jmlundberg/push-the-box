@@ -1,20 +1,21 @@
 #include "Application.h"
 
-#include <Containers/Array.h>
-#include <Utility/Resource.h>
-#include <AbstractShaderProgram.h>
-#include <DefaultFramebuffer.h>
-#include <Renderer.h>
-#include <Mesh.h>
-#include <MeshTools/FullScreenTriangle.h>
-#include <Shaders/DistanceFieldVector.h>
-#include <Text/DistanceFieldGlyphCache.h>
-#include <Text/AbstractFont.h>
-#include <Trade/AbstractImporter.h>
+#include <Corrade/Containers/Array.h>
+#include <Corrade/Utility/Resource.h>
+#include <Magnum/AbstractShaderProgram.h>
+#include <Magnum/DefaultFramebuffer.h>
+#include <Magnum/Renderer.h>
+#include <Magnum/Buffer.h>
+#include <Magnum/Mesh.h>
+#include <Magnum/MeshTools/FullScreenTriangle.h>
+#include <Magnum/Shaders/DistanceFieldVector.h>
+#include <Magnum/Text/DistanceFieldGlyphCache.h>
+#include <Magnum/Text/AbstractFont.h>
+#include <Magnum/Trade/AbstractImporter.h>
 
 #ifdef MAGNUM_BUILD_STATIC
-#include <Shaders/magnumShadersResourceImport.hpp>
-#include <TextureTools/magnumTextureToolsResourceImport.hpp>
+#include <Magnum/Shaders/magnumShadersResourceImport.hpp>
+#include <Magnum/TextureTools/magnumTextureToolsResourceImport.hpp>
 #endif
 
 #include "Game/Game.h"
@@ -73,16 +74,16 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     }
 
     /* Save full screen triangle and TGA importer to resource manager */
-    std::pair<Buffer*, Mesh> triangle = MeshTools::fullScreenTriangle();
-    if(triangle.first) SceneResourceManager::instance().set("fullscreentriangle", std::move(triangle.first));
+    std::pair<std::unique_ptr<Buffer>, Mesh> triangle = MeshTools::fullScreenTriangle();
+    if(triangle.first) SceneResourceManager::instance().set("fullscreentriangle", std::move(triangle.first.release()));
     SceneResourceManager::instance()
         .set("fullscreentriangle", std::move(triangle.second))
         .set("tga-importer", tgaImporter);
 
     /* Font plugin */
-    Text::AbstractFont* font;
+    std::unique_ptr<Text::AbstractFont> font;
     if(fontPluginManager.load("MagnumFont") & PluginManager::LoadState::Loaded)
-        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("MagnumFont").release());
+        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("MagnumFont"));
     else {
         Error() << "Cannot open font plugin";
         std::exit(1);
@@ -93,11 +94,11 @@ Application::Application(const Arguments& arguments): AbstractScreenedApplicatio
     font->openData(std::vector<std::pair<std::string, Containers::ArrayReference<const unsigned char>>>{
         {"luckiest-guy.conf", rs.getRaw("luckiest-guy.conf")},
         {"luckiest-guy.tga",  rs.getRaw("luckiest-guy.tga")}}, 0.0f);
-    Text::GlyphCache* cache = font->createGlyphCache();
+    std::unique_ptr<Text::GlyphCache> cache = font->createGlyphCache();
 
     /* Save font resources to resource manager */
     SceneResourceManager::instance().set<AbstractShaderProgram>("text2d", new Shaders::DistanceFieldVector2D)
-        .set("font", font).set("cache", cache);
+        .set("font", font.release()).set("cache", cache.release());
 
     /* Add the screens */
     _gameScreen = new Game::Game;

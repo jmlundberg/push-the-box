@@ -1,9 +1,9 @@
 #ifndef PushTheBox_ResourceManagement_MeshResourceLoader_h
 #define PushTheBox_ResourceManagement_MeshResourceLoader_h
 
-#include <Containers/Array.h>
-#include <Utility/Configuration.h>
-#include <AbstractResourceLoader.h>
+#include <Corrade/Containers/Array.h>
+#include <Corrade/Utility/Configuration.h>
+#include <Magnum/AbstractResourceLoader.h>
 
 #include "PushTheBox.h"
 

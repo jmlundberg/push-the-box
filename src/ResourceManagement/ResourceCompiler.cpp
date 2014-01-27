@@ -2,13 +2,13 @@
 
 #include <algorithm>
 #include <ostream>
-#include <Math/Functions.h>
-#include <Math/Matrix4.h>
-#include <MeshTools/CompressIndices.h>
-#include <MeshTools/Interleave.h>
-#include <MeshTools/Tipsify.h>
-#include <MeshTools/Transform.h>
-#include <Trade/MeshData3D.h>
+#include <Magnum/Math/Functions.h>
+#include <Magnum/Math/Matrix4.h>
+#include <Magnum/MeshTools/CompressIndices.h>
+#include <Magnum/MeshTools/Interleave.h>
+#include <Magnum/MeshTools/Tipsify.h>
+#include <Magnum/MeshTools/Transform.h>
+#include <Magnum/Trade/MeshData3D.h>
 
 #include "configure.h"
 
@@ -39,7 +39,7 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
 
             std::size_t indexCount;
             Mesh::IndexType indexType;
-            char* data;
+            Containers::Array<char> data;
             std::tie(indexCount, indexType, data) = MeshTools::compressIndices(mesh->indices());
             auto minmax = std::minmax_element(mesh->indices().begin(), mesh->indices().end());
 
@@ -49,8 +49,7 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
             group->addValue("indexStart", *minmax.first);
             group->addValue("indexEnd", *minmax.second);
 
-            out.write(data, indexCount*Mesh::indexSize(indexType));
-            delete[] data;
+            out.write(data, data.size());
         }
 
         /* Rotate to have Y up */
@@ -65,7 +64,7 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
                        [](const Vector3& vec) { return Math::denormalize<Math::Vector3<Byte>>(vec); });
 
         /* Compile vertex array */
-        char* data;
+        Containers::Array<char> data;
         std::size_t vertexCount;
         std::size_t stride;
         std::tie(vertexCount, stride, data) = MeshTools::interleave(mesh->positions(0), normals, 1);
@@ -75,8 +74,7 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
         group->addValue("vertexCount", vertexCount);
         group->addValue("vertexStride", stride);
 
-        out.write(data, vertexCount*stride);
-        delete[] data;
+        out.write(data, data.size());
     }
 }
 

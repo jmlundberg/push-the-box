@@ -1,7 +1,7 @@
 #include "Player.h"
 
-#include <Mesh.h>
-#include <Shaders/Phong.h>
+#include <Magnum/Mesh.h>
+#include <Magnum/Shaders/Phong.h>
 
 namespace PushTheBox { namespace Game {
 

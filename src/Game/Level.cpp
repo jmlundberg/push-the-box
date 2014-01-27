@@ -1,11 +1,10 @@
 #include "Level.h"
 
 #include <sstream>
-#include <Utility/Configuration.h>
-#include <Utility/Resource.h>
-#include <Math/Vector2.h>
-#include <Swizzle.h>
-#include <SceneGraph/Scene.h>
+#include <Corrade/Utility/Configuration.h>
+#include <Corrade/Utility/Resource.h>
+#include <Magnum/Math/Vector2.h>
+#include <Magnum/SceneGraph/Scene.h>
 
 #include "FloorTile.h"
 #include "WallBrick.h"
@@ -139,7 +138,7 @@ bool Level::movePlayer(const Vector2i& direction) {
         }
         CORRADE_INTERNAL_ASSERT(box);
 
-        box->translate(Vector3(swizzle<'x', '0', 'y'>(direction)));
+        box->translate(Math::swizzle<'x', '0', 'y'>(Vector2(direction)));
         box->position += direction;
 
         if(at(newPosition) == TileType::BoxOnTarget) {
