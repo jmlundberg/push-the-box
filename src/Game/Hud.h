@@ -23,11 +23,11 @@ class AbstractHudText: public Object2D, SceneGraph::Drawable2D, public Interconn
         void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) override;
 
         Text::Renderer2D* text;
+        Resource<Text::AbstractFont> font;
+        Resource<Text::GlyphCache> glyphCache;
 
     private:
         Resource<AbstractShaderProgram, Magnum::Shaders::DistanceFieldVector2D> shader;
-        Resource<Text::AbstractFont> font;
-        Resource<Text::GlyphCache> glyphCache;
 };
 
 class LevelTitle: public AbstractHudText {

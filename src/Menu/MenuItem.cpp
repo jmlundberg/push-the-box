@@ -24,8 +24,7 @@ MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::Drawa
 
     /* Render text */
     Range2D rect;
-    std::tie(mesh, rect) = Text::Renderer2D::render(font, glyphCache, 0.15f, title, vertexBuffer, indexBuffer, BufferUsage::StaticDraw);
-    translate({-rect.centerX(), -0.075f});
+    std::tie(mesh, rect) = Text::Renderer2D::render(font, glyphCache, 0.15f, title, vertexBuffer, indexBuffer, BufferUsage::StaticDraw, Text::Alignment::MiddleCenter);
 
     /* Shape for collision detection */
     setShape({rect.bottomLeft(), rect.topRight()});

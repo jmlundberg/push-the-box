@@ -11,9 +11,7 @@
 
 namespace PushTheBox { namespace Game {
 
-AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): Object2D(parent), SceneGraph::Drawable2D(*this, drawables), shader(SceneResourceManager::instance().get<AbstractShaderProgram, Shaders::DistanceFieldVector2D>("text2d")), font(SceneResourceManager::instance().get<Text::AbstractFont>("font")), glyphCache(SceneResourceManager::instance().get<Text::GlyphCache>("cache")) {
-    text = new Text::Renderer2D(*font, *glyphCache, 0.06f);
-}
+AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): Object2D(parent), SceneGraph::Drawable2D(*this, drawables), text(nullptr), font(SceneResourceManager::instance().get<Text::AbstractFont>("font")), glyphCache(SceneResourceManager::instance().get<Text::GlyphCache>("cache")), shader(SceneResourceManager::instance().get<AbstractShaderProgram, Shaders::DistanceFieldVector2D>("text2d")) {}
 
 AbstractHudText::~AbstractHudText() = default;
 
@@ -29,18 +27,19 @@ void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::Abst
 }
 
 LevelTitle::LevelTitle(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): AbstractHudText(parent, drawables) {
-    text->reserve(32, BufferUsage::StaticDraw, BufferUsage::StaticDraw);
+    (text = new Text::Renderer2D(*font, *glyphCache, 0.06f, Text::Alignment::TopLeft))
+        ->reserve(32, BufferUsage::StaticDraw, BufferUsage::StaticDraw);
+
+    translate({-1.303f, 0.97f});
 }
 
 void LevelTitle::update(const std::string& name) {
     text->render(name);
-
-    resetTransformation();
-    translate({-1.303f, 0.97f - text->rectangle().top()});
 }
 
 RemainingTargets::RemainingTargets(Object2D* parent, SceneGraph::DrawableGroup2D* drawables, SceneGraph::AnimableGroup2D* animables): AbstractHudText(parent, drawables), SceneGraph::Animable2D(*this, animables) {
-    text->reserve(32, BufferUsage::DynamicDraw, BufferUsage::StaticDraw);
+    (text = new Text::Renderer2D(*font, *glyphCache, 0.06f, Text::Alignment::LineLeft))
+        ->reserve(32, BufferUsage::DynamicDraw, BufferUsage::StaticDraw);
 
     setDuration(0.4f);
     setRepeated(true);
@@ -74,7 +73,10 @@ void RemainingTargets::animationStopped() {
 }
 
 Moves::Moves(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): AbstractHudText(parent, drawables) {
-    text->reserve(32, BufferUsage::DynamicDraw, BufferUsage::StaticDraw);
+    (text = new Text::Renderer2D(*font, *glyphCache, 0.06f, Text::Alignment::TopRight))
+        ->reserve(32, BufferUsage::DynamicDraw, BufferUsage::StaticDraw);
+
+    translate({1.303f, 0.97f});
 }
 
 void Moves::update(UnsignedInt count) {
@@ -85,9 +87,6 @@ void Moves::update(UnsignedInt count) {
     out << count << " moves";
     text->render(out.str());
     #endif
-
-    resetTransformation();
-    translate({1.303f - text->rectangle().sizeX(), 0.97f - text->rectangle().top()});
 }
 
 }}
