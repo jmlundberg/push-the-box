@@ -16,13 +16,11 @@ class Blur: public AbstractShaderProgram {
             Vertical
         };
 
-        enum: Int {
-            TextureLayer = 16,
-        };
-
         explicit Blur(Direction direction);
 
         Blur& setImageSizeInverted(const Vector2& size);
+
+        Blur& setTexture(Texture2D& texture);
 
     private:
         Int imageSizeInvertedUniform;

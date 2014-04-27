@@ -5,9 +5,16 @@
 #include <Magnum/Context.h>
 #include <Magnum/Extensions.h>
 #include <Magnum/Shader.h>
+#include <Magnum/Texture.h>
 #include <Magnum/Math/Vector2.h>
 
 namespace PushTheBox { namespace Shaders {
+
+namespace {
+    enum: Int {
+        TextureLayer = 16,
+    };
+}
 
 Blur::Blur(Direction direction) {
     Utility::Resource mr("MagnumShaders");
@@ -77,6 +84,11 @@ Blur& Blur::setImageSizeInverted(const Vector2& size) {
         setUniform(imageSizeInvertedUniform, size);
     }
 
+    return *this;
+}
+
+Blur& Blur::setTexture(Texture2D& texture) {
+    texture.bind(TextureLayer);
     return *this;
 }
 

@@ -17,10 +17,9 @@ void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCa
           /** @todo rotationNormalized() when precision problems are fixed */
           .setNormalMatrix(transformationMatrix.rotationScaling())
           .setDiffuseColor(type == Type::Floor ? Color3::fromHSV(Deg(60.0f), 0.1f, 0.8f) :
-                                                 Color3::fromHSV(Deg(120.0f), 1.0f, 0.6f))
-          .use();
+                                                 Color3::fromHSV(Deg(120.0f), 1.0f, 0.6f));
 
-    mesh->draw();
+    mesh->draw(*shader);
 }
 
 }}

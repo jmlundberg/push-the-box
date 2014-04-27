@@ -110,7 +110,7 @@ void Camera::draw(SceneGraph::DrawableGroup3D& group) {
         SceneGraph::Camera3D::draw(group);
 
         /* Resolve to first texture */
-        Framebuffer::blit(multisampleFramebuffer, framebuffer1, multisampleFramebuffer.viewport(), FramebufferBlit::ColorBuffer);
+        Framebuffer::blit(multisampleFramebuffer, framebuffer1, multisampleFramebuffer.viewport(), FramebufferBlit::Color);
 
     /* Single sample fallback */
     } else {
@@ -122,16 +122,14 @@ void Camera::draw(SceneGraph::DrawableGroup3D& group) {
     /* Blur first texture horizontally to second one */
     framebuffer2.bind(FramebufferTarget::ReadDraw);
     framebuffer2.clear(FramebufferClear::Depth);
-    blurShaderHorizontal.use();
-    texture1.bind(Shaders::Blur::TextureLayer);
-    fullScreenTriangle->draw();
+    blurShaderHorizontal.setTexture(texture1);
+    fullScreenTriangle->draw(blurShaderHorizontal);
 
     /* Blur second texture vertically to screen FB */
     defaultFramebuffer.bind(FramebufferTarget::ReadDraw);
     defaultFramebuffer.clear(FramebufferClear::Depth);
-    blurShaderVertical.use();
-    texture2.bind(Shaders::Blur::TextureLayer);
-    fullScreenTriangle->draw();
+    blurShaderVertical.setTexture(texture2);
+    fullScreenTriangle->draw(blurShaderVertical);
 }
 
 }}

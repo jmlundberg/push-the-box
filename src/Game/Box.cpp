@@ -27,10 +27,9 @@ void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D
     shader->setTransformationMatrix(transformationMatrix)
           /** @todo rotationNormalized() when precision problems are fixed */
           .setNormalMatrix(transformationMatrix.rotationScaling())
-          .setDiffuseColor(color)
-          .use();
+          .setDiffuseColor(color);
 
-    mesh->draw();
+    mesh->draw(*shader);
 }
 
 void Box::animationStep(Float time, Float) {

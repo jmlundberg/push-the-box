@@ -1,8 +1,10 @@
 #include "Splash.h"
 
+#include <Magnum/Buffer.h>
 #include <Magnum/Context.h>
 #include <Magnum/DefaultFramebuffer.h>
 #include <Magnum/Extensions.h>
+#include <Magnum/Mesh.h>
 #include <Magnum/Renderer.h>
 #include <Magnum/Texture.h>
 #include <Magnum/TextureFormat.h>
@@ -37,8 +39,9 @@ Splash::Splash() {
                 /* Mesh */
                 Trade::MeshData2D data = Primitives::Square::solid(Primitives::Square::TextureCoords::Generate);
                 MeshTools::transformVectorsInPlace(Matrix3::scaling(Vector2::xScale(4.0f/3.0f)), data.positions(0));
-                MeshTools::interleave(mesh, vertices, BufferUsage::StaticDraw, data.positions(0), data.textureCoords2D(0));
+                vertices.setData(MeshTools::interleave(data.positions(0), data.textureCoords2D(0)), BufferUsage::StaticDraw);
                 mesh.setPrimitive(data.primitive())
+                    .setCount(data.positions(0).size())
                     .addVertexBuffer(vertices, 0, Shaders::DistanceFieldVector2D::Position(), Shaders::DistanceFieldVector2D::TextureCoordinates());
 
                 /* Texture image */
@@ -68,15 +71,13 @@ Splash::Splash() {
 
         protected:
             void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) override {
-                texture.bind(Shaders::DistanceFieldVector2D::VectorTextureLayer);
-
                 shader->setColor(Color3::fromHSV(Deg(210.0f), 0.55f, 0.9f))
                     .setOutlineColor(Color3(1.0f))
                     .setOutlineRange(0.55f, 0.425f)
                     .setTransformationProjectionMatrix(camera.projectionMatrix()*transformationMatrix)
-                    .use();
+                    .setVectorTexture(texture);
 
-                mesh.draw();
+                mesh.draw(*shader);
             }
 
         private:

@@ -16,10 +16,9 @@ void WallBrick::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCa
     shader->setTransformationMatrix(transformationMatrix)
           /** @todo rotationNormalized() when precision problems are fixed */
           .setNormalMatrix(transformationMatrix.rotationScaling())
-          .setDiffuseColor(Color3::fromHSV(Deg(30.0f), 0.2f, 1.0f))
-          .use();
+          .setDiffuseColor(Color3::fromHSV(Deg(30.0f), 0.2f, 1.0f));
 
-    mesh->draw();
+    mesh->draw(*shader);
 }
 
 }}

@@ -37,19 +37,18 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
             /* Optimize indices */
             MeshTools::tipsify(mesh->indices(), mesh->positions(0).size(), 24);
 
-            std::size_t indexCount;
+            Containers::Array<char> indexData;
             Mesh::IndexType indexType;
-            Containers::Array<char> data;
-            std::tie(indexCount, indexType, data) = MeshTools::compressIndices(mesh->indices());
-            auto minmax = std::minmax_element(mesh->indices().begin(), mesh->indices().end());
+            UnsignedInt indexStart, indexEnd;
+            std::tie(indexData, indexType, indexStart, indexEnd) = MeshTools::compressIndices(mesh->indices());
 
             group->addValue("indexOffset", std::size_t(out.tellp()));
-            group->addValue("indexCount", indexCount);
+            group->addValue("indexCount", mesh->indices().size());
             group->addValue("indexType", indexType);
-            group->addValue("indexStart", *minmax.first);
-            group->addValue("indexEnd", *minmax.second);
+            group->addValue("indexStart", indexStart);
+            group->addValue("indexEnd", indexEnd);
 
-            out.write(data, data.size());
+            out.write(indexData, indexData.size());
         }
 
         /* Rotate to have Y up */
@@ -64,15 +63,12 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
                        [](const Vector3& vec) { return Math::denormalize<Math::Vector3<Byte>>(vec); });
 
         /* Compile vertex array */
-        Containers::Array<char> data;
-        std::size_t vertexCount;
-        std::size_t stride;
-        std::tie(vertexCount, stride, data) = MeshTools::interleave(mesh->positions(0), normals, 1);
+        const Containers::Array<char> data = MeshTools::interleave(mesh->positions(0), normals, 1);
 
         group->addValue("vertexArray", "3D interleaved position normal");
         group->addValue("vertexOffset", std::size_t(out.tellp()));
-        group->addValue("vertexCount", vertexCount);
-        group->addValue("vertexStride", stride);
+        group->addValue("vertexCount", mesh->positions(0).size());
+        group->addValue("vertexStride", sizeof(Vector3) + sizeof(Math::Vector3<Byte>) + 1);
 
         out.write(data, data.size());
     }

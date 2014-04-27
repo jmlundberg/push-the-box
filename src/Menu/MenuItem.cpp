@@ -24,7 +24,7 @@ MenuItem::MenuItem(const std::string& title, Object2D* parent, SceneGraph::Drawa
 
     /* Render text */
     Range2D rect;
-    std::tie(mesh, rect) = Text::Renderer2D::render(font, glyphCache, 0.15f, title, vertexBuffer, indexBuffer, BufferUsage::StaticDraw, Text::Alignment::MiddleCenter);
+    std::tie(mesh, rect) = Text::Renderer2D::render(*font, *glyphCache, 0.15f, title, vertexBuffer, indexBuffer, BufferUsage::StaticDraw, Text::Alignment::MiddleCenter);
 
     /* Shape for collision detection */
     setShape({rect.bottomLeft(), rect.topRight()});
@@ -39,11 +39,9 @@ void MenuItem::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCam
         .setOutlineColor(outline)
         .setOutlineRange(0.55f, 0.45f)
         .setTransformationProjectionMatrix(camera.projectionMatrix()*transformationMatrix)
-        .use();
+        .setVectorTexture(glyphCache->texture());
 
-    glyphCache->texture().bind(Shaders::DistanceFieldVector2D::VectorTextureLayer);
-
-    mesh.draw();
+    mesh.draw(*shader);
 }
 
 }}

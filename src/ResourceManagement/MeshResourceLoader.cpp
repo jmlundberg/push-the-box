@@ -37,8 +37,11 @@ void MeshResourceLoader::doLoad(ResourceKey key) {
         return;
     }
 
-    /* Indexed mesh */
+    /* Mesh */
     Mesh* mesh = new Mesh;
+    mesh->setPrimitive(group->value<MeshPrimitive>("primitive"));
+
+    /* Indexed mesh */
     if(group->hasValue("indexOffset")) {
 
         /* Add index buffer to the manager */
@@ -48,7 +51,7 @@ void MeshResourceLoader::doLoad(ResourceKey key) {
         /* Configure indices */
         Int indexCount = group->value<Int>("indexCount");
         Mesh::IndexType indexType = group->value<Mesh::IndexType>("indexType");
-        mesh->setIndexCount(indexCount)
+        mesh->setCount(indexCount)
             .setIndexBuffer(*indexBuffer, 0, indexType,
                 group->value<UnsignedInt>("indexStart"), group->value<UnsignedInt>("indexEnd"));
         indexBuffer->setData({data.begin()+group->value<std::size_t>("indexOffset"),
@@ -56,7 +59,7 @@ void MeshResourceLoader::doLoad(ResourceKey key) {
             BufferUsage::StaticDraw);
 
     /* Non-indexed mesh */
-    } else mesh = new Mesh;
+    } else mesh->setCount(group->value<Int>("vertexCount"));
 
     /* Add vertex buffer to the manager */
     Buffer* vertexBuffer = new Buffer;
@@ -64,13 +67,12 @@ void MeshResourceLoader::doLoad(ResourceKey key) {
 
     /* Configure vertices */
     mesh->setPrimitive(group->value<MeshPrimitive>("primitive"))
-        .setVertexCount(group->value<Int>("vertexCount"))
         .addVertexBuffer(*vertexBuffer, 0,
             Shaders::Phong::Position(),
             Shaders::Phong::Normal(Shaders::Phong::Normal::DataType::Byte, Shaders::Phong::Normal::DataOption::Normalized),
             1);
     vertexBuffer->setData({data.begin()+group->value<std::size_t>("vertexOffset"),
-                          mesh->vertexCount()*group->value<std::size_t>("vertexStride")},
+                          group->value<Int>("vertexCount")*group->value<std::size_t>("vertexStride")},
                           BufferUsage::StaticDraw);
 
     /* Finally add the mesh to the manager */

@@ -19,11 +19,9 @@ void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::Abst
     shader->setTransformationProjectionMatrix(camera.projectionMatrix()*transformationMatrix)
         .setColor(Color3(1.0f))
         .setOutlineRange(0.5f, 1.0f)
-        .use();
+        .setVectorTexture(glyphCache->texture());
 
-    glyphCache->texture().bind(Shaders::DistanceFieldVector2D::VectorTextureLayer);
-
-    text->mesh().draw();
+    text->mesh().draw(*shader);
 }
 
 LevelTitle::LevelTitle(Object2D* parent, SceneGraph::DrawableGroup2D* drawables): AbstractHudText(parent, drawables) {
