@@ -56,38 +56,30 @@ Application::Application(const Arguments& arguments): Platform::ScreenedApplicat
         createContext(conf.setSampleCount(0));
     }
 
-    Renderer::setFeature(Renderer::Feature::FaceCulling, true);
-    Renderer::setFeature(Renderer::Feature::DepthTest, true);
+    Renderer::enable(Renderer::Feature::FaceCulling);
+    Renderer::enable(Renderer::Feature::DepthTest);
     Renderer::setClearColor(Color3(0.0f));
 
     /* Add resource loader and fallback meshes */
     sceneResourceManager.setLoader(&meshResourceLoader);
     sceneResourceManager.setFallback<Mesh>(new Mesh);
 
-    /* TGA importer */
-    Trade::AbstractImporter* tgaImporter;
-    if(importerPluginManager.load("TgaImporter") & PluginManager::LoadState::Loaded)
-        CORRADE_INTERNAL_ASSERT_OUTPUT(tgaImporter = importerPluginManager.instance("TgaImporter").release());
-    else {
-        Error() << "Cannot open TGA importer plugin";
+    /* Load TGA importer plugin */
+    if(!(importerPluginManager.load("TgaImporter") & PluginManager::LoadState::Loaded))
         std::exit(1);
-    }
+    std::unique_ptr<Trade::AbstractImporter> tgaImporter = importerPluginManager.instance("TgaImporter");
 
     /* Save full screen triangle and TGA importer to resource manager */
     std::pair<std::unique_ptr<Buffer>, Mesh> triangle = MeshTools::fullScreenTriangle();
     if(triangle.first) SceneResourceManager::instance().set("fullscreentriangle", std::move(triangle.first.release()));
     SceneResourceManager::instance()
         .set("fullscreentriangle", std::move(triangle.second))
-        .set("tga-importer", tgaImporter);
+        .set("tga-importer", importer.release());
 
     /* Font plugin */
-    std::unique_ptr<Text::AbstractFont> font;
-    if(fontPluginManager.load("MagnumFont") & PluginManager::LoadState::Loaded)
-        CORRADE_INTERNAL_ASSERT_OUTPUT(font = fontPluginManager.instance("MagnumFont"));
-    else {
-        Error() << "Cannot open font plugin";
+    if(!(fontPluginManager.load("MagnumFont") & PluginManager::LoadState::Loaded))
         std::exit(1);
-    }
+    std::unique_ptr<Text::AbstractFont> font = fontPluginManager.instance("MagnumFont");
 
     /* Load font and create glyph cache */
     Utility::Resource rs("PushTheBoxResources");

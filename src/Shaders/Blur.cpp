@@ -27,18 +27,18 @@ Blur::Blur(Direction direction) {
     #endif
 
     Shader vert(v, Shader::Type::Vertex);
+    Shader frag(v, Shader::Type::Fragment);
+
     vert.addSource(direction == Direction::Horizontal ? "#define DIRECTION_HORIZONTAL\n" : "")
         .addSource(mr.get("compatibility.glsl"))
         .addSource(mr.get("FullScreenTriangle.glsl"))
         .addSource(rs.get("Blur.vert"));
-    CORRADE_INTERNAL_ASSERT_OUTPUT(vert.compile());
-    attachShader(vert);
-
-    Shader frag(v, Shader::Type::Fragment);
     frag.addSource(mr.get("compatibility.glsl"))
         .addSource(rs.get("Blur.frag"));
-    CORRADE_INTERNAL_ASSERT_OUTPUT(frag.compile());
-    attachShader(frag);
+
+    CORRADE_INTERNAL_ASSERT_OUTPUT(Shader::compile({vert, frag}));
+
+    attachShaders({vert, frag});
 
     /* Older GLSL doesn't have gl_VertexID, vertices must be supplied explicitly */
     #ifndef MAGNUM_TARGET_GLES

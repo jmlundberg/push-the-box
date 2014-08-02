@@ -103,12 +103,12 @@ void Splash::viewportEvent(const Vector2i& size) {
 }
 
 void Splash::drawEvent() {
-    Renderer::setFeature(Renderer::Feature::Blending, true);
+    Renderer::enable(Renderer::Feature::Blending);
     Renderer::setBlendFunction(Renderer::BlendFunction::One, Renderer::BlendFunction::OneMinusSourceAlpha);
-    Renderer::setFeature(Renderer::Feature::DepthTest, false);
+    Renderer::disable(Renderer::Feature::DepthTest);
     camera->draw(drawables);
-    Renderer::setFeature(Renderer::Feature::DepthTest, true);
-    Renderer::setFeature(Renderer::Feature::Blending, false);
+    Renderer::enable(Renderer::Feature::DepthTest);
+    Renderer::disable(Renderer::Feature::Blending);
 }
 
 void Splash::mouseReleaseEvent(MouseEvent&) {

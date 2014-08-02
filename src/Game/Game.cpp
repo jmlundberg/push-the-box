@@ -155,12 +155,12 @@ void Game::drawEvent() {
 
     /* Draw HUD */
     if(!paused) {
-        Renderer::setFeature(Renderer::Feature::Blending, true);
+        Renderer::enable(Renderer::Feature::Blending);
         Renderer::setBlendFunction(Renderer::BlendFunction::One, Renderer::BlendFunction::OneMinusSourceAlpha);
-        Renderer::setFeature(Renderer::Feature::DepthTest, false);
+        Renderer::disable(Renderer::Feature::DepthTest);
         hudCamera->draw(hudDrawables);
-        Renderer::setFeature(Renderer::Feature::DepthTest, true);
-        Renderer::setFeature(Renderer::Feature::Blending, false);
+        Renderer::enable(Renderer::Feature::DepthTest);
+        Renderer::disable(Renderer::Feature::Blending);
     }
 
     /** @todo properly schedule redraw only if there is something to animate */

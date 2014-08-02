@@ -52,14 +52,14 @@ void Menu::viewportEvent(const Vector2i& size) {
 }
 
 void Menu::drawEvent() {
-    Renderer::setFeature(Renderer::Feature::Blending, true);
+    Renderer::enable(Renderer::Feature::Blending);
     Renderer::setBlendFunction(Renderer::BlendFunction::One, Renderer::BlendFunction::OneMinusSourceAlpha);
-    Renderer::setFeature(Renderer::Feature::DepthTest, false);
+    Renderer::disable(Renderer::Feature::DepthTest);
     /** @todo fix this in magnum, so it doesn't have to be called? */
     shapes.setClean();
     camera->draw(drawables);
-    Renderer::setFeature(Renderer::Feature::DepthTest, true);
-    Renderer::setFeature(Renderer::Feature::Blending, false);
+    Renderer::enable(Renderer::Feature::DepthTest);
+    Renderer::disable(Renderer::Feature::Blending);
 }
 
 void Menu::mousePressEvent(MouseEvent& event) {
