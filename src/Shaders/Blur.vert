@@ -1,5 +1,8 @@
 #ifndef NEW_GLSL
 #define out varying
+#endif
+
+#ifndef RUNTIME_CONST
 #define const
 #endif
 
