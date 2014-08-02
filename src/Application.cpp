@@ -74,7 +74,7 @@ Application::Application(const Arguments& arguments): Platform::ScreenedApplicat
     if(triangle.first) SceneResourceManager::instance().set("fullscreentriangle", std::move(triangle.first.release()));
     SceneResourceManager::instance()
         .set("fullscreentriangle", std::move(triangle.second))
-        .set("tga-importer", importer.release());
+        .set("tga-importer", tgaImporter.release());
 
     /* Font plugin */
     if(!(fontPluginManager.load("MagnumFont") & PluginManager::LoadState::Loaded))
