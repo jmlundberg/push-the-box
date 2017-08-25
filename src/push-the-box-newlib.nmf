@@ -1,6 +1,0 @@
-{
-    "program": {
-        "x86-32": {"url": "push-the-box-x86-32.nexe"},
-        "x86-64": {"url": "push-the-box-x86-64.nexe"}
-    }
-}
