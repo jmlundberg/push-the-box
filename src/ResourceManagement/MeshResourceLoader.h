@@ -1,7 +1,7 @@
 #ifndef PushTheBox_ResourceManagement_MeshResourceLoader_h
 #define PushTheBox_ResourceManagement_MeshResourceLoader_h
 
-#include <Corrade/Containers/Array.h>
+#include <Corrade/Containers/ArrayView.h>
 #include <Corrade/Utility/Configuration.h>
 #include <Magnum/AbstractResourceLoader.h>
 
@@ -32,7 +32,7 @@ class MeshResourceLoader: public AbstractResourceLoader<Mesh> {
         std::unordered_map<ResourceKey, std::uint32_t, Implementation::ResourceKeyHash> nameMap;
 
         Utility::Configuration* conf;
-        Containers::ArrayReference<const unsigned char> data;
+        Containers::ArrayView<const char> data;
 };
 
 }}

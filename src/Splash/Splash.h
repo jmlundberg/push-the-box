@@ -6,6 +6,7 @@
  */
 
 #include <Magnum/Platform/Screen.h>
+#include <Magnum/Platform/Sdl2Application.h>
 #include <Magnum/SceneGraph/Drawable.h>
 #include <Magnum/SceneGraph/Scene.h>
 #include <Magnum/SceneGraph/TranslationTransformation.h>

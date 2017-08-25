@@ -45,7 +45,7 @@ void MeshResourceLoader::doLoad(ResourceKey key) {
     if(group->hasValue("indexOffset")) {
 
         /* Add index buffer to the manager */
-        Buffer* indexBuffer = new Buffer(Buffer::Target::ElementArray);
+        Buffer* indexBuffer = new Buffer(Buffer::TargetHint::ElementArray);
         SceneResourceManager::instance().set(group->value("name") + "-index", indexBuffer, ResourceDataState::Final, ResourcePolicy::Resident);
 
         /* Configure indices */

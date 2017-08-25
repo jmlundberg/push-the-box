@@ -9,6 +9,7 @@
 #include <Magnum/ResourceManager.h>
 #include <Magnum/Timeline.h>
 #include <Magnum/Platform/Screen.h>
+#include <Magnum/Platform/Sdl2Application.h>
 #include <Magnum/SceneGraph/AnimableGroup.h>
 #include <Magnum/SceneGraph/Drawable.h>
 #include <Magnum/SceneGraph/TranslationTransformation.h>

@@ -50,7 +50,7 @@ Game::Game(): level(nullptr), paused(true) {
     /* Hud camera */
     (hudCamera = new SceneGraph::Camera2D(hudScene))
         ->setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
-        .setProjection({2.667f, 2.0f});
+        .setProjectionMatrix(Matrix3::projection({2.667f, 2.0f}));
 
     /* Initialize random generator for random initial player rotation */
     std::srand(std::time(nullptr));
@@ -149,8 +149,8 @@ void Game::drawEvent() {
     /* Shader settings commn for all objects */
     shader->setLightPosition(camera->cameraMatrix().transformPoint(lightPosition))
           .setProjectionMatrix(camera->projectionMatrix())
-          .setAmbientColor(Color3::fromHSV(Deg(15.0f), 0.5f, 0.06f))
-          .setSpecularColor(Color3::fromHSV(Deg(50.0f), 0.5f, 1.0f));
+          .setAmbientColor(Color3::fromHsv(Deg(15.0f), 0.5f, 0.06f))
+          .setSpecularColor(Color3::fromHsv(Deg(50.0f), 0.5f, 1.0f));
     camera->draw(drawables);
 
     /* Draw HUD */
@@ -171,7 +171,7 @@ void Game::keyPressEvent(KeyEvent& event) {
     /* Move forward */
     if(event.key() == KeyEvent::Key::Up || event.key() == KeyEvent::Key::W) {
         Vector3 direction = player->transformation().rotation().transformVectorNormalized(Vector3::zAxis());
-        Deg angle = Vector3::angle(Vector3::zAxis(), direction);
+        Deg angle = Math::angle(Vector3::zAxis(), direction);
 
         if(angle < Deg(30.0f))
             movePlayer({0, -1});
@@ -207,14 +207,13 @@ void Game::mousePressEvent(MouseEvent& event) {
 
 void Game::mouseMoveEvent(MouseMoveEvent& event) {
     /** @todo mouse sensitivity */
-    player->normalizeRotation().rotateY(-Rad(Constants::pi())*event.relativePosition().x()/500.0f,
-        SceneGraph::TransformationType::Local);
+    player->normalizeRotation().rotateYLocal(-Rad(Constants::pi())*event.relativePosition().x()/500.0f);
 
     Rad angle(-Constants::pi()*event.relativePosition().y()/500.0f);
     DualQuaternion xRotation = DualQuaternion::rotation(angle, Vector3::xAxis())*camera->transformation();
 
     /* Don't rotate under the floor */
-    if(Math::abs(Vector3::dot(xRotation.real().transformVector(Vector3::yAxis()), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
+    if(Math::abs(Math::dot(xRotation.real().transformVector(Vector3::yAxis()), Vector3(0.0f, 1.0f, -1.0f).normalized())) > 0.75f)
         camera->setTransformation(xRotation.normalized());
 
     event.setAccepted();

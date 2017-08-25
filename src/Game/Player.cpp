@@ -12,14 +12,14 @@ Player::Player(Object3D* parent, SceneGraph::DrawableGroup3D* drawables): Object
     bodyMesh = SceneResourceManager::instance().get<Mesh>("player-body-mesh");
 }
 
-void Player::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D&) {
+void Player::draw(const Matrix4& transformationMatrix, SceneGraph::Camera3D&) {
     shader->setTransformationMatrix(transformationMatrix)
           /** @todo rotationNormalized() when precision problems are fixed */
           .setNormalMatrix(transformationMatrix.rotationScaling());
 
-    shader->setDiffuseColor(Color3::fromHSV(Deg(210.0f), 0.85f, 0.8f));
+    shader->setDiffuseColor(Color3::fromHsv(Deg(210.0f), 0.85f, 0.8f));
     mesh->draw(*shader);
-    shader->setDiffuseColor(Color3::fromHSV(Deg(50.0f), 0.85f, 0.8f));
+    shader->setDiffuseColor(Color3::fromHsv(Deg(50.0f), 0.85f, 0.8f));
     bodyMesh->draw(*shader);
 }
 

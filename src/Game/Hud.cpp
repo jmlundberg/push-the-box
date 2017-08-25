@@ -15,7 +15,7 @@ AbstractHudText::AbstractHudText(Object2D* parent, SceneGraph::DrawableGroup2D* 
 
 AbstractHudText::~AbstractHudText() = default;
 
-void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) {
+void AbstractHudText::draw(const Matrix3& transformationMatrix, SceneGraph::Camera2D& camera) {
     shader->setTransformationProjectionMatrix(camera.projectionMatrix()*transformationMatrix)
         .setColor(Color3(1.0f))
         .setOutlineRange(0.5f, 1.0f)
@@ -58,7 +58,7 @@ void RemainingTargets::update(UnsignedInt count) {
     setState(SceneGraph::AnimationState::Running);
 }
 
-void RemainingTargets::draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) {
+void RemainingTargets::draw(const Matrix3& transformationMatrix, SceneGraph::Camera2D& camera) {
     AbstractHudText::draw(transformationMatrix*Matrix3::scaling(Vector2(scale)), camera);
 }
 

@@ -25,7 +25,7 @@ namespace PushTheBox { namespace Splash {
 Splash::Splash() {
     /* Configure camera */
     camera = new SceneGraph::Camera2D(scene);
-    camera->setProjection({8.0f/3.0f, 2.0f})
+    camera->setProjectionMatrix(Matrix3::projection({8.0f/3.0f, 2.0f}))
         .setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
         .setViewport(defaultFramebuffer.viewport().size());
 
@@ -70,8 +70,8 @@ Splash::Splash() {
             }
 
         protected:
-            void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) override {
-                shader->setColor(Color3::fromHSV(Deg(210.0f), 0.55f, 0.9f))
+            void draw(const Matrix3& transformationMatrix, SceneGraph::Camera2D& camera) override {
+                shader->setColor(Color3::fromHsv(Deg(210.0f), 0.55f, 0.9f))
                     .setOutlineColor(Color3(1.0f))
                     .setOutlineRange(0.55f, 0.425f)
                     .setTransformationProjectionMatrix(camera.projectionMatrix()*transformationMatrix)

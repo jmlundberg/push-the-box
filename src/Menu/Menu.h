@@ -7,6 +7,7 @@
 
 #include <Corrade/Interconnect/Receiver.h>
 #include <Magnum/Platform/Screen.h>
+#include <Magnum/Platform/Sdl2Application.h>
 #include <Magnum/Shapes/ShapeGroup.h>
 #include <Magnum/SceneGraph/Drawable.h>
 #include <Magnum/SceneGraph/TranslationTransformation.h>

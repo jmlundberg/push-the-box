@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include <Corrade/Containers/Array.h>
+#include <Corrade/Containers/ArrayView.h>
 #include <Corrade/Utility/Resource.h>
 #include <Magnum/AbstractShaderProgram.h>
 #include <Magnum/DefaultFramebuffer.h>
@@ -12,11 +12,6 @@
 #include <Magnum/Text/DistanceFieldGlyphCache.h>
 #include <Magnum/Text/AbstractFont.h>
 #include <Magnum/Trade/AbstractImporter.h>
-
-#ifdef MAGNUM_BUILD_STATIC
-#include <Magnum/Shaders/magnumShadersResourceImport.hpp>
-#include <Magnum/TextureTools/magnumTextureToolsResourceImport.hpp>
-#endif
 
 #include "Game/Game.h"
 #include "Menu/Menu.h"
@@ -40,7 +35,7 @@ Application* Application::instance() {
     return _instance;
 }
 
-Application::Application(const Arguments& arguments): Platform::ScreenedApplication(arguments, nullptr), importerPluginManager(MAGNUM_PLUGINS_IMPORTER_DIR), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
+Application::Application(const Arguments& arguments): Platform::ScreenedApplication(arguments, NoCreate), importerPluginManager(MAGNUM_PLUGINS_IMPORTER_DIR), fontPluginManager(MAGNUM_PLUGINS_FONT_DIR)
 {
     CORRADE_INTERNAL_ASSERT(!_instance);
     _instance = this;
@@ -83,7 +78,7 @@ Application::Application(const Arguments& arguments): Platform::ScreenedApplicat
 
     /* Load font and create glyph cache */
     Utility::Resource rs("PushTheBoxResources");
-    font->openData(std::vector<std::pair<std::string, Containers::ArrayReference<const unsigned char>>>{
+    font->openData(std::vector<std::pair<std::string, Containers::ArrayView<const char>>>{
         {"luckiest-guy.conf", rs.getRaw("luckiest-guy.conf")},
         {"luckiest-guy.tga",  rs.getRaw("luckiest-guy.tga")}}, 0.0f);
     std::unique_ptr<Text::GlyphCache> cache = font->createGlyphCache();
@@ -108,7 +103,7 @@ Application::~Application() {
 
     /* Remove all screens before deleting the resource manager, so the
        resources can be properly freed */
-    while(backScreen()) removeScreen(*backScreen());
+    while(screens().last()) removeScreen(*screens().last());
 }
 
 void Application::globalViewportEvent(const Vector2i& size) {

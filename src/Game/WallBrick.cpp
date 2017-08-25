@@ -12,11 +12,11 @@ WallBrick::WallBrick(const Vector2i& position, Object3D* parent, SceneGraph::Dra
     translate(Math::swizzle<'x', '0', 'y'>(Vector2(position)));
 }
 
-void WallBrick::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D&) {
+void WallBrick::draw(const Matrix4& transformationMatrix, SceneGraph::Camera3D&) {
     shader->setTransformationMatrix(transformationMatrix)
           /** @todo rotationNormalized() when precision problems are fixed */
           .setNormalMatrix(transformationMatrix.rotationScaling())
-          .setDiffuseColor(Color3::fromHSV(Deg(30.0f), 0.2f, 1.0f));
+          .setDiffuseColor(Color3::fromHsv(Deg(30.0f), 0.2f, 1.0f));
 
     mesh->draw(*shader);
 }

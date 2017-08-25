@@ -7,9 +7,9 @@ using namespace PushTheBox;
 
 int main(int argc, char** argv) {
     Utility::Arguments args;
-    args.addArgument("dae").setHelpKey("dae", "file.dae").setHelp("dae", "Input COLLADA file")
-        .addArgument("conf").setHelpKey("conf", "file.conf").setHelp("conf", "Output mesh configuration file")
-        .addArgument("mesh").setHelpKey("mesh", "file.mesh").setHelp("mesh", "Output mesh file")
+    args.addArgument("dae").setHelp("dae", "Input COLLADA file", "file.dae")
+        .addArgument("conf").setHelp("conf", "Output mesh configuration file", "file.conf")
+        .addArgument("mesh").setHelp("mesh", "Output mesh file", "file.mesh")
         .setHelp("PushTheBox mesh compiler.")
         .parse(argc, argv);
 

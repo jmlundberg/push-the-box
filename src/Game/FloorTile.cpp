@@ -12,12 +12,12 @@ FloorTile::FloorTile(const Vector2i& position, Type type, Object3D* parent, Scen
     translate(Math::swizzle<'x', '0', 'y'>(Vector2(position)));
 }
 
-void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D&) {
+void FloorTile::draw(const Matrix4& transformationMatrix, SceneGraph::Camera3D&) {
     shader->setTransformationMatrix(transformationMatrix)
           /** @todo rotationNormalized() when precision problems are fixed */
           .setNormalMatrix(transformationMatrix.rotationScaling())
-          .setDiffuseColor(type == Type::Floor ? Color3::fromHSV(Deg(60.0f), 0.1f, 0.8f) :
-                                                 Color3::fromHSV(Deg(120.0f), 1.0f, 0.6f));
+          .setDiffuseColor(type == Type::Floor ? Color3::fromHsv(Deg(60.0f), 0.1f, 0.8f) :
+                                                 Color3::fromHsv(Deg(120.0f), 1.0f, 0.6f));
 
     mesh->draw(*shader);
 }

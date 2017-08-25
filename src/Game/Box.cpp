@@ -8,8 +8,8 @@
 namespace PushTheBox { namespace Game {
 
 namespace {
-    static const Color3 on = Color3::fromHSV(Deg(120.0f), 1.0f, 0.6f);
-    static const Color3 off = Color3::fromHSV(Deg(0.0f), 1.0f, 0.6f);
+    static const Color3 on = Color3::fromHsv(Deg(120.0f), 1.0f, 0.6f);
+    static const Color3 off = Color3::fromHsv(Deg(0.0f), 1.0f, 0.6f);
 }
 
 Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::DrawableGroup3D* drawables, SceneGraph::AnimableGroup3D* animables): Object3D(parent), SceneGraph::Drawable3D(*this, drawables), SceneGraph::Animable3D(*this, animables), position(position), type(type), color(type == Type::OnFloor ? off : on) {
@@ -23,7 +23,7 @@ Box::Box(const Vector2i& position, Type type, Object3D* parent, SceneGraph::Draw
     Interconnect::connect(*this, &Box::movedFromTarget, *this, &Box::animateMoveFromToTarget);
 }
 
-void Box::draw(const Matrix4& transformationMatrix, SceneGraph::AbstractCamera3D&) {
+void Box::draw(const Matrix4& transformationMatrix, SceneGraph::Camera3D&) {
     shader->setTransformationMatrix(transformationMatrix)
           /** @todo rotationNormalized() when precision problems are fixed */
           .setNormalMatrix(transformationMatrix.rotationScaling())

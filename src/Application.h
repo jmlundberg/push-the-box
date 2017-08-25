@@ -11,6 +11,7 @@
 #include <Magnum/Timeline.h>
 #include <Magnum/Trade/Trade.h>
 #include <Magnum/Platform/ScreenedApplication.h>
+#include <Magnum/Platform/Sdl2Application.h>
 
 #include "PushTheBox.h"
 #include "ResourceManagement/MeshResourceLoader.h"

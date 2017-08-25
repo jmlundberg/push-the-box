@@ -14,7 +14,7 @@ namespace PushTheBox { namespace Menu {
 Menu::Menu() {
     /* Configure camera */
     camera = new SceneGraph::Camera2D(scene);
-    camera->setProjection({8.0f/3.0f, 2.0f})
+    camera->setProjectionMatrix(Matrix3::projection({8.0f/3.0f, 2.0f}))
         .setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
         .setViewport(defaultFramebuffer.viewport().size());
 

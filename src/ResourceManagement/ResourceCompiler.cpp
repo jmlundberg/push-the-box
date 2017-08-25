@@ -60,7 +60,7 @@ void ResourceCompiler::compileMeshes(Utility::ConfigurationGroup* configuration,
         /* Compress normals */
         std::vector<Math::Vector3<Byte>> normals(mesh->normals(0).size());
         std::transform(mesh->normals(0).begin(), mesh->normals(0).end(), normals.begin(),
-                       [](const Vector3& vec) { return Math::denormalize<Math::Vector3<Byte>>(vec); });
+                       [](const Vector3& vec) { return Math::pack<Math::Vector3<Byte>>(vec); });
 
         /* Compile vertex array */
         const Containers::Array<char> data = MeshTools::interleave(mesh->positions(0), normals, 1);

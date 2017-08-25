@@ -20,7 +20,7 @@ class AbstractHudText: public Object2D, SceneGraph::Drawable2D, public Interconn
         ~AbstractHudText();
 
     protected:
-        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) override;
+        void draw(const Matrix3& transformationMatrix, SceneGraph::Camera2D& camera) override;
 
         Text::Renderer2D* text;
         Resource<Text::AbstractFont> font;
@@ -44,7 +44,7 @@ class RemainingTargets: public AbstractHudText, SceneGraph::Animable2D {
         void update(UnsignedInt count);
 
     protected:
-        void draw(const Matrix3& transformationMatrix, SceneGraph::AbstractCamera2D& camera) override;
+        void draw(const Matrix3& transformationMatrix, SceneGraph::Camera2D& camera) override;
         void animationStep(Float time, Float delta) override;
         void animationStopped() override;
 

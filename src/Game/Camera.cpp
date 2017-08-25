@@ -18,7 +18,7 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this),
     fullScreenTriangleBuffer = SceneResourceManager::instance().get<Buffer>("fullscreentriangle");
     fullScreenTriangle = SceneResourceManager::instance().get<Mesh>("fullscreentriangle");
 
-    setPerspective(Deg(35.0f), 1.0f, 0.001f, 100.0f);
+    setProjectionMatrix(Matrix4::perspectiveProjection(Deg(35.0f), 1.0f, 0.001f, 100.0f));
     setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend);
     SceneGraph::Camera3D::setViewport(defaultFramebuffer.viewport().size());
 
@@ -58,7 +58,8 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this),
         multsampleDepth.setStorageMultisample(16, depthFormat, multisampleFramebuffer.viewport().size());
         multisampleFramebuffer.attachRenderbuffer(Framebuffer::ColorAttachment(0), multisampleColor);
         multisampleFramebuffer.attachRenderbuffer(Framebuffer::BufferAttachment::Depth, multsampleDepth);
-        CORRADE_INTERNAL_ASSERT(multisampleFramebuffer.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
+        CORRADE_INTERNAL_ASSERT(multisampleFramebuffer.checkStatus(FramebufferTarget::Read) == Framebuffer::Status::Complete);
+        CORRADE_INTERNAL_ASSERT(multisampleFramebuffer.checkStatus(FramebufferTarget::Draw) == Framebuffer::Status::Complete);
     }
 
     /* Configure textures */
@@ -79,8 +80,10 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this),
     framebuffer2.attachTexture(Framebuffer::ColorAttachment(0), texture2, 0);
 
     /* Verify that everything is sane */
-    CORRADE_INTERNAL_ASSERT(framebuffer1.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
-    CORRADE_INTERNAL_ASSERT(framebuffer2.checkStatus(FramebufferTarget::ReadDraw) == Framebuffer::Status::Complete);
+    CORRADE_INTERNAL_ASSERT(framebuffer1.checkStatus(FramebufferTarget::Read) == Framebuffer::Status::Complete);
+    CORRADE_INTERNAL_ASSERT(framebuffer1.checkStatus(FramebufferTarget::Draw) == Framebuffer::Status::Complete);
+    CORRADE_INTERNAL_ASSERT(framebuffer2.checkStatus(FramebufferTarget::Read) == Framebuffer::Status::Complete);
+    CORRADE_INTERNAL_ASSERT(framebuffer2.checkStatus(FramebufferTarget::Draw) == Framebuffer::Status::Complete);
 }
 
 void Camera::setViewport(const Vector2i& size) {
@@ -98,14 +101,14 @@ void Camera::setViewport(const Vector2i& size) {
 void Camera::draw(SceneGraph::DrawableGroup3D& group) {
     /* Render the scene normally */
     if(!_blurred) {
-        defaultFramebuffer.bind(FramebufferTarget::ReadDraw);
+        defaultFramebuffer.bind();
         SceneGraph::Camera3D::draw(group);
         return;
     }
 
     /* Draw scene to multisampled framebuffer */
     if(_multisample) {
-        multisampleFramebuffer.bind(FramebufferTarget::Draw);
+        multisampleFramebuffer.bind();
         multisampleFramebuffer.clear(FramebufferClear::Color|FramebufferClear::Depth);
         SceneGraph::Camera3D::draw(group);
 
@@ -114,19 +117,19 @@ void Camera::draw(SceneGraph::DrawableGroup3D& group) {
 
     /* Single sample fallback */
     } else {
-        framebuffer1.bind(FramebufferTarget::ReadDraw);
+        framebuffer1.bind();
         framebuffer1.clear(FramebufferClear::Color|FramebufferClear::Depth);
         SceneGraph::Camera3D::draw(group);
     }
 
     /* Blur first texture horizontally to second one */
-    framebuffer2.bind(FramebufferTarget::ReadDraw);
+    framebuffer2.bind();
     framebuffer2.clear(FramebufferClear::Depth);
     blurShaderHorizontal.setTexture(texture1);
     fullScreenTriangle->draw(blurShaderHorizontal);
 
     /* Blur second texture vertically to screen FB */
-    defaultFramebuffer.bind(FramebufferTarget::ReadDraw);
+    defaultFramebuffer.bind();
     defaultFramebuffer.clear(FramebufferClear::Depth);
     blurShaderVertical.setTexture(texture2);
     fullScreenTriangle->draw(blurShaderVertical);
