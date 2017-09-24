@@ -96,6 +96,12 @@ Application::Application(const Arguments& arguments): Platform::ScreenedApplicat
     addScreen(*_menuScreen);
 
     _timeline.start();
+
+    /* Set some sane speed */
+    setSwapInterval(1);
+    #ifndef CORRADE_TARGET_EMSCRIPTEN
+    setMinimalLoopPeriod(16);
+    #endif
 }
 
 Application::~Application() {
