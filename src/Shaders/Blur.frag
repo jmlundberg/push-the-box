@@ -14,7 +14,7 @@ in mediump vec2 textureCoords;
 in mediump vec4 blurTextureCoords[7];
 
 #ifdef NEW_GLSL
-out vec4 fragmentColor;
+out mediump vec4 fragmentColor;
 #endif
 
 void main() {
