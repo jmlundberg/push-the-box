@@ -51,7 +51,7 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this),
 
     /* Configure multisample framebuffer */
     if(_multisample) {
-        #ifdef MAGNUM_TARGET_GLES
+        #ifdef MAGNUM_TARGET_GLES2
         MAGNUM_ASSERT_EXTENSION_SUPPORTED(Extensions::GL::OES::rgb8_rgba8);
         #endif
         multisampleColor.setStorageMultisample(16, RenderbufferFormat::RGBA8, multisampleFramebuffer.viewport().size());
@@ -64,7 +64,7 @@ Camera::Camera(Object3D* parent): Object3D(parent), SceneGraph::Camera3D(*this),
 
     /* Configure textures */
     TextureFormat internalFormat = TextureFormat::RGB8;
-    #ifdef MAGNUM_TARGET_GLES
+    #ifdef MAGNUM_TARGET_GLES2
     if(!Context::current()->isExtensionSupported<Extensions::GL::OES::required_internalformat>())
         internalFormat = TextureFormat::RGB;
     #endif
